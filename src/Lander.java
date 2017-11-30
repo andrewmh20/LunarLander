@@ -1,7 +1,12 @@
-import org.jbox2d.common.Vec2;
+import org.jbox2d.common.*;
+import org.jbox2d.dynamics.*;
 
-public class Lander {
+public class Lander extends BodyDef {
 
+    
+    
+ /*
+    
 //TODO:Add javadocs
 
     //acceleration due to gravity
@@ -142,4 +147,5 @@ public class Lander {
     }
     
     
-}
+*/
+    }
