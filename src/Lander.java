@@ -1,3 +1,4 @@
+import org.jbox2d.common.Vec2;
 
 public class Lander {
 
@@ -22,8 +23,8 @@ public class Lander {
     private static final int INITIAL_Ay = g;
     private static final int INITIAL_Aw = 0;
     private static final int MAX_Ax = 100;
-    private static final int 
-    
+    private static final int t =0;
+    private Vec2 v = new Vec2(1,2);
     //TODO: I purposesly chose to ignore style so x looks like subscript
     
     
