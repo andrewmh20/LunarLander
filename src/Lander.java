@@ -3,16 +3,24 @@ import org.jbox2d.dynamics.*;
 
 public class Lander extends Body {
     
+    //CAREFUL THROUGHOUT WITH FLOATS VS INTS
     //Max/min force from engine
+    
     private static final int MAX_THROTTLE = 100;
     private static final int MIN_THROTTLE = 0;
+    //thruster torque settings
+    private static final int  torque = 10;
     
     //TODO:Somewhere else, use this def to create the body
     public  Lander(LanderDef bd, World w ){
         super(bd, w);
-        //TODO: Set more stuff up
+        //TODO: Set more stuff up i.e. mass?
     }
     
+    /**
+     * Increases the forces based on a variable throttle input.
+     * @param throt
+     */
     public void throttle(int throt) {
         
         float angle = getAngle();
@@ -30,8 +38,14 @@ public class Lander extends Body {
         else applyForceToCenter(attitudeVec.mul(throt));
     }
     
-    
-    //TODO: thuster logic
+    public void thrustL() {
+        applyTorque(-torque);
+    }
+    public void thrustR() {
+        applyTorque(torque);
+
+        
+    }
     
 
     

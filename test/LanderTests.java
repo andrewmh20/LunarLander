@@ -10,7 +10,7 @@ public class LanderTests {
     @Test
     public void testWorldCreation() {
         World w = new World(new Vec2(0,0));
-        Lander bd = new Lander();
+        LanderDef bd = new LanderDef();
         bd.setType(BodyType.KINEMATIC);
         bd.setAngle(0);
         //bd.setAngularVelocity((float) (2*Math.PI));
@@ -39,8 +39,8 @@ public class LanderTests {
         w.step(1f, 10, 10);
         w.step(1f, 10, 10);
         w.step(1f, 10, 10);
-
-
+        
+//TODO::ACTUALLY WRITE TESTS BEFORE MOVING BEYOND LANDER
         //b.applyForceToCenter(new Vec2(0,5f));
         System.out.println(b.getAngle());
         System.out.println(b.getPosition());
