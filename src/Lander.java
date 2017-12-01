@@ -1,7 +1,38 @@
 import org.jbox2d.common.*;
 import org.jbox2d.dynamics.*;
 
-public class Lander extends BodyDef {
+public class Lander extends Body {
+    
+    //Max/min force from engine
+    private static final int MAX_THROTTLE = 100;
+    private static final int MIN_THROTTLE = 0;
+    
+    //TODO:Somewhere else, use this def to create the body
+    public  Lander(LanderDef bd, World w ){
+        super(bd, w);
+        //TODO: Set more stuff up
+    }
+    
+    public void throttle(int throt) {
+        
+        float angle = getAngle();
+        
+        Vec2 attitudeVec = new Vec2((float)Math.cos(angle), (float)Math.sin(angle));
+        
+        if (throt > MAX_THROTTLE) {
+            applyForceToCenter(attitudeVec.mul(MAX_THROTTLE));
+            
+        }
+        else if (throt < MIN_THROTTLE) {
+            applyForceToCenter(attitudeVec.mul(MIN_THROTTLE));
+            
+        }
+        else applyForceToCenter(attitudeVec.mul(throt));
+    }
+    
+    
+    //TODO: thuster logic
+    
 
     
     
