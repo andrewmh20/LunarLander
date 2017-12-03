@@ -72,7 +72,9 @@ public void throttle(int throt) {
     }
     
     public void move() {
+        
         w.step(1, 5, 5);
+        w.clearForces();
     }
     
 }
