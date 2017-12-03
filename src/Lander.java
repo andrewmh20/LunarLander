@@ -6,10 +6,10 @@ public class Lander extends Body {
     //CAREFUL THROUGHOUT WITH FLOATS VS INTS
     //Max/min force from engine
     
-    private static final int MAX_THROTTLE = 100;
-    private static final int MIN_THROTTLE = 0;
+    public static final int MAX_THROTTLE = 100;
+    public static final int MIN_THROTTLE = 0;
     //thruster torque settings
-    private static final int  torque = 10;
+    public static final int  torque = 10;
     
     //TODO:Somewhere else, use this def to create the body
     public  Lander(LanderDef bd, World w ){
@@ -28,14 +28,14 @@ public class Lander extends Body {
         Vec2 attitudeVec = new Vec2((float)Math.cos(angle), (float)Math.sin(angle));
         
         if (throt > MAX_THROTTLE) {
-            applyForceToCenter(attitudeVec.mul(MAX_THROTTLE));
+            applyForceToCenter(attitudeVec.mul(MAX_THROTTLE).negate());
             
         }
         else if (throt < MIN_THROTTLE) {
-            applyForceToCenter(attitudeVec.mul(MIN_THROTTLE));
+            applyForceToCenter(attitudeVec.mul(MIN_THROTTLE).negate());
             
         }
-        else applyForceToCenter(attitudeVec.mul(throt));
+        else applyForceToCenter(attitudeVec.mul(throt).negate());
     }
     
     public void thrustL() {
