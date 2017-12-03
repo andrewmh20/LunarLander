@@ -24,8 +24,8 @@ public class Canvas extends JPanel {
         private JLabel status; // Current status text, i.e. "Running..."
 
         // Game constants
-        public static final int COURT_WIDTH = 300;
-        public static final int COURT_HEIGHT = 300;
+        public static final int CANVAS_WIDTH = 300;
+        public static final int CANVAS_HEIGHT = 300;
         public static final int SQUARE_VELOCITY = 4;
 
         // Update interval for timer, in milliseconds
@@ -34,6 +34,11 @@ public class Canvas extends JPanel {
         private int i =0;
         private int j =0;
         private int vold;
+        
+        //create the physics world
+        //TODO:Do I need to pass this anything else?
+        private LunarModel lm = new LunarModel();
+        
         public Canvas(JLabel status) {
             // creates border around the court area, JComponent method
             setBorder(BorderFactory.createLineBorder(Color.BLACK));
@@ -82,9 +87,12 @@ public class Canvas extends JPanel {
         public void reset() {
             
             //TODO:Reset
-            /*square = new Square(COURT_WIDTH, COURT_HEIGHT, Color.BLACK);
-            poison = new Poison(COURT_WIDTH, COURT_HEIGHT);
-            snitch = new Circle(COURT_WIDTH, COURT_HEIGHT, Color.YELLOW);*/
+            /*square = new Square(CANVAS_WIDTH, CANVAS_HEIGHT, Color.BLACK);
+            poison = new Poison(CANVAS_WIDTH, CANVAS_HEIGHT);
+            snitch = new Circle(CANVAS_WIDTH, CANVAS_HEIGHT, Color.YELLOW);*/
+            
+            
+            
             i =0;
             j =0;
             vold=0;
@@ -118,10 +126,22 @@ public class Canvas extends JPanel {
                     status.setText("You win!");
                 }
 */
+                
                 // update the display
+                lm.move();
                 repaint();
             }
         }
+        @Override
+        public void paintComponent(Graphics g) {
+            super.paintComponent(g);
+//            snitch.draw(g);
+            //TODO:make color better....should I make this whole thing a seperate class, or 
+            //just draw all in canvas directly like this?
+            g.fillRect(lm.getPx(), lm.getPy(), 10, 10);
+
+        }
+
 
 
     }

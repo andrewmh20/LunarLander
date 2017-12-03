@@ -62,13 +62,17 @@ public void throttle(int throt) {
         
     }
     
-    public int getX() {
+    public int getPx() {
         return Math.round(b.getPosition().x);
         
     }
-    public int getY() {
+    public int getPy() {
         return Math.round(b.getPosition().y);
         
+    }
+    
+    public void move() {
+        w.step(1, 5, 5);
     }
     
 }
