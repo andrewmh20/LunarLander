@@ -28,7 +28,7 @@ public class Game implements Runnable {
         status_panel.add(status);
 
         // Main playing area
-        final LunarCourt court = new LunarCourt(status);
+        final Canvas court = new Canvas(status);
         frame.add(court, BorderLayout.CENTER);
 
         // Reset button
@@ -53,7 +53,7 @@ public class Game implements Runnable {
         frame.setVisible(true);
 
         // Start game
-       // court.reset();
+        court.reset();
     }
 
     /**

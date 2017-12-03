@@ -5,6 +5,7 @@ public class LunarModel {
 
     /**Class to hold the physics state of the Lunar Lander and provide methods for getting
      * the objects position, which will be used in the Swing Drawing classes
+     AS WELL AS OTHER OBJECTS IN THE LUNAR AREA
      */
 
     //Initial velocity settings
