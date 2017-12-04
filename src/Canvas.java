@@ -146,11 +146,18 @@ public class Canvas extends JPanel {
                 // update the display
                 lm.move();
              //System.out.println(lm.getPy());
-                //System.out.println(lm.getVy());
-System.out.println(lm.getAttX());
-System.out.println(lm.getAttY());
+                System.out.println(lm.getVy());
+//System.out.println(lm.getAttX());
+//System.out.println(lm.getAttY());
+//System.out.println(lem.getLinearVelocity());
+
 
                 repaint();
+                
+                if (lm.isCollided()) {
+                    //TODO:DO something more exciting, i.e. "you lose" (Have seperate class for "Game State"
+                    reset();
+                }
             }
         }
         @Override
@@ -160,8 +167,13 @@ System.out.println(lm.getAttY());
             //TODO:make color better....should I make this whole thing a seperate class, or 
             //just draw all in canvas directly like this?
 
-            //TODO: THis is for now the logic for drawing the lunar lander
-            g.fillRect(lm.getPx()+lm.getAttX(), lm.getPy()+lm.getAttY(), 10, 10);
+           // TODO: DRAW BASED ON SHAPE, not body (use constant that sets both)
+            //TODO: THis is for now the logic for drawing the lunar lander FIX THIS
+            g.fillRect(lm.getPx()-(int)Math.round(1.44*Math.sin(lm.getAngle())), 
+                    lm.getPy()+(int)Math.round(1.44*Math.cos(lm.getAngle())), 10, 10);
+
+            //TODO: Draw the surface when its more complicated
+            g.drawLine(0, Canvas.CANVAS_HEIGHT-10, Canvas.CANVAS_WIDTH, Canvas.CANVAS_HEIGHT-10);
 
         }
         @Override
