@@ -3,8 +3,6 @@ import org.jbox2d.callbacks.ContactListener;
 import org.jbox2d.collision.Manifold;
 import org.jbox2d.collision.shapes.EdgeShape;
 import org.jbox2d.collision.shapes.PolygonShape;
-import org.jbox2d.collision.shapes.Shape;
-import org.jbox2d.collision.shapes.ShapeType;
 import org.jbox2d.common.*;
 import org.jbox2d.dynamics.*;
 import org.jbox2d.dynamics.contacts.Contact;
@@ -117,19 +115,23 @@ public void throttle(int throt) {
     }
     
     public void thrustL() {
-        lem.applyTorque(-torque);
+        lem.applyTorque(torque);
         attitudeVec = new Vec2((float)Math.sin(lem.getAngle()), (float)Math.cos(lem.getAngle()));
         System.out.println(lem.getAngle());
         //System.out.println(lem.getInertia());
 
     }
     public void thrustR() {
-        lem.applyTorque(torque);
+        lem.applyTorque(-torque);
         attitudeVec = new Vec2((float)Math.sin(lem.getAngle()), (float)Math.cos(lem.getAngle()));
         System.out.println(lem.getAngle());
 
         
     }
+    
+    //TODO:Check torque signs
+    //TODO:Make hard and easy modes for each control ,adn a kill swith to recenter everything.
+    //TODO: DO unit tests, but really need to get display setup better to test myself and fine tune settings.
     
     public int getPx() {
         return Math.round(SCALE*lem.getPosition().x)+5;
@@ -148,7 +150,7 @@ public void throttle(int throt) {
         
     }
     public float getAngle() {
-        return Math.round(lem.getAngle());
+        return lem.getAngle();
         
     }
     //For TEsting
