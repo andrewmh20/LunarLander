@@ -29,7 +29,7 @@ public class Canvas extends JPanel {
         public static final int SQUARE_VELOCITY = 4;
 
         // Update interval for timer, in milliseconds
-        public static final int INTERVAL = 35;
+        public static final int INTERVAL = 16;
 
         private int i =0;
         private int j =0;
@@ -37,7 +37,7 @@ public class Canvas extends JPanel {
         
         //create the physics world
         //TODO:Do I need to pass this anything else?
-        private LunarModel lm = new LunarModel();
+        private LunarModel lm;
         
         public Canvas(JLabel status) {
             // creates border around the court area, JComponent method
@@ -65,15 +65,30 @@ public class Canvas extends JPanel {
 
                 public void keyPressed(KeyEvent e) {
                      if (e.getKeyCode() == KeyEvent.VK_UP) {
-//TODO:Something
 
+                         //TODO:FOR NOW JUST APPLIES FORCE ONCE
+                         lm.throttle(50);
 
-                    }
+                     }
+                     if (e.getKeyCode() == KeyEvent.VK_LEFT) {
+
+                         
+                         lm.thrustL();
+
+                     }
+                     if (e.getKeyCode() == KeyEvent.VK_RIGHT) {
+
+                         
+                         lm.thrustR();
+
+                     }
+             
                 }
 
                 public void keyReleased(KeyEvent e) {
                     //square.setVx(0);
                     //square.setVy(0);
+                    //lm.throttle(0);
 
                 }
             });
@@ -91,7 +106,8 @@ public class Canvas extends JPanel {
             poison = new Poison(CANVAS_WIDTH, CANVAS_HEIGHT);
             snitch = new Circle(CANVAS_WIDTH, CANVAS_HEIGHT, Color.YELLOW);*/
             
-            
+            //OR just make a new one each time...this looks cleaner to me
+            lm = new LunarModel();
             
             i =0;
             j =0;
@@ -129,6 +145,11 @@ public class Canvas extends JPanel {
                 
                 // update the display
                 lm.move();
+             //System.out.println(lm.getPy());
+                //System.out.println(lm.getVy());
+System.out.println(lm.getAttX());
+System.out.println(lm.getAttY());
+
                 repaint();
             }
         }
@@ -138,8 +159,14 @@ public class Canvas extends JPanel {
 //            snitch.draw(g);
             //TODO:make color better....should I make this whole thing a seperate class, or 
             //just draw all in canvas directly like this?
-            g.fillRect(lm.getPx(), lm.getPy(), 10, 10);
 
+            //TODO: THis is for now the logic for drawing the lunar lander
+            g.fillRect(lm.getPx()+lm.getAttX(), lm.getPy()+lm.getAttY(), 10, 10);
+
+        }
+        @Override
+        public Dimension getPreferredSize() {
+            return new Dimension(CANVAS_WIDTH, CANVAS_HEIGHT);
         }
 
 

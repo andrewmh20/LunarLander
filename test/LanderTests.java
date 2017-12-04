@@ -1,16 +1,82 @@
-//import org.jbox2d.common.Vec2;
-//import org.jbox2d.dynamics.Body;
-//import org.jbox2d.dynamics.BodyType;
-//import org.jbox2d.dynamics.World;
-//import org.junit.Test;
-//import static org.junit.Assert.*;
-//
-//public class LanderTests {
-//
+import org.jbox2d.common.Vec2;
+import org.jbox2d.dynamics.Body;
+import org.jbox2d.dynamics.BodyDef;
+import org.jbox2d.dynamics.BodyType;
+import org.jbox2d.dynamics.World;
+import org.junit.Test;
+import static org.junit.Assert.*;
+
+public class LanderTests {
+
+   /* //TODO:Need to do tests with my actual Lunar MOdel guy (thats a requirement)
+    @Test
+    public void testWorldGravity() {
+        World w = new World(new Vec2(0,.05f));
+        BodyDef bd = new BodyDef();
+
+        //bd.setLinearVelocity(new Vec2(0,0));
+        //bd.setAngularVelocity(0);
+        bd.setType(BodyType.DYNAMIC);
+        Body b = w.createBody(bd);
+        
+        System.out.println(b.getPosition());
+        w.step(1f, 1, 10);
+        System.out.println(b.getLinearVelocity());
+        w.step(1f, 1,10);
+        System.out.println(b.getLinearVelocity());
+        w.step(1f, 10,10);
+        System.out.println(b.getLinearVelocity());
+        w.step(1f, 5, 5);
+        System.out.println(b.getLinearVelocity());
+        
+
+
+    }
+    */
+    @Test
+    public void testBodyTorque() {
+        World w = new World(new Vec2(0,.05f));
+        BodyDef bd = new BodyDef();
+
+        //bd.setLinearVelocity(new Vec2(0,0));
+        //bd.setAngularVelocity(0);
+        bd.setType(BodyType.DYNAMIC);
+       
+        Body b = w.createBody(bd);
+        //b.setAwake(true);
+        b.m_invI = 1;
+
+        b.applyTorque(100000);
+        //b.m_torque = 100.0f;
+        //System.out.println(b.m_torque);
+       // System.out.println(b.getMass());
+        System.out.println(b.m_I);
+
+       // b.setAngularVelocity(5);
+        w.step(1f, 10,10);
+        System.out.println(b.m_torque);
+
+        System.out.println(b.getAngle());
+
+        w.step(1f, 10,10);
+        w.step(1f, 10,10);
+        w.step(1f, 10,10);
+        w.step(1f, 10,10);
+        w.step(1f, 10,10);
+
+        System.out.println(b.getMass());
+        System.out.println(b.m_torque);
+        System.out.println(b.getWorldCenter());
+        System.out.println(b.getAngle());
+        System.out.println(b.isFixedRotation());
+    
+    }
+    
+//    
 //    @Test
 //    public void testWorldCreation() {
-//        World w = new World(new Vec2(0,0));
-//        LanderDef bd = new LanderDef();
+//        World w = new World(new Vec2(0,1));
+//        BodyDef bd = new BodyDef();
 //        bd.setType(BodyType.KINEMATIC);
 //        bd.setAngle(0);
 //        //bd.setAngularVelocity((float) (2*Math.PI));
@@ -61,4 +127,4 @@
 //
 //
 //    }
-//}
+}

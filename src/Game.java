@@ -41,7 +41,7 @@ public class Game implements Runnable {
         final JButton reset = new JButton("Reset");
         reset.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                //court.reset();
+                court.reset();
             }
         });
         control_panel.add(reset);
