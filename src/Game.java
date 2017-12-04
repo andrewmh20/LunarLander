@@ -13,6 +13,16 @@ import javax.swing.*;
  * Game Main class that specifies the frame and widgets of the GUI
  */
 public class Game implements Runnable {
+    
+  //TODO: fine tune, this is just for testing
+    //Game info panel
+    //"package"
+    //WIll ever only have 1 Game at once....
+    final static GameState gameState = new GameState();
+    //NEeds to be more public field so that can be accessed from other parts.....but we dont want to be able to set it,
+    //so jus tmake a getter....eh idk! WRong way to organize....
+    
+    
     public void run() {
         // NOTE : recall that the 'final' keyword notes immutability even for local variables.
 
@@ -27,6 +37,24 @@ public class Game implements Runnable {
         final JLabel status = new JLabel("Running...");
         status_panel.add(status);
 
+        
+        //TODO:Fix this.
+        //TODO:Panel or component?
+        final JPanel TelemtryPanel = new TelemetryComponent();
+        
+        frame.add(TelemtryPanel, BorderLayout.EAST);
+/*
+        final JLabel fuelLeft = new JLabel("Fuel Remaining" + String.valueOf(gameState.getFuel()));
+        gameStatePanel.add(fuelLeft);
+        
+        final JLabel Vx = new JLabel("Horizontal Velocity" + String.valueOf(gameState.getVx()));
+        gameStatePanel.add(Vx);
+        final JLabel Vy = new JLabel("Vertical Velocity" + String.valueOf(gameState.getVy()));
+        gameStatePanel.add(Vy);
+        fuelLeft.setText("Hi");
+        */
+
+        
         // Main playing area
         final Canvas court = new Canvas(status);
         frame.add(court, BorderLayout.CENTER);

@@ -185,6 +185,12 @@ public class Canvas extends JPanel {
                 
                 //TODO:Before or after move? probs doesnt matter.
                 //error.causeFailure(lm);
+
+                //update the game state velocities
+                Game.gameState.setVx(lm.getVx());
+                Game.gameState.setVy(lm.getVy());
+                Game.gameState.setVw(lm.getVw());
+
                 lm.move();
              //System.out.println(lm.getPy());
                 //System.out.println(lm.getVy());

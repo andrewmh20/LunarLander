@@ -179,6 +179,7 @@ public void throttle(int throt) {
     public boolean isCollided() {
         //Looked at tutorial https://www.programcreek.com/java-api-examples/index.php?api=org.jbox2d.callbacks.ContactListener
         
+        //TODO:What to do when the lander goes off screen, and then doesnt have surface to collide into
         
         w.setContactListener(new ContactListener() {
 
@@ -209,6 +210,16 @@ public void throttle(int throt) {
                 );
         return collided;
         
+    }
+
+    public float getVx() {
+        // TODO Auto-generated method stub
+        return SCALE*lem.getLinearVelocity().x;
+    }
+    
+    public float getVw() {
+        // TODO Auto-generated method stub
+        return SCALE*lem.getAngularVelocity();
     }
     
     
