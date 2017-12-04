@@ -32,13 +32,18 @@ public class Canvas extends JPanel {
         public static final int INTERVAL = 16;
 
         //not private because I need coutner to work in reset, and in the keypress listerner class
-        protected int i =1 ;
+        protected int i =0 ;
         private int j =0;
         private int vold;
         
         //create the physics world
         //TODO:Do I need to pass this anything else?
         private LunarModel lm;
+        
+        //Error from network
+        private Error error = new FullThrottleError();
+        //TODO: this creation will happen on network;
+        //ALSO--TODO: THis entire canvas is ONLY for the server, I need a cleint one as well.
         
         public Canvas(JLabel status) {
             // creates border around the court area, JComponent method
@@ -64,15 +69,35 @@ public class Canvas extends JPanel {
             // square.)
             addKeyListener(new KeyAdapter() {
 
+                //TODO: Change j and i to +/- constants so that can change rate of throttle increase
+                
                 public void keyPressed(KeyEvent e) {
                      if (e.getKeyCode() == KeyEvent.VK_UP) {
                          
-                         
+                         j=0;
                          //TODO:FOR NOW JUST APPLIES FORCE ONCE
                          lm.throttle(i);
                          i++;
 
                      }
+                     if (e.getKeyCode() == KeyEvent.VK_DOWN) {
+                         
+                         i=0;
+                         //TODO:FOR NOW JUST APPLIES FORCE ONCE
+                         lm.throttle(j);
+                         j--;
+
+                     }
+                     //Full throttle momentarily
+                     if (e.getKeyCode() == KeyEvent.VK_F) {
+                         
+                         
+                         //TODO:FOR NOW JUST APPLIES FORCE ONCE
+                         //max useful throttle, not necesairly max throttle
+                         lm.throttle(20);
+
+                     }
+                     //TODO: Add "Abort" key that sets full throttle until you manually bring it down/ shut it off
                      if (e.getKeyCode() == KeyEvent.VK_LEFT) {
 
                          
@@ -85,6 +110,7 @@ public class Canvas extends JPanel {
                          lm.thrustR();
 
                      }
+                     
              
                 }
 
@@ -92,6 +118,14 @@ public class Canvas extends JPanel {
                     //square.setVx(0);
                     //square.setVy(0);
                     //lm.throttle(0);
+                    if (e.getKeyCode() == KeyEvent.VK_F) {
+                        
+                        
+                        //TODO:FOR NOW JUST APPLIES FORCE ONCE
+                        //max useful throttle, not necesairly max throttle
+                        lm.throttle(0);
+
+                    }
 
                 }
             });
@@ -149,10 +183,8 @@ public class Canvas extends JPanel {
                 // update the display
                 //TODO:This is a demo of what some type of network listener should do
                 
-                if(Game.x.equals("full")) {
-                    lm.throttle(1000);
-                }
-                
+                //TODO:Before or after move? probs doesnt matter.
+                //error.causeFailure(lm);
                 lm.move();
              //System.out.println(lm.getPy());
                 System.out.println(lm.getVy());
@@ -160,10 +192,12 @@ public class Canvas extends JPanel {
 //System.out.println(lm.getAttY());
 //System.out.println(lem.getLinearVelocity());
 
-
+                super.repaint();
                 repaint();
                 
                 if (lm.isCollided()) {
+                    
+                    //TODO:Add logic for velocity of colossion with collision, can unit test that
                     //TODO:DO something more exciting, i.e. "you lose" (Have seperate class for "Game State"
                     reset();
                 }

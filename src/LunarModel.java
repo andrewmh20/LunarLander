@@ -21,7 +21,7 @@ public class LunarModel {
     private static final Vec2 INITIAL_V = new Vec2(0,0);
     private static final float INITIAL_Vw = 0;
     //Gravity Vector
-    private static final Vec2 gravity = new Vec2(0, 4.6f);
+    private static final Vec2 gravity = new Vec2(0, 6f);
     //Scale to convert physics world to pixel world
     private static final float SCALE = 1f;
 
@@ -31,8 +31,8 @@ public class LunarModel {
 
     //TODO:THis is fudging something....really need to fix math
     private static final float THROT_SCALE = 1000f;
-    private static final int MAX_THROTTLE = 100;
-    private static final int MIN_THROTTLE = 0;
+    public static final int MAX_THROTTLE = 100;
+    public static final int MIN_THROTTLE = 0;
     //thruster torque settings
     private static final int  torque = 100000;
 
