@@ -1,5 +1,5 @@
 # ADD JAR FILES TO THE FOLLOWING LINE, SEPARATED BY ':' (NO WHITESPACE)
-JARS :=
+JARS := /Users/Tzvi/Dropbox/Dropbox\ Documents/Upenn/CIS120/Java_Eclipse/LunarLander/jbox2d-library-2.3.1-SNAPSHOT.jar
 
 # DO NOT EDIT BELOW HERE
 SUBMIT  := $(wildcard src/*.java test/*.java files/* *.jar Makefile README.txt)
