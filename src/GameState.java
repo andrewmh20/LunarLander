@@ -39,6 +39,7 @@ public class GameState {
     
     public float getVw() {
         // TODO Auto-generated method stub
+        //System.out.println(this.Vw);
         return Vw;
     }
 
@@ -55,7 +56,9 @@ public class GameState {
 
     public void setVw(float Vw) {
         // TODO Auto-generated method stub
+        //System.out.println(Vw);
         this.Vw = Vw;
+        //System.out.println(this.Vw);
     }
     
     

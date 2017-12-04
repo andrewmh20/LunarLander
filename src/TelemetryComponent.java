@@ -16,6 +16,7 @@ public class TelemetryComponent extends JPanel {
         super.repaint();
        // display the light bulb here
         //TODO:set the distances to constants that I can change?....
+        //System.out.println(Game.gameState.getVw());
             gc.drawString("Horizontal Velocity" + String.format("%1$.2f",Game.gameState.getVx()), 0, 10);
             gc.drawString("Vertical Velocity" + String.format("%1$.2f",Game.gameState.getVy()), 0, 25);
             gc.drawString("Angular Velocity" + String.format("%1$.2f",Game.gameState.getVw()), 0, 40);

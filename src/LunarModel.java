@@ -124,8 +124,8 @@ public void throttle(int throt) {
     public void thrustR() {
         lem.applyTorque(-torque);
         attitudeVec = new Vec2((float)Math.sin(lem.getAngle()), (float)Math.cos(lem.getAngle()));
-        System.out.println(lem.getAngle());
-
+        //System.out.println(lem.getAngle());
+       // System.out.println(lem.getAngularVelocity());
         
     }
     
@@ -219,6 +219,7 @@ public void throttle(int throt) {
     
     public float getVw() {
         // TODO Auto-generated method stub
+        System.out.println(lem.getAngularVelocity());
         return SCALE*lem.getAngularVelocity();
     }
     
