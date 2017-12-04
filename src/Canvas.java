@@ -24,8 +24,8 @@ public class Canvas extends JPanel {
         private JLabel status; // Current status text, i.e. "Running..."
 
         // Game constants
-        public static final int CANVAS_WIDTH = 300;
-        public static final int CANVAS_HEIGHT = 300;
+        public static final int CANVAS_WIDTH = 500;
+        public static final int CANVAS_HEIGHT = 500;
         public static final int SQUARE_VELOCITY = 4;
 
         // Update interval for timer, in milliseconds

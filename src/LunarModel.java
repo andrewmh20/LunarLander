@@ -94,36 +94,34 @@ public class LunarModel {
         
     }
     
-    //use fieled to "delegate" force application to move, so it applies each step.
-    
-    private Vec2 throttle = new Vec2(0,0); 
+    //use field to "delegate" force application to move, so it applies each step.
+    //TODO:Keep an eye o n this with erors.
+    private float throttle = 0; 
     
 public void throttle(int throt) {
         
         if (throt > MAX_THROTTLE) {
-            throttle = attitudeVec.mul(MAX_THROTTLE*THROT_SCALE).negate();
+            throttle = MAX_THROTTLE*THROT_SCALE;
             
         }
         else if (throt < MIN_THROTTLE) {
-            throttle = attitudeVec.mul(MIN_THROTTLE*THROT_SCALE).negate();
+            throttle = MIN_THROTTLE*THROT_SCALE;
             
         }
         else {
             
-            throttle = attitudeVec.mul(throt*THROT_SCALE).negate();
+            throttle = (throt*THROT_SCALE);
         }
     }
     
     public void thrustL() {
         lem.applyTorque(torque);
-        attitudeVec = new Vec2((float)Math.sin(lem.getAngle()), (float)Math.cos(lem.getAngle()));
         System.out.println(lem.getAngle());
         //System.out.println(lem.getInertia());
 
     }
     public void thrustR() {
         lem.applyTorque(-torque);
-        attitudeVec = new Vec2((float)Math.sin(lem.getAngle()), (float)Math.cos(lem.getAngle()));
         //System.out.println(lem.getAngle());
        // System.out.println(lem.getAngularVelocity());
         
@@ -160,9 +158,15 @@ public void throttle(int throt) {
     
     public void move() {
        
-        lem.applyForceToCenter(throttle);
+        attitudeVec = new Vec2((float)Math.sin(lem.getAngle()), (float)Math.cos(lem.getAngle()));
+
+        //TODO:put this here or above?
+        lem.applyForceToCenter(attitudeVec.mul(throttle).negate());
+        System.out.println(throttle);
         w.step(1/60f, 5, 5);
         w.clearForces();
+        //cal new attitude vec for next throttle application
+
     }
     
     //TODO: Change this logic to maybe be a list, or soemthing to work nicely with returning all the vertices
