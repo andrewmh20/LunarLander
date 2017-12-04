@@ -31,7 +31,8 @@ public class Canvas extends JPanel {
         // Update interval for timer, in milliseconds
         public static final int INTERVAL = 16;
 
-        private int i =0;
+        //not private because I need coutner to work in reset, and in the keypress listerner class
+        protected int i =1 ;
         private int j =0;
         private int vold;
         
@@ -65,9 +66,11 @@ public class Canvas extends JPanel {
 
                 public void keyPressed(KeyEvent e) {
                      if (e.getKeyCode() == KeyEvent.VK_UP) {
-
+                         
+                         
                          //TODO:FOR NOW JUST APPLIES FORCE ONCE
-                         lm.throttle(50);
+                         lm.throttle(i);
+                         i++;
 
                      }
                      if (e.getKeyCode() == KeyEvent.VK_LEFT) {

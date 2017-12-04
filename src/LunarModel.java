@@ -21,7 +21,7 @@ public class LunarModel {
     private static final Vec2 INITIAL_V = new Vec2(0,0);
     private static final float INITIAL_Vw = 0;
     //Gravity Vector
-    private static final Vec2 gravity = new Vec2(0, 3.6f);
+    private static final Vec2 gravity = new Vec2(0, 4.6f);
     //Scale to convert physics world to pixel world
     private static final float SCALE = 1f;
 
@@ -34,7 +34,7 @@ public class LunarModel {
     private static final int MAX_THROTTLE = 100;
     private static final int MIN_THROTTLE = 0;
     //thruster torque settings
-    private static final int  torque = 10000;
+    private static final int  torque = 100000;
 
     //TODO:another thing I need to change later
     private static final float DENSITY_OF_SHAPES = 1;
@@ -96,19 +96,23 @@ public class LunarModel {
         
     }
     
-    //TODO:FOR NOW JUST APPLIES FORCE ONCE
+    //use fieled to "delegate" force application to move, so it applies each step.
+    
+    private Vec2 throttle = new Vec2(0,0); 
+    
 public void throttle(int throt) {
         
         if (throt > MAX_THROTTLE) {
-            lem.applyForceToCenter(attitudeVec.mul(MAX_THROTTLE*THROT_SCALE).negate());
+            throttle = attitudeVec.mul(MAX_THROTTLE*THROT_SCALE).negate();
             
         }
         else if (throt < MIN_THROTTLE) {
-            lem.applyForceToCenter(attitudeVec.mul(MIN_THROTTLE*THROT_SCALE).negate());
+            throttle = attitudeVec.mul(MIN_THROTTLE*THROT_SCALE).negate();
             
         }
         else {
-            lem.applyForceToCenter(attitudeVec.mul(throt*THROT_SCALE).negate());
+            
+            throttle = attitudeVec.mul(throt*THROT_SCALE).negate();
         }
     }
     
@@ -153,7 +157,8 @@ public void throttle(int throt) {
     }
     
     public void move() {
-        
+       
+        lem.applyForceToCenter(throttle);
         w.step(1/60f, 5, 5);
         w.clearForces();
     }
