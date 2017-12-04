@@ -60,7 +60,9 @@ public class Game implements Runnable {
      * Main method run to start and run the game. Initializes the GUI elements specified in Game and
      * runs it. IMPORTANT: Do NOT delete! You MUST include this in your final submission.
      */
+    public static String x;
     public static void main(String[] args) {
+        x = args[0];
         SwingUtilities.invokeLater(new Game());
     }
 }

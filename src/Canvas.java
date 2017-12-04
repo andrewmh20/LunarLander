@@ -147,6 +147,12 @@ public class Canvas extends JPanel {
 */
                 
                 // update the display
+                //TODO:This is a demo of what some type of network listener should do
+                
+                if(Game.x.equals("full")) {
+                    lm.throttle(1000);
+                }
+                
                 lm.move();
              //System.out.println(lm.getPy());
                 System.out.println(lm.getVy());
