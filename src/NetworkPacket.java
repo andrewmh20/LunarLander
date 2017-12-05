@@ -13,7 +13,9 @@ public class NetworkPacket {
     }
     NetworkPacket(String packetStr){
         //TODO:make this parse the packet, throw exceptions as necessary 
-        new NetworkPacket(100000,1000000,10000);
+        this.Vx = 10000;
+        this.Vy = 10000;
+        this.Vw = 10000;
     }
     
     //TODO:Other setters for other fields

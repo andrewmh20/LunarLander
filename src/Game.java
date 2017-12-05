@@ -97,15 +97,10 @@ public class Game implements Runnable {
         //Network handler
         //TODO:I should maybe do all the networking logic in networkhandler? as in all in
         //that one seperate thread.....
-        NetworkHandler nh = new NetworkHandler();
-        Thread nhThread = new Thread(nh);
-        nhThread.start();
+        Server server = new Server();
+        Thread serverThread = new Thread(server);
+        serverThread.start();
         SwingUtilities.invokeLater(new Game());
-        while(true) {
-          if (nh.ready()) {
-              System.out.println("TEST");
-            System.out.println(nh.readPacket().toString());
-           }
-       }
+        
     }
 }

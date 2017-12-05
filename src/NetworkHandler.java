@@ -13,39 +13,26 @@ import java.io.OutputStream;
 import java.io.PrintWriter;
 import java.net.*;
 
-public class NetworkHandler implements Runnable {
+public abstract class NetworkHandler {
 
     
     //Jsut one network handler in 1 game.
-    private static int LISTEN_PORT = 8080;
+    protected static int LISTEN_PORT = 8080;
     //Only need to worry about one connection per Game...
     //TODO:Remember to handle multiple connectins attempted.
-    private ServerSocket ss;
-    private BufferedReader in;
-    private PrintWriter pw;
+    protected ServerSocket ss;
+    protected BufferedReader in;
+    protected PrintWriter pw;
+    
+    //BC whole point is that ots the subclass instance that really uses these fields
+    
+    //TODO: Abstract bc it implements stuff, but cannot do anything until a thread is run which
+    //sets up its fields.
+    
     
     //TODO:Printing and threads.....?!
     
-        @Override
-        public void run() {
-        try {
-            
-        ss = new ServerSocket(8080);
-        //Blocks waiting for a connection
-        Socket connectedSocket = ss.accept();
-        InputStream nis = connectedSocket.getInputStream();
-        OutputStream nos = connectedSocket.getOutputStream();
-        in = new BufferedReader(new InputStreamReader(nis));
-        pw = new PrintWriter(nos);
-               
-        }
-
         
-        catch (Exception IOException) {
-            throw new RuntimeException();
-        }
-
-    }
         //TODO:Doesnt really return connected, just if a reader exists
         public boolean ready() {
             if (in == null){
@@ -68,10 +55,15 @@ public class NetworkHandler implements Runnable {
                r = in.readLine();
             String packetStr = "";
             while(r != null) {
-                r = in.readLine();
                 packetStr = packetStr + r;
+                return new NetworkPacket(packetStr);
+
+                //TODO:Handle the packet such that it can have newlines.....
+                //r = in.readLine();
                 }
-            return new NetworkPacket(packetStr);
+            return null;
+            
+            //TODO:Fix the packet that's actually created in NetworkPacket....!
             
         }
         
