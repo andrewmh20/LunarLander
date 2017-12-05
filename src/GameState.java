@@ -3,6 +3,7 @@
 //TODO: Or create a seperate class for each actual panel
 public class GameState {
 
+    
     private double fuel;
     private boolean crashed;
     //true if player is playing as simsup
@@ -23,38 +24,38 @@ public class GameState {
     }
     
     //Encapsualted ok because its a primitive
-    public double getFuel() {
+    public synchronized double getFuel() {
         return fuel;
     }
 
-    public float getVx() {
+    public synchronized float getVx() {
         // TODO Auto-generated method stub
         return Vx;
     }
     
-    public float getVy() {
+    public synchronized float getVy() {
         // TODO Auto-generated method stub
         return Vy;
     }
     
-    public float getVw() {
+    public synchronized float getVw() {
         // TODO Auto-generated method stub
         //System.out.println(this.Vw);
         return Vw;
     }
 
-    public void setVx(float Vx) {
+    public synchronized void setVx(float Vx) {
         // TODO Auto-generated method stub
         this.Vx = Vx;
         
     }
-    public void setVy(float Vy) {
+    public synchronized void setVy(float Vy) {
         // TODO Auto-generated method stub
         this.Vy = Vy;
         
     }
 
-    public void setVw(float Vw) {
+    public synchronized void setVw(float Vw) {
         // TODO Auto-generated method stub
         //System.out.println(Vw);
         this.Vw = Vw;
@@ -62,6 +63,6 @@ public class GameState {
     }
     
     
-    
+
     
 }

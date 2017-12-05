@@ -20,7 +20,9 @@ public class Game implements Runnable {
     //Game info panel
     //"package"
     //WIll ever only have 1 Game at once....
-    final static GameState gameState = new GameState();
+    GameState gameState;
+    Server server;
+    Thread serverThread;
     //NEeds to be more public field so that can be accessed from other parts.....but we dont want to be able to set it,
     //so jus tmake a getter....eh idk! WRong way to organize....
     
@@ -28,6 +30,15 @@ public class Game implements Runnable {
     public void run() {
         // NOTE : recall that the 'final' keyword notes immutability even for local variables.
 
+        //For each game you run, start a new server
+        //TODO:change to be result of button
+        gameState = new GameState();
+        server = new Server(gameState);
+        serverThread = new Thread(server);
+        serverThread.start();
+
+        
+        
         // Top-level frame in which game components live
         // Be sure to change "TOP LEVEL FRAME" to the name of your game
         final JFrame frame = new JFrame("TOP LEVEL FRAME");
@@ -42,7 +53,7 @@ public class Game implements Runnable {
         
         //TODO:Fix this.
         //TODO:Panel or component?
-        final JPanel TelemtryPanel = new TelemetryComponent();
+        final JPanel TelemtryPanel = new TelemetryComponent(gameState);
         
         frame.add(TelemtryPanel, BorderLayout.EAST);
 /*
@@ -97,9 +108,6 @@ public class Game implements Runnable {
         //Network handler
         //TODO:I should maybe do all the networking logic in networkhandler? as in all in
         //that one seperate thread.....
-        Server server = new Server();
-        Thread serverThread = new Thread(server);
-        serverThread.start();
         SwingUtilities.invokeLater(new Game());
         
     }

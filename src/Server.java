@@ -8,7 +8,20 @@ import java.net.Socket;
 
 public class Server extends NetworkHandler implements Runnable {
 
+    private GameState gs;
 
+    Server(GameState gs){
+        
+        super();
+        this.gs = gs;
+        
+    }
+    
+    //TODO: a main loop to read and write from the game_state every # of secs
+    //TODO: client logic to handle that reading as well
+
+    
+    
     @Override
     public void run() {
     try {
