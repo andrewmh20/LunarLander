@@ -116,7 +116,7 @@ public void throttle(int throt) {
     
     public void thrustL() {
         lem.applyTorque(torque);
-        System.out.println(lem.getAngle());
+        //System.out.println(lem.getAngle());
         //System.out.println(lem.getInertia());
 
     }
@@ -162,7 +162,7 @@ public void throttle(int throt) {
 
         //TODO:put this here or above?
         lem.applyForceToCenter(attitudeVec.mul(throttle).negate());
-        System.out.println(throttle);
+        //System.out.println(throttle);
         w.step(1/60f, 5, 5);
         w.clearForces();
         //cal new attitude vec for next throttle application
@@ -223,7 +223,7 @@ public void throttle(int throt) {
     
     public float getVw() {
         // TODO Auto-generated method stub
-        System.out.println(lem.getAngularVelocity());
+        //System.out.println(lem.getAngularVelocity());
         return SCALE*lem.getAngularVelocity();
     }
     

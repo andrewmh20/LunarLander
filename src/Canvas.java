@@ -220,7 +220,7 @@ public class Canvas extends JPanel {
             //TODO: THis is for now the logic for drawing the lunar lander FIX THIS
             g.fillRect(lm.getPx(), 
                     lm.getPy(), 10, 10);
-            System.out.println(lm.getAngle());
+            //System.out.println(lm.getAngle());
             g.drawLine(lm.getPx(), lm.getPy(), (int)Math.round(lm.getPx()+30*Math.sin(lm.getAngle())), (int)Math.round(lm.getPy()+30*Math.cos(lm.getAngle())));
             //TODO: Draw the surface when its more complicated
             g.drawLine(0, Canvas.CANVAS_HEIGHT-10, Canvas.CANVAS_WIDTH, Canvas.CANVAS_HEIGHT-10);

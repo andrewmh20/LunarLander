@@ -7,6 +7,8 @@
 // imports necessary libraries for Java swing
 import java.awt.*;
 import java.awt.event.*;
+import java.io.IOException;
+
 import javax.swing.*;
 
 /**
@@ -88,7 +90,22 @@ public class Game implements Runnable {
      * Main method run to start and run the game. Initializes the GUI elements specified in Game and
      * runs it. IMPORTANT: Do NOT delete! You MUST include this in your final submission.
      */
-    public static void main(String[] args) {
+    //TODO:Handle exception! THIS IS JUST FOR TESTING
+    public static void main(String[] args) throws IOException {
+        //TODO:Start network handler to accept client connections
+        //TODO: make it only start when server is created. If client is created, run the connect mmethod in 
+        //Network handler
+        //TODO:I should maybe do all the networking logic in networkhandler? as in all in
+        //that one seperate thread.....
+        NetworkHandler nh = new NetworkHandler();
+        Thread nhThread = new Thread(nh);
+        nhThread.start();
         SwingUtilities.invokeLater(new Game());
+        while(true) {
+          if (nh.ready()) {
+              System.out.println("TEST");
+            System.out.println(nh.readPacket().toString());
+           }
+       }
     }
 }
