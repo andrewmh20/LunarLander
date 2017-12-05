@@ -69,7 +69,7 @@ public class Game implements Runnable {
 
         
         // Main playing area
-        final Canvas court = new Canvas(status);
+        final Canvas court = new Canvas(status, gameState);
         frame.add(court, BorderLayout.CENTER);
 
         // Reset button

@@ -43,9 +43,14 @@ public class Canvas extends JPanel {
         //Error from network
         private Error error = new FullThrottleError();
         //TODO: this creation will happen on network;
-        //ALSO--TODO: THis entire canvas is ONLY for the server, I need a cleint one as well.
+        //ALSO--TODO: THis entire canvas is ONLY forthe server, I need a cleint one as well.
         
-        public Canvas(JLabel status) {
+        private GameState gs;
+        
+        //TODO: change the status thing to just be a field of gs
+        public Canvas(JLabel status, GameState gs) {
+            
+            this.gs = gs;
             // creates border around the court area, JComponent method
             setBorder(BorderFactory.createLineBorder(Color.BLACK));
 
@@ -187,9 +192,9 @@ public class Canvas extends JPanel {
                 //error.causeFailure(lm);
 
                 //update the game state velocities
-                Game.gameState.setVx(lm.getVx());
-                Game.gameState.setVy(lm.getVy());
-                Game.gameState.setVw(lm.getVw());
+                gs.setVx(lm.getVx());
+               gs.setVy(lm.getVy());
+                gs.setVw(lm.getVw());
 
                 lm.move();
              //System.out.println(lm.getPy());
