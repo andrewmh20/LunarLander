@@ -1,17 +1,23 @@
 import java.io.IOException;
+import java.util.Map;
 import java.util.StringTokenizer;
+import java.util.TreeMap;
 
 public class NetworkPacket {
+        
     
     private float altitude;
     private float Vx;
     private float Vy;
     private float Vw;
+    private Error error;
+    
 
-    NetworkPacket(float Vx, float Vy, float Vw){
+    NetworkPacket(float Vx, float Vy, float Vw, Error error){
         this.Vx = Vx;
         this.Vy = Vy;
         this.Vw = Vw;
+        this.error = error;
     }
     NetworkPacket(String packetStr){
         //TODO:make this parse the packet, throw exceptions as necessary 
@@ -30,22 +36,41 @@ public class NetworkPacket {
         
         //TODO:Remember to handle this somehwere....IE in server where it calls this.
         StringTokenizer packetT = new StringTokenizer(packet,"$");
+         //TODO:add more fields
+        //these are the fields to send to gameState
+         float Vx=0;
+         float Vy=0;
+         float Vw=0;
+         Error error = null;
+
         
-        while(packetT.hasMoreTokens()) {
-            System.out.println(packetT.nextToken());
+        try {
+            //TODO:Handle when its malformed
+            Vx = Float.parseFloat(packetT.nextToken());
+            Vy = Float.parseFloat(packetT.nextToken());
+            Vw = Float.parseFloat(packetT.nextToken());
+            error = Error.getError(Integer.parseInt(packetT.nextToken()));
+            
             //TODO:
         }
+        //TODO:make this better
+        catch(Exception e) {
+            System.out.println("not enough tokens");
+            }
+            
+        //TODO:this scoping might be wrong, need to local versions
+        //WILL BE all zeros if parsing failed
+        return new NetworkPacket(Vx,Vy, Vw, error);
         
-        
-       
-        
-        return null;
            }
+    
+    //TODO:this needs to be really updated
     
     public String getPacket(){
         String packet = "<Vx>"+Vx+"</Vx>"+
                         "<Vy>"+Vy+"</Vy>"+
-                        "<Vw>"+Vw+"</Vw>";
+                        "<Vw>"+Vw+"</Vw>"+
+                        "<error>"+error.getErrorCode()+"</error>";
         
         return packet;
         
@@ -55,7 +80,13 @@ public class NetworkPacket {
     public float getVx() {
         return Vx;
     }
+    
+    //TODO:Okay to return the actual error here?
+    public Error getError() {
+        return error;
+    }
     @Override
+    //TODO:make this more informative and getPacket exactly how I want it sent
     public String toString() {
         return getPacket();
         

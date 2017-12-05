@@ -54,7 +54,7 @@ public class NetworkTests {
         String r = in.readLine();
         
         
-        NetworkPacket np = new NetworkPacket(1,1,1);
+        //NetworkPacket np = new NetworkPacket(1,1,1);
         //nos.write(np.getPacket());
         
         while(r != null) {

@@ -11,7 +11,12 @@ public class ResetErrors extends Error {
     
     @Override
     public void causeFailure(LunarModel lm) {
-        lm = new LunarModel();
+        lm.reset();
+    }
+    
+    @Override
+    public int getErrorCode() {
+        return 0001;
     }
     
 }

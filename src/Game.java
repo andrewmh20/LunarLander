@@ -92,7 +92,7 @@ public class Game implements Runnable {
         frame.pack();
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         //TODO:Make visible when done with network testing.
-        //frame.setVisible(true);
+        frame.setVisible(true);
 
         // Start game
         court.reset();

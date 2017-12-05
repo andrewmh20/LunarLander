@@ -15,4 +15,8 @@ public class FullThrottleError extends Error {
         lm.throttle(LunarModel.MAX_THROTTLE);
     }
     
+    @Override
+    public int getErrorCode() {
+        return 1201;
+    }
 }

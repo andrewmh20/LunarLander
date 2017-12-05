@@ -35,6 +35,8 @@ public class LunarModel {
     
     //initial throttle settting
     private float throttle = 0; 
+    private boolean collided = false;
+
 
     //thruster TORQUE settings
     private static final int  TORQUE = 100000;
@@ -104,6 +106,7 @@ public class LunarModel {
                 
         //reset any fields not dependent on world
         throttle = 0;
+        collided = false;
         
         //create new world, copied form constructor
         w = new World(gravity);
@@ -239,7 +242,6 @@ public void throttle(int throt) {
     
     //TODO: Created surface above
     
-    boolean collided = false;
     public boolean isCollided() {
         //Looked at tutorial https://www.programcreek.com/java-api-examples/index.php?api=org.jbox2d.callbacks.ContactListener
         

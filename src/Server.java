@@ -56,7 +56,10 @@ public class Server extends NetworkHandler implements Runnable {
           //System.out.println(readPacket().toString());
             //pw.write(new NetworkPacket(String.valueOf(gs.getVy())).getPacket());
             try {
-            System.out.println(NetworkPacket.parse(packetIn));
+                NetworkPacket np = NetworkPacket.parse(packetIn);
+            System.out.println(packetIn.toString());
+            //gs.setVx(np.getVx());
+            gs.setError(np.getError());
             }
             catch (IOException e) {
                 System.out.println(e.getMessage());

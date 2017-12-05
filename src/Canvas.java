@@ -199,6 +199,10 @@ public class Canvas extends JPanel {
                
                 gs.causeCurrentFailure(lm);
                 //update the game state velocities
+                
+                //TODO:commented out just for debugging networking, only game thread will ever really set
+                //so not need to be synced. This is just an issue for client.
+                //ok/ switch to errors.
                 gs.setVx(lm.getVx());                
                 gs.setVy(lm.getVy());
                 gs.setVw(lm.getVw());
