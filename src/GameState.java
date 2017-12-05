@@ -10,6 +10,9 @@ public class GameState {
     private boolean simSup;
     private double timeLeft;
     
+    //as of now no error is null
+    private Error currentError;
+    
     //TODO:weird to do it like this, but kind of good because then my display panels get all data from her erather than from
     //the canvas..
     
@@ -22,6 +25,10 @@ public class GameState {
         //TODO:Set to initial values
 
     }
+    
+    ///TODO:Maybe these should not ll need to be synchronized, from network thread ONLY update Error field, an
+    //and have the rest hapen from tehre in this thread. and in client, gamestate is only updated from the network thread
+    
     
     //Encapsualted ok because its a primitive
     public synchronized double getFuel() {
@@ -62,6 +69,20 @@ public class GameState {
         //System.out.println(this.Vw);
     }
     
+    public synchronized void setError(Error error) {
+        currentError = error;
+    }
+    public synchronized void causeCurrentFailure(LunarModel lm) {
+        if (currentError == null) {
+            
+        }
+        //encapsulated
+        else {
+            currentError.causeFailure(lm);
+            currentError = null;
+        }
+    }
+
     
 
     

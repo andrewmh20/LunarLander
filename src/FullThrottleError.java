@@ -5,6 +5,11 @@ public class FullThrottleError extends Error {
         super();
     }
     
+    FullThrottleError(FullThrottleError error){
+        
+    }
+
+    
     @Override
     public void causeFailure(LunarModel lm) {
         lm.throttle(LunarModel.MAX_THROTTLE);

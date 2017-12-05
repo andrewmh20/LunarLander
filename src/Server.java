@@ -1,4 +1,5 @@
 import java.io.BufferedReader;
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
@@ -36,18 +37,44 @@ public class Server extends NetworkHandler implements Runnable {
     
     //TODO:Do stuff, can use network handler....
            
+    //THIS is just testing the dynamic dispatch, not the netwroking. 
+    //TODO: reall do network parsing/start to use packets.
+
     while(true) {
         if (ready()) {
+            String packetIn = in.readLine();
+            if(packetIn.equals("FULLTHROTTLE")) {
+                gs.setError(new FullThrottleError());
+                
+            }
+            if(packetIn.equals("RESET")) {
+                gs.setError(new ResetErrors());
+                
+            }
+
            // System.out.println("TEST");
-          System.out.println(readPacket().toString());
-         }
+          //System.out.println(readPacket().toString());
+            //pw.write(new NetworkPacket(String.valueOf(gs.getVy())).getPacket());
+            try {
+            System.out.println(NetworkPacket.parse(packetIn));
+            }
+            catch (IOException e) {
+                System.out.println(e.getMessage());
+            }
+            //TODO:Does not always work, but mostly does! Issue with some packets not getting sent to gamestate rightly.
+        //.setVy(Float.parseFloat(in.readLine()));
+            
+            //TODO:^^^use read pcaket, not reimpliment in.readLine parsing
+            
+            
+        }
      }
     
     }
 
     
-    catch (Exception IOException) {
-        throw new RuntimeException();
+    catch (IOException e) {
+       e.printStackTrace(System.err);
     }
 
 }
