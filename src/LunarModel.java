@@ -18,6 +18,7 @@ public class LunarModel {
     //Initial velocity settings
     private static final Vec2 INITIAL_V = new Vec2(0,0);
     private static final float INITIAL_Vw = 0;
+    private static final Vec2 INITIAL_POSITION = new Vec2(0,0);
     //Gravity Vector
     private static final Vec2 gravity = new Vec2(0, 6f);
     //Scale to convert physics world to pixel world
@@ -31,8 +32,12 @@ public class LunarModel {
     private static final float THROT_SCALE = 1000f;
     public static final int MAX_THROTTLE = 100;
     public static final int MIN_THROTTLE = 0;
-    //thruster torque settings
-    private static final int  torque = 100000;
+    
+    //initial throttle settting
+    private float throttle = 0; 
+
+    //thruster TORQUE settings
+    private static final int  TORQUE = 100000;
 
     //TODO:another thing I need to change later
     private static final float DENSITY_OF_SHAPES = 1;
@@ -50,6 +55,7 @@ public class LunarModel {
         w = new World(gravity);
         lbd = new BodyDef();
         
+        lbd.setPosition(INITIAL_POSITION);
         lbd.setLinearVelocity(INITIAL_V);
         lbd.setAngularVelocity(INITIAL_Vw);
         lbd.setType(BodyType.DYNAMIC);
@@ -69,7 +75,7 @@ public class LunarModel {
         //This is static
         surface = w.createBody(sbd);
         
-        
+
         //Create shapes and fixtures for collision purposes
         
         
@@ -94,9 +100,62 @@ public class LunarModel {
         
     }
     
+    public void reset() {
+                
+        //reset any fields not dependent on world
+        throttle = 0;
+        
+        //create new world, copied form constructor
+        w = new World(gravity);
+        lbd = new BodyDef();
+        
+        lbd.setPosition(INITIAL_POSITION);
+        lbd.setLinearVelocity(INITIAL_V);
+        lbd.setAngularVelocity(INITIAL_Vw);
+        lbd.setType(BodyType.DYNAMIC);
+       
+        //The actual lander physics body
+        lem = w.createBody(lbd);
+        
+        //HACK TO FIX ROATION TODO: AND/OR Make variable, again issue with SCALE
+        lem.m_invI = 1;
+        
+        //TODO:Rememver to reset anytime I might change tourque!
+        attitudeVec = new Vec2((float)Math.sin(lem.getAngle()), (float)Math.cos(lem.getAngle()));
+        
+        
+        //Create the lunar surface
+        BodyDef sbd = new BodyDef();
+        //This is static
+        surface = w.createBody(sbd);
+        
+
+        //Create shapes and fixtures for collision purposes
+        
+        
+        //TODO:Could add more fixtures to the lem body so it collides better with the surface
+        //and add bumps to surface
+        
+        //TODO:Change staic type to more general???
+        PolygonShape lemS = new PolygonShape();
+        //TODO:Chaneg shapes to work well
+        lemS.setAsBox(10, 10);
+        EdgeShape surfaceS = new EdgeShape(); 
+        //TODO:Fix figure out dimensions based on constants
+        surfaceS.set(new Vec2(0, Canvas.CANVAS_HEIGHT-10), new Vec2(Canvas.CANVAS_WIDTH,Canvas.CANVAS_HEIGHT));
+        
+        lem.createFixture(lemS, DENSITY_OF_SHAPES);
+        //again....idk why
+        //lem.m_invI = 1.0f;
+//        System.out.println(lem.getMass());
+        surface.createFixture(surfaceS, DENSITY_OF_SHAPES);
+//        
+//        System.out.println("done");
+                
+    }
+    
     //use field to "delegate" force application to move, so it applies each step.
     //TODO:Keep an eye o n this with erors.
-    private float throttle = 0; 
     
 public void throttle(int throt) {
         
@@ -115,19 +174,19 @@ public void throttle(int throt) {
     }
     
     public void thrustL() {
-        lem.applyTorque(torque);
+        lem.applyTorque(TORQUE);
         //System.out.println(lem.getAngle());
         //System.out.println(lem.getInertia());
 
     }
     public void thrustR() {
-        lem.applyTorque(-torque);
+        lem.applyTorque(-TORQUE);
         //System.out.println(lem.getAngle());
        // System.out.println(lem.getAngularVelocity());
         
     }
     
-    //TODO:Check torque signs
+    //TODO:Check TORQUE signs
     //TODO:Make hard and easy modes for each control ,adn a kill swith to recenter everything.
     //TODO: DO unit tests, but really need to get display setup better to test myself and fine tune settings.
     
@@ -163,7 +222,8 @@ public void throttle(int throt) {
         //TODO:put this here or above?
         lem.applyForceToCenter(attitudeVec.mul(throttle).negate());
         //System.out.println(throttle);
-        w.step(1/60f, 5, 5);
+        //TODO:Maybe this can somehow fix the CPU util
+        w.step(1/60f, 1, 1);
         w.clearForces();
         //cal new attitude vec for next throttle application
 

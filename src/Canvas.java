@@ -38,7 +38,8 @@ public class Canvas extends JPanel {
         
         //create the physics world
         //TODO:Do I need to pass this anything else?
-        private LunarModel lm;
+        //Important to be final bc I'm passing it around to the error classes
+        private final LunarModel lm = new LunarModel();
         
         //Error from network
         private Error error = new FullThrottleError();
@@ -149,7 +150,7 @@ public class Canvas extends JPanel {
             snitch = new Circle(CANVAS_WIDTH, CANVAS_HEIGHT, Color.YELLOW);*/
             
             //OR just make a new one each time...this looks cleaner to me
-            lm = new LunarModel();
+            lm.reset();
             
             i =0;
             j =0;
@@ -191,10 +192,21 @@ public class Canvas extends JPanel {
                 //TODO:Before or after move? probs doesnt matter.
                 //error.causeFailure(lm);
 
+                
+                
+                //if theres an error in state, cause the error
+                //TODO:WILL NEED TO CHANGE THAT ERROR FIELD TO A QUEUE so that he can send multiple errors at time
+               
+                gs.causeCurrentFailure(lm);
                 //update the game state velocities
-                gs.setVx(lm.getVx());
-               gs.setVy(lm.getVy());
+                gs.setVx(lm.getVx());                
+                gs.setVy(lm.getVy());
                 gs.setVw(lm.getVw());
+                
+                
+                
+                
+                //System.out.println(gs.getVy());
 
                 lm.move();
              //System.out.println(lm.getPy());
