@@ -20,9 +20,15 @@ public abstract class Error {
     
     public static Error getError(int errorCode) {
         switch (errorCode) {
-            case 0100:
+            case 100:
                 return new FullThrottleError();
+            case 101:
+                return new StuckLeftThrusterError();
+            case 102:
+                return new StuckRightThrusterError();
+
                 //TODO:eh
+                //TODO:fix this from octal
             case 0001:
                 return new ResetErrors();
             case 1201:

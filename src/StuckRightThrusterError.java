@@ -1,23 +1,25 @@
 
-public class FullThrottleError extends Error {
+public class StuckRightThrusterError extends Error {
     
-    FullThrottleError(){
+    StuckRightThrusterError(){
         super();
     }
     
-    FullThrottleError(FullThrottleError error){
+    StuckRightThrusterError(StuckRightThrusterError error){
         
     }
 
     
     @Override
     public void causeFailure(LunarModel lm) {
-        lm.throttle(LunarModel.MAX_THROTTLE);
+        while(true) {
+            lm.thrustR();
+        }
     }
     
     @Override
     public int getErrorCode() {
-        return 100;
+        return 102;
     }
     
     @Override

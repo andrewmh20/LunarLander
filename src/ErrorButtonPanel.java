@@ -17,9 +17,9 @@ public class ErrorButtonPanel extends JPanel{
         super();
         this.gs = gs;
 //Set layout
-        JButton err = new JButton();
-        err.setText("FullThrottleError");
-        err.addActionListener(new ActionListener() {
+        JButton FullThrottle = new JButton();
+        FullThrottle.setText("Full Throttle");
+        FullThrottle.addActionListener(new ActionListener() {
 
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -29,7 +29,35 @@ public class ErrorButtonPanel extends JPanel{
             }
             
         });
-        this.add(err);
+        this.add(FullThrottle);
+        
+        JButton StuckLeftThruster = new JButton();
+        StuckLeftThruster.setText("Full Throttle");
+        StuckLeftThruster.addActionListener(new ActionListener() {
+
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                gs.setError(new StuckLeftThrusterError());
+                // TODO Auto-generated method stub
+                
+            }
+            
+        });
+        this.add(StuckLeftThruster);
+        
+        JButton StuckRightThruster= new JButton();
+        StuckRightThruster.setText("FullThrottleError");
+        StuckRightThruster.addActionListener(new ActionListener() {
+
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                gs.setError(new StuckRightThrusterError());
+                // TODO Auto-generated method stub
+                
+            }
+            
+        });
+        this.add(StuckRightThruster);
         
         
     }    
