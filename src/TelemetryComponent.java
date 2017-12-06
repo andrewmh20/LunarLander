@@ -20,9 +20,8 @@ public class TelemetryComponent extends JPanel {
     @Override
     public void paintComponent(Graphics gc) {
         //TODO:Which one? THis works but fix to be correct
-        //super.paintComponent(gc); //THIS MAY HAVE CAUSED HIGH CPU? Migh tstill be too high :)
-        super.repaint();
-       // display the light bulb here
+        super.paintComponent(gc);
+        // display the light bulb here
         //TODO:set the distances to constants that I can change?....
         //System.out.println(Game.gameState.getVw());
             gc.drawString("Horizontal Velocity" + String.format("%1$.2f",gs.getVx()), 0, 10);

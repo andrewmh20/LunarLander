@@ -47,11 +47,14 @@ public class Canvas extends JPanel {
         //ALSO--TODO: THis entire canvas is ONLY forthe server, I need a cleint one as well.
         
         private GameState gs;
+        private JPanel tc;
         
         //TODO: change the status thing to just be a field of gs
-        public Canvas(JLabel status, GameState gs) {
+        //Jpanel for display of info from model displayed in canvas
+        public Canvas(JLabel status, GameState gs, JPanel tc) {
             
             this.gs = gs;
+            this.tc = tc;
             // creates border around the court area, JComponent method
             setBorder(BorderFactory.createLineBorder(Color.BLACK));
 
@@ -220,7 +223,8 @@ public class Canvas extends JPanel {
 //System.out.println(lm.getAttY());
 //System.out.println(lem.getLinearVelocity());
 
-                super.repaint();
+                //super.repaint();
+                tc.repaint();
                 repaint();
                 
                 if (lm.isCollided()) {

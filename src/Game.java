@@ -64,9 +64,9 @@ public class Game implements Runnable {
         
         //TODO:Fix this.
         //TODO:Panel or component?
-        final JPanel TelemtryPanel = new TelemetryComponent(gameState);
+         JPanel telemetryPanel = new TelemetryComponent(gameState);
         
-        frame.add(TelemtryPanel, BorderLayout.EAST);
+        frame.add(telemetryPanel, BorderLayout.EAST);
 /*
         final JLabel fuelLeft = new JLabel("Fuel Remaining" + String.valueOf(gameState.getFuel()));
         gameStatePanel.add(fuelLeft);
@@ -80,7 +80,7 @@ public class Game implements Runnable {
 
         
         // Main playing area
-        final Canvas court = new Canvas(status, gameState);
+        final Canvas court = new Canvas(status, gameState, telemetryPanel);
         frame.add(court, BorderLayout.CENTER);
 
         // Reset button
