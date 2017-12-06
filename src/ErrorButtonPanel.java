@@ -47,7 +47,7 @@ public class ErrorButtonPanel extends JPanel{
     @Override
     public Dimension getPreferredSize() {
         //TODO:FIx to make correct
-        return new Dimension(200,50);
+        return new Dimension(200,200);
     }
 
 

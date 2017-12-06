@@ -43,6 +43,7 @@ public class Server extends NetworkHandler implements Runnable {
     while(true) {
         if (ready()) {
             String packetIn = in.readLine();
+            System.out.println("ServerReady");
             if(packetIn.equals("FULLTHROTTLE")) {
                 gs.setError(new FullThrottleError());
                 

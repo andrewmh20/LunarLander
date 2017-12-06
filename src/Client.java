@@ -43,15 +43,16 @@ public class Client extends NetworkHandler implements Runnable {
     //THIS is just testing the dynamic dispatch, not the netwroking. 
     //TODO: reall do network parsing/start to use packets.
 
-    while(true) {
+    //TODO:this should realy use some sort of queue in gameState.
+    while(gs.getError() != null) {
         System.out.println("here");
 
-        if(gs.getError() != null) {
+        
             //TODO:more meaningful v's
             pw.write(new NetworkPacket(1,1,1,gs.getError()).getPacket());
             System.out.println(new NetworkPacket(1,1,1,gs.getError()).getPacket().toString());
             gs.setError(null);
-        }
+        
         /*
         if (ready()) {
             String packetIn = in.readLine();
