@@ -94,7 +94,7 @@ public class GameState {
     //TODO:fix exceptions
     //Got rid of sync because blocking que should be synced already
     public  void setError(Error error) {
-        currentError = error;
+        //currentError = error;
         try {
             errorQue.put(error);
         } catch (InterruptedException e) {
@@ -114,18 +114,28 @@ public class GameState {
             return null;
         }
     }
+    public Error getErrorAttempt() {
+        // return currentError;
+         try {
+             return errorQue.poll(1, TimeUnit.MILLISECONDS);
+         } catch (InterruptedException e) {
+             // TODO Auto-generated catch block
+             e.printStackTrace();
+             return null;
+         }
+     }
 
     
-    public synchronized void causeCurrentFailure(LunarModel lm) {
-        if (currentError == null) {
-            
-        }
-        //encapsulated
-        else {
-            currentError.causeFailure(lm);
-            currentError = null;
-        }
-    }
+//    public synchronized void causeCurrentFailure(LunarModel lm) {
+//        if (currentError == null) {
+//            
+//        }
+//        //encapsulated
+//        else {
+//            currentError.causeFailure(lm);
+//            currentError = null;
+//        }
+    //}
 
     
 

@@ -195,13 +195,27 @@ public class Canvas extends JPanel {
                 //TODO:Before or after move? probs doesnt matter.
                 //error.causeFailure(lm);
 
-                
+                //TODO:refactor where the timer is and ticking. ie maybe make timer at top level
+                //and pass as arg to both canvas and telempanel
                 
                 //if theres an error in state, cause the error
                 //TODO:WILL NEED TO CHANGE THAT ERROR FIELD TO A QUEUE so that he can send multiple errors at time
                
                 gs.setAltitude(lm.getAltitude());
-                gs.causeCurrentFailure(lm);
+                
+                //TODO:change get error to not force waiting......annoying because in netwrork I need it 
+                //to wait but here it doesnt. Rethink.
+                
+                Error err = gs.getErrorAttempt();
+                //System.out.println(err);
+                if (err != null) {
+                    err.causeFailure((lm));
+                    //System.out.println("here");
+
+                }
+                
+                
+                
                 //update the game state velocities
                 
                 //TODO:commented out just for debugging networking, only game thread will ever really set

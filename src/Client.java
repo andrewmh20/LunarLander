@@ -56,8 +56,10 @@ while (true) {
             
             Error err = gs.getError();
             //TODO:more meaningful v's
-            pw.write(new NetworkPacket(1,1,1,err).getPacket());
-            System.out.println(new NetworkPacket(1,1,1,err).getPacket().toString());
+            //nos.write(new NetworkPacket(1,1,1,err).getPacket().getBytes());
+            pw.print(new NetworkPacket(1,1,1,err).getPacket());
+            pw.flush();
+            //System.out.println((new NetworkPacket(1,1,1,err)).getPacket().toString());
             //gs.setError(null);
         
         }

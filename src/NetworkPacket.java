@@ -67,10 +67,7 @@ public class NetworkPacket {
     //TODO:this needs to be really updated
     
     public String getPacket(){
-        String packet = "<Vx>"+Vx+"</Vx>"+
-                        "<Vy>"+Vy+"</Vy>"+
-                        "<Vw>"+Vw+"</Vw>"+
-                        "<error>"+error.getErrorCode()+"</error>";
+        String packet = "$"+Vx+"$"+Vy+"$"+Vw+"$"+error.getErrorCode()+"\n";
         
         return packet;
         
@@ -89,6 +86,13 @@ public class NetworkPacket {
     //TODO:make this more informative and getPacket exactly how I want it sent
     public String toString() {
         return getPacket();
+        
+        /*String packet = "<Vx>"+Vx+"</Vx>"+
+                        "<Vy>"+Vy+"</Vy>"+
+                        "<Vw>"+Vw+"</Vw>"+
+                        "<error>"+error.getErrorCode()+"</error>";
+        
+        return packet;*/
         
     }
     

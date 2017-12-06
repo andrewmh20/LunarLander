@@ -12,6 +12,7 @@ import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.PrintWriter;
 import java.net.*;
+import java.util.concurrent.BlockingQueue;
 
 public abstract class NetworkHandler {
 

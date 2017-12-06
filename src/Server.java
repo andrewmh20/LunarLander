@@ -44,36 +44,15 @@ public class Server extends NetworkHandler implements Runnable {
         //TODO:change to using blocking ques
         if (ready()) {
             try {
-
-                String packetIn = in.readLine();
-                if (packetIn == null){
-                    return;
-                }
-           
-            System.out.println("ServerReady");
-            if(packetIn.equals("FULLTHROTTLE")) {
-                gs.setError(new FullThrottleError());
                 
-            }
-            if(packetIn.equals("RESET")) {
-                gs.setError(new ResetErrors());
+                System.out.println("ServerReady");
+                NetworkPacket packetIn = NetworkPacket.parse(in.readLine());
+               // System.out.println(packetIn);
+                System.out.println("after in read");
                 
-            }
-
-           // System.out.println("TEST");
-          //System.out.println(readPacket().toString());
-            //pw.write(new NetworkPacket(String.valueOf(gs.getVy())).getPacket());
-            try {
-                NetworkPacket np = NetworkPacket.parse(packetIn);
             System.out.println(packetIn.toString());
             //gs.setVx(np.getVx());
-            gs.setError(np.getError());
-            }
-            catch (IOException e) {
-                System.out.println(e.getMessage());
-            }
-            //TODO:Does not always work, but mostly does! Issue with some packets not getting sent to gamestate rightly.
-        //.setVy(Float.parseFloat(in.readLine()));
+            gs.setError(packetIn.getError());
             
             //TODO:^^^use read pcaket, not reimpliment in.readLine parsing
             }
