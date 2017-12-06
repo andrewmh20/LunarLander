@@ -41,8 +41,15 @@ public class Server extends NetworkHandler implements Runnable {
     //TODO: reall do network parsing/start to use packets.
 
     while(true) {
+        //TODO:change to using blocking ques
         if (ready()) {
-            String packetIn = in.readLine();
+            try {
+
+                String packetIn = in.readLine();
+                if (packetIn == null){
+                    return;
+                }
+           
             System.out.println("ServerReady");
             if(packetIn.equals("FULLTHROTTLE")) {
                 gs.setError(new FullThrottleError());
@@ -69,7 +76,10 @@ public class Server extends NetworkHandler implements Runnable {
         //.setVy(Float.parseFloat(in.readLine()));
             
             //TODO:^^^use read pcaket, not reimpliment in.readLine parsing
-            
+            }
+            catch (Exception e){
+e.printStackTrace(System.err);
+            }
             
         }
      }

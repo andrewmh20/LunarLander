@@ -25,6 +25,7 @@ public class Client extends NetworkHandler implements Runnable {
     
     @Override
     public void run() {
+        
     try {
         
             Socket s = new Socket("127.0.0.1", 8080);
@@ -37,6 +38,10 @@ public class Client extends NetworkHandler implements Runnable {
     OutputStream nos = s.getOutputStream();
     in = new BufferedReader(new InputStreamReader(nis));
     pw = new PrintWriter(nos);
+    System.out.println("client setUp");
+    
+    //System.out.println(gs.getError());
+
     
     //TODO:Do stuff, can use network handler....
            
@@ -44,15 +49,25 @@ public class Client extends NetworkHandler implements Runnable {
     //TODO: reall do network parsing/start to use packets.
 
     //TODO:this should realy use some sort of queue in gameState.
-    while(gs.getError() != null) {
-        System.out.println("here");
+    System.out.println("here");
+
+while (true) {
+        try {
+            
+            Error err = gs.getError();
+            //TODO:more meaningful v's
+            pw.write(new NetworkPacket(1,1,1,err).getPacket());
+            System.out.println(new NetworkPacket(1,1,1,err).getPacket().toString());
+            //gs.setError(null);
+        
+        }
+        
 
         
-            //TODO:more meaningful v's
-            pw.write(new NetworkPacket(1,1,1,gs.getError()).getPacket());
-            System.out.println(new NetworkPacket(1,1,1,gs.getError()).getPacket().toString());
-            gs.setError(null);
-        
+        catch (Exception e) {
+            e.printStackTrace(System.err);
+        }
+}   
         /*
         if (ready()) {
             String packetIn = in.readLine();
@@ -84,15 +99,16 @@ public class Client extends NetworkHandler implements Runnable {
             
             
         }*/
-     }
-    
+
+
     }
 
     
-    catch (IOException e) {
+    catch (Exception e) {
        e.printStackTrace(System.err);
     }
 
+    //TODO:REmember to close the sockets correctly!
 }
     
 }

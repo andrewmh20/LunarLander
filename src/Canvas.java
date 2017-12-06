@@ -224,7 +224,7 @@ public class Canvas extends JPanel {
 //System.out.println(lem.getLinearVelocity());
 
                 //super.repaint();
-                tc.repaint();
+                tc.repaint(); //Repaint the display panel
                 repaint();
                 
                 if (lm.isCollided()) {

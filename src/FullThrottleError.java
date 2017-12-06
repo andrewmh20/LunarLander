@@ -17,7 +17,7 @@ public class FullThrottleError extends Error {
     
     @Override
     public int getErrorCode() {
-        return 0100;
+        return 100;
     }
     
     @Override

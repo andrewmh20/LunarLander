@@ -70,7 +70,7 @@ public class NetworkPacket {
         String packet = "<Vx>"+Vx+"</Vx>"+
                         "<Vy>"+Vy+"</Vy>"+
                         "<Vw>"+Vw+"</Vw>"+
-                        "<error>"+Integer.toString(error.getErrorCode())+"</error>";
+                        "<error>"+error.getErrorCode()+"</error>";
         
         return packet;
         

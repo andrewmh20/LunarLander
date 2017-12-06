@@ -32,7 +32,7 @@ public void run() {
     // Be sure to change "TOP LEVEL FRAME" to the name of your game
     final JFrame frame = new JFrame("TOP LEVEL FRAME");
     frame.setLocation(300, 300);
-
+    //System.out.println("Frame");
     // Status panel
     final JPanel status_panel = new JPanel();
     frame.add(status_panel, BorderLayout.SOUTH);
@@ -42,8 +42,9 @@ public void run() {
     
     //TODO:Panel or component?
     final JPanel TelemtryPanel = new TelemetryComponent(gameState);
-    
-    frame.add(TelemtryPanel, BorderLayout.EAST);
+    //System.out.println("TElem Panel");
+
+   frame.add(TelemtryPanel, BorderLayout.EAST);
     
     // Main playing area
     final ErrorButtonPanel buttons = new ErrorButtonPanel(gameState);

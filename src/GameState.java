@@ -1,3 +1,7 @@
+import java.util.concurrent.BlockingQueue;
+import java.util.concurrent.LinkedBlockingQueue;
+import java.util.concurrent.TimeUnit;
+
 //TODO:Is this the right way to structure it?
 //And put everything togethre in the Game class
 //TODO: Or create a seperate class for each actual panel
@@ -11,6 +15,8 @@ public class GameState {
     private double timeLeft;
     
     //as of now error is null
+    //Change this to be set in constrtuctor
+    private BlockingQueue<Error> errorQue = new LinkedBlockingQueue<Error>(); 
     private Error currentError;
     
     //TODO:weird to do it like this, but kind of good because then my display panels get all data from her erather than from
@@ -36,17 +42,17 @@ public class GameState {
         return fuel;
     }
 
-    public synchronized float getVx() {
+    public  float getVx() {
         // TODO Auto-generated method stub
         return Vx;
     }
     
-    public synchronized float getVy() {
+    public  float getVy() {
         // TODO Auto-generated method stub
         return Vy;
     }
     
-    public synchronized float getVw() {
+    public  float getVw() {
         // TODO Auto-generated method stub
         //System.out.println(this.Vw);
         return Vw;
@@ -85,12 +91,28 @@ public class GameState {
     }
 
     
-    public synchronized void setError(Error error) {
+    //TODO:fix exceptions
+    //Got rid of sync because blocking que should be synced already
+    public  void setError(Error error) {
         currentError = error;
+        try {
+            errorQue.put(error);
+        } catch (InterruptedException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+        //this.notifyAll();
     }
     //TODO:FIx this encapsulation
-    public synchronized Error getError() {
-        return currentError;
+    public Error getError() {
+       // return currentError;
+        try {
+            return errorQue.take();
+        } catch (InterruptedException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+            return null;
+        }
     }
 
     
