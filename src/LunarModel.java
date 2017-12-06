@@ -1,5 +1,13 @@
+import java.util.List;
+import java.util.Vector;
+
 import org.jbox2d.callbacks.ContactImpulse;
 import org.jbox2d.callbacks.ContactListener;
+import org.jbox2d.collision.Distance;
+import org.jbox2d.collision.Distance.DistanceProxy;
+import org.jbox2d.collision.Distance.SimplexCache;
+import org.jbox2d.collision.DistanceInput;
+import org.jbox2d.collision.DistanceOutput;
 import org.jbox2d.collision.Manifold;
 import org.jbox2d.collision.shapes.EdgeShape;
 import org.jbox2d.collision.shapes.PolygonShape;
@@ -36,6 +44,7 @@ public class LunarModel {
     //initial throttle settting
     private float throttle = 0; 
     private boolean collided = false;
+    
 
 
     //thruster TORQUE settings
@@ -52,7 +61,16 @@ public class LunarModel {
     private BodyDef sbd;
     private Body surface;
     //TODO: Can really make the defs local vars, not fields
-    
+    private float altitude;
+    private DistanceOutput DO = new DistanceOutput();
+    private DistanceInput DI = new DistanceInput();
+    private Distance d = new Distance();
+    private SimplexCache SC = new SimplexCache();
+    PolygonShape lemS;
+    EdgeShape surfaceS;
+    Distance.DistanceProxy flDp = new Distance.DistanceProxy();
+    Distance.DistanceProxy sDp = new Distance.DistanceProxy();
+
     public LunarModel() {
         w = new World(gravity);
         lbd = new BodyDef();
@@ -85,10 +103,10 @@ public class LunarModel {
         //and add bumps to surface
         
         //TODO:Change staic type to more general???
-        PolygonShape lemS = new PolygonShape();
+        lemS = new PolygonShape();
         //TODO:Chaneg shapes to work well
         lemS.setAsBox(10, 10);
-        EdgeShape surfaceS = new EdgeShape(); 
+        surfaceS = new EdgeShape(); 
         //TODO:Fix figure out dimensions based on constants
         surfaceS.set(new Vec2(0, Canvas.CANVAS_HEIGHT-10), new Vec2(Canvas.CANVAS_WIDTH,Canvas.CANVAS_HEIGHT));
         
@@ -98,8 +116,29 @@ public class LunarModel {
 //        System.out.println(lem.getMass());
         surface.createFixture(surfaceS, DENSITY_OF_SHAPES);
 //        
+
 //        System.out.println("done");
         
+        
+
+        
+       flDp = new Distance.DistanceProxy();
+
+        SC.count = 0;
+       
+        
+        //TODO:consider radii??
+        
+
+        
+
+        
+        //TODO:AABB & ground body 
+//        System.out.println("done");
+        
+        //setting distances logic up
+
+
     }
     
     public void reset() {
@@ -129,6 +168,10 @@ public class LunarModel {
         
         //Create the lunar surface
         BodyDef sbd = new BodyDef();
+        
+        //SETTING THE BODY POSITION TO THE BOTTON LEFT jsut to test distance
+        
+        
         //This is static
         surface = w.createBody(sbd);
         
@@ -153,7 +196,6 @@ public class LunarModel {
 //        System.out.println(lem.getMass());
         surface.createFixture(surfaceS, DENSITY_OF_SHAPES);
 //        
-//        System.out.println("done");
                 
     }
     
@@ -218,10 +260,31 @@ public void throttle(int throt) {
         return SCALE*lem.getLinearVelocity().y;
     }
     
+    public float getAltitude() {
+        return SCALE*altitude;
+    }
     public void move() {
        
+        //TODO: this is not a real distance...handle here or in the canvas with constants?
+//        System.out.println(surface.getPosition());
+//        altitude = surface.getPosition().sub(lem.getPosition()).length();
+        //Fixture fl = lem.getFixtureList();
+        
+        
+        //TODO: THis all sucks; leave physics and drawing to the end.
+        flDp.set(lemS, 0);
+        sDp.set(surfaceS,1);
+        
+        DI.proxyA = flDp;
+        DI.proxyB = sDp;
+        d.distance(DO, SC, DI);
+        
+        altitude = Canvas.CANVAS_HEIGHT-10 - (lem.getPosition().y+lemS.getRadius());
+        //System.out.println(DO.distance);
+
         attitudeVec = new Vec2((float)Math.sin(lem.getAngle()), (float)Math.cos(lem.getAngle()));
 
+        
         //TODO:put this here or above?
         lem.applyForceToCenter(attitudeVec.mul(throttle).negate());
         //System.out.println(throttle);

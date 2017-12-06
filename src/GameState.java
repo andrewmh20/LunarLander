@@ -10,11 +10,12 @@ public class GameState {
     private boolean simSup;
     private double timeLeft;
     
-    //as of now no error is null
+    //as of now error is null
     private Error currentError;
     
     //TODO:weird to do it like this, but kind of good because then my display panels get all data from her erather than from
     //the canvas..
+    
     
     private float altitude;
     private float Vx;
@@ -69,9 +70,30 @@ public class GameState {
         //System.out.println(this.Vw);
     }
     
+    public  float getAltitude() {
+        // TODO Auto-generated method stub
+        //System.out.println(Vw);
+        return altitude;
+        //System.out.println(this.Vw);
+    }
+    
+    public  void setAltitude(float altitude) {
+        // TODO Auto-generated method stub
+        //System.out.println(Vw);
+        this.altitude = altitude;
+        //System.out.println(this.Vw);
+    }
+
+    
     public synchronized void setError(Error error) {
         currentError = error;
     }
+    //TODO:FIx this encapsulation
+    public synchronized Error getError() {
+        return currentError;
+    }
+
+    
     public synchronized void causeCurrentFailure(LunarModel lm) {
         if (currentError == null) {
             

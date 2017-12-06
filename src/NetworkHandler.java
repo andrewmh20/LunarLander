@@ -18,9 +18,11 @@ public abstract class NetworkHandler {
     
     //Jsut one network handler in 1 game.
     protected static int LISTEN_PORT = 8080;
+
     //Only need to worry about one connection per Game...
     //TODO:Remember to handle multiple connectins attempted.
     protected ServerSocket ss;
+    protected Socket s;
     protected BufferedReader in;
     protected PrintWriter pw;
     
@@ -73,11 +75,7 @@ public abstract class NetworkHandler {
         private final static String HOST = "localhost";
         private final static int CONNECTION_PORT = LISTEN_PORT;
 
-        //TODO:THIS SHOULD BE SOEMWHER EELSE. the handler is just for serve side stuff, writing BACK to the client
-        public void connect() throws IOException {
-            Socket s = new Socket(HOST, CONNECTION_PORT);
-            
-        }
+     
         
     
     

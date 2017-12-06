@@ -29,7 +29,18 @@ public class Game implements Runnable {
     
     public void run() {
         // NOTE : recall that the 'final' keyword notes immutability even for local variables.
+        int selector = new JOptionPane().showConfirmDialog(null, "SIMSUP");
+//TODO:Do something else when closed
+        //TODO:Need to handle the exception for whne cannot connnect, here
+        if (selector == 0) {
+            SwingUtilities.invokeLater(new SimsupGame());
+            return;
+        }
+        else if (selector != 1) {
+            return;
+        }
 
+        
         //For each game you run, start a new server
         //TODO:change to be result of button
         gameState = new GameState();

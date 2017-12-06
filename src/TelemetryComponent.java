@@ -28,7 +28,8 @@ public class TelemetryComponent extends JPanel {
             gc.drawString("Horizontal Velocity" + String.format("%1$.2f",gs.getVx()), 0, 10);
             gc.drawString("Vertical Velocity" + String.format("%1$.2f",gs.getVy()), 0, 25);
             gc.drawString("Angular Velocity" + String.format("%1$.2f",gs.getVw()), 0, 40);
-            
+            gc.drawString("Altitude" + String.format("%1$.2f",gs.getAltitude()), 0, 55);
+
             //TODO: Add fuel
             
     }

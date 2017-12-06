@@ -197,6 +197,7 @@ public class Canvas extends JPanel {
                 //if theres an error in state, cause the error
                 //TODO:WILL NEED TO CHANGE THAT ERROR FIELD TO A QUEUE so that he can send multiple errors at time
                
+                gs.setAltitude(lm.getAltitude());
                 gs.causeCurrentFailure(lm);
                 //update the game state velocities
                 

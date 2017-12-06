@@ -17,6 +17,11 @@ public class FullThrottleError extends Error {
     
     @Override
     public int getErrorCode() {
-        return 1201;
+        return 0100;
+    }
+    
+    @Override
+    public boolean isComputerError() {
+        return true;
     }
 }
