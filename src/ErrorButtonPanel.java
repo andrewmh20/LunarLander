@@ -32,7 +32,7 @@ public class ErrorButtonPanel extends JPanel{
         this.add(FullThrottle);
         
         JButton StuckLeftThruster = new JButton();
-        StuckLeftThruster.setText("Full Throttle");
+        StuckLeftThruster.setText("Stuck Left Thruster");
         StuckLeftThruster.addActionListener(new ActionListener() {
 
             @Override
@@ -46,7 +46,7 @@ public class ErrorButtonPanel extends JPanel{
         this.add(StuckLeftThruster);
         
         JButton StuckRightThruster= new JButton();
-        StuckRightThruster.setText("FullThrottleError");
+        StuckRightThruster.setText("Stuck Right Thruster");
         StuckRightThruster.addActionListener(new ActionListener() {
 
             @Override
@@ -57,7 +57,22 @@ public class ErrorButtonPanel extends JPanel{
             }
             
         });
+        
+        //TODO:reset errors, not game
         this.add(StuckRightThruster);
+        JButton ResetGame= new JButton();
+        ResetGame.setText("Reset Game");
+        ResetGame.addActionListener(new ActionListener() {
+
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                gs.setError(new ResetErrors());
+                // TODO Auto-generated method stub
+                
+            }
+            
+        });
+        this.add(ResetGame);
         
         
     }    

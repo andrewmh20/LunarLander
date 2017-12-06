@@ -231,6 +231,8 @@ public void throttle(int throt) {
         
     }
     
+    
+    
     //TODO:Check TORQUE signs
     //TODO:Make hard and easy modes for each control ,adn a kill swith to recenter everything.
     //TODO: DO unit tests, but really need to get display setup better to test myself and fine tune settings.

@@ -1,6 +1,7 @@
 
 public class StuckLeftThrusterError extends Error {
     
+    //TODO:these arent really stuck, just momentarily
     StuckLeftThrusterError(){
         super();
     }
@@ -12,9 +13,8 @@ public class StuckLeftThrusterError extends Error {
     
     @Override
     public void causeFailure(LunarModel lm) {
-        while(true) {
             lm.thrustL();
-        }
+            
     }
     
     @Override

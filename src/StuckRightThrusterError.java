@@ -12,9 +12,7 @@ public class StuckRightThrusterError extends Error {
     
     @Override
     public void causeFailure(LunarModel lm) {
-        while(true) {
             lm.thrustR();
-        }
     }
     
     @Override
