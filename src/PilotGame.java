@@ -34,7 +34,7 @@ public class PilotGame implements Runnable {
 
         //Panel for Lander information that is linked to the canvas (i.e. the lander)
                 //TODO:Panel or component?
-        final JPanel telemetryPanel = new TelemetryComponent(gameState);
+        final TelemetryPanel telemetryPanel = new TelemetryPanel(gameState);
         
         frame.add(telemetryPanel, BorderLayout.EAST);
         

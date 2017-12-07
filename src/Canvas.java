@@ -40,14 +40,14 @@ public class Canvas extends JPanel {
         private final LunarModel lm = new LunarModel();
                 
         private GameState gs;
-        private JPanel tc;
+        private TelemetryPanel telemetryPanel;
         
         //TODO: change the status thing to just be a field of gs
         //Jpanel for display of info from model displayed in canvas
-        public Canvas(GameState gs, JPanel tc) {
+        public Canvas(GameState gs, TelemetryPanel tp) {
             
             this.gs = gs;
-            this.tc = tc;
+            this.telemetryPanel = tp;
             // creates border around the court area, JComponent method
             setBorder(BorderFactory.createLineBorder(Color.BLACK));
 
@@ -188,9 +188,7 @@ public class Canvas extends JPanel {
                 //TODO:moving paing up here doesnt fix anything, so can move back down later.
                 //Need to actually fix logic of getting error from queue.
                 
-                tc.repaint(); //Repaint the display panel
-                repaint();
-                
+
                 gs.setAltitude(lm.getAltitude());
                 
                 //TODO:change get error to not force waiting......annoying because in netwrork I need it 
@@ -216,6 +214,16 @@ public class Canvas extends JPanel {
                 gs.setVx(lm.getVx());                
                 gs.setVy(lm.getVy());
                 gs.setVw(lm.getVw());
+                
+                //Set the linked panel labels
+                telemetryPanel.VxLabel.setText("Horizontal Velocity: " + String.format("%1$.2f",gs.getVx())); 
+                telemetryPanel.VyLabel.setText("Vertical Velocity: " + String.format("%1$.2f",gs.getVy())); 
+                telemetryPanel.VwLabel.setText("Angular Velocity: " + String.format("%1$.2f",gs.getVw())); 
+                telemetryPanel.altLabel.setText("Altitude: " + String.format("%1$.2f",gs.getAltitude()));
+                telemetryPanel.errorLabel.setText("Computer Error Code: " + gs.getComputerErrorCode());
+
+                
+                repaint();
                 
                 
                 

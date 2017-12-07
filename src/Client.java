@@ -12,11 +12,13 @@ import javax.swing.JPanel;
 
 public class Client extends NetworkHandler implements Runnable {
 
+    
+    //TODO: test all this on an actual network.....uh oh.
     private GameState gs;
     private Socket s;
-    private JPanel telemetryPanel;
+    private TelemetryPanel telemetryPanel;
 
-    Client(GameState gs, String hostname, JPanel telemetryPanel) throws UnknownHostException, IOException{
+    Client(GameState gs, String hostname, TelemetryPanel telemetryPanel) throws UnknownHostException, IOException{
         super();
         this.gs = gs;
         s = new Socket(hostname, 8080);

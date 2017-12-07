@@ -1,21 +1,41 @@
 import java.awt.Dimension;
 import java.awt.Graphics;
 
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 ///TODO: Panel or component?
 @SuppressWarnings("serial")
-public class TelemetryComponent extends JPanel {
+public class TelemetryPanel extends JPanel {
 
+    //Package because other people need to be able to update this panel
+    
+    final JLabel VxLabel = new JLabel("Horizontal Velocity: ");
+    final JLabel VyLabel = new JLabel("Vertical Velocity: ");
+    final JLabel VwLabel = new JLabel("Rotational Velocity: ");
+    final JLabel altLabel =  new JLabel("Altitude : ");
+    final JLabel errorLabel = new JLabel("Error Code : ");
     
     private GameState gs;
 
-    TelemetryComponent (GameState gs){
+
+    TelemetryPanel (GameState gs){
         
         super();
         this.gs = gs;
         
+        add(VxLabel);
+        add(VyLabel);
+        add(VwLabel);
+        add(altLabel);
+        add(errorLabel);
+
     }    
+    
+    //TODO:i could have a dfucntion that sets the labels and make the labels private. ugh
+    // just see if what Im doing works, and then get to work on graphics/make playable
+    
+   /*
     @Override
     public void paintComponent(Graphics gc) {
         //TODO:Which one? THis works but fix to be correct
@@ -43,7 +63,8 @@ public class TelemetryComponent extends JPanel {
     @Override
     public Dimension getPreferredSize() {
         //TODO:FIx to make correct
-        return new Dimension(200,50);
+        return new Dimension(200,75);
     }
+    */
     
 }

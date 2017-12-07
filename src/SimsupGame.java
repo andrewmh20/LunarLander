@@ -27,7 +27,7 @@ public void run() {
     //TODO: Is this bad hostname is not encapsulated?
     
     //TODO:Panel or component?
-    final JPanel TelemetryPanel = new TelemetryComponent(gameState);
+    final JPanel TelemetryPanel = new TelemetryPanel(gameState);
 
     
     
