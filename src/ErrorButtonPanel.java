@@ -27,10 +27,10 @@ public class ErrorButtonPanel extends JPanel{
                 // TODO Auto-generated method stub
                 
             }
-            
+//            
         });
         this.add(FullThrottle);
-        
+//        
         JButton StuckLeftThruster = new JButton();
         StuckLeftThruster.setText("Stuck Left Thruster");
         StuckLeftThruster.addActionListener(new ActionListener() {
@@ -44,7 +44,7 @@ public class ErrorButtonPanel extends JPanel{
             
         });
         this.add(StuckLeftThruster);
-        
+//        
         JButton StuckRightThruster= new JButton();
         StuckRightThruster.setText("Stuck Right Thruster");
         StuckRightThruster.addActionListener(new ActionListener() {
@@ -60,7 +60,7 @@ public class ErrorButtonPanel extends JPanel{
         
         //TODO:reset errors, not game
         this.add(StuckRightThruster);
-       
+//       
         JButton ResetGame= new JButton();
         ResetGame.setText("Reset Game");
         ResetGame.addActionListener(new ActionListener() {
@@ -74,7 +74,7 @@ public class ErrorButtonPanel extends JPanel{
             
         });
         this.add(ResetGame);
-
+//
         JButton Error1201= new JButton();
         Error1201.setText("Error 1201");
         Error1201.addActionListener(new ActionListener() {
@@ -93,13 +93,12 @@ public class ErrorButtonPanel extends JPanel{
     }    
     
     public void paintComponent(Graphics gc) {
-        super.repaint();
        // display the light bulb here
         //TODO:set the distances to constants that I can change?....
         //System.out.println(Game.gameState.getVw());
         
             //TODO: Add fuel
-            
+//            
     }
     
     @Override
