@@ -64,12 +64,15 @@ public class TelemetryPanel extends JPanel {
             //TODO: Add fuel
             
     }
+    */
+    
+    //TODO: show message panel when computer error comes in
     
     @Override
     public Dimension getPreferredSize() {
         //TODO:FIx to make correct
         return new Dimension(200,75);
     }
-    */
+    
     
 }
