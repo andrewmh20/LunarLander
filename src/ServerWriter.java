@@ -21,7 +21,12 @@ public class ServerWriter extends NetworkHandler implements Runnable {
         while(true) {
             pw.print(new NetworkPacket(gs.getVx(),gs.getVy(),gs.getVw(),null).getPacket());
             pw.flush();
-
+            try {
+                Thread.sleep(100);
+            } catch (InterruptedException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
         }
         
     }

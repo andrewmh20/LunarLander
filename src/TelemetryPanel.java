@@ -1,6 +1,11 @@
+import java.awt.BorderLayout;
 import java.awt.Dimension;
+import java.awt.FlowLayout;
 import java.awt.Graphics;
+import java.awt.GridLayout;
+import java.awt.LayoutManager;
 
+import javax.swing.BoxLayout;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
@@ -23,8 +28,8 @@ public class TelemetryPanel extends JPanel {
         
         super();
         this.gs = gs;
-        
-        add(VxLabel);
+        setLayout(new BoxLayout(this,BoxLayout.Y_AXIS));
+               add(VxLabel);
         add(VyLabel);
         add(VwLabel);
         add(altLabel);

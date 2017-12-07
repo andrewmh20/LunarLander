@@ -6,7 +6,19 @@
 
     import java.awt.*;
     import java.awt.event.*;
-    import javax.swing.*;
+import java.awt.geom.AffineTransform;
+import java.awt.geom.Path2D;
+import java.awt.geom.Rectangle2D;
+import java.awt.image.AffineTransformOp;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
+
+import javax.imageio.ImageIO;
+import javax.swing.*;
+
+import org.jbox2d.collision.shapes.EdgeShape;
+import org.jbox2d.common.Vec2;
 
     /**
      * Canvas
@@ -30,6 +42,12 @@ public class Canvas extends JPanel {
         // Update interval for timer, in milliseconds
         public static final int INTERVAL = 16;
 
+        protected static final int THROTTLE_JUMP = 5;
+        
+        public static final int LEM_HEIGHT = 20;
+        public static final int LEM_WIDTH = 20;
+
+
         //not private because I need coutner to work in reset, and in the keypress listerner class
         protected int i =0 ;
         private int j =0;
@@ -42,9 +60,37 @@ public class Canvas extends JPanel {
         private GameState gs;
         private TelemetryPanel telemetryPanel;
         
+         private static Image LemSprite;
+         private static Image FlameSprite;
+         
+         //private field for the shape that is the surface, so I can use it AND draw it
+         //Leave the ability to change the path depending on the game---but do that later. would set in reset area.
+          private Path2D surface;
+          private Rectangle2D lemShape = new Rectangle2D.Float(-(LEM_WIDTH/2),-(LEM_HEIGHT/2),LEM_WIDTH, LEM_HEIGHT);
+
+        private int k;;
+
+
         //TODO: change the status thing to just be a field of gs
         //Jpanel for display of info from model displayed in canvas
         public Canvas(GameState gs, TelemetryPanel tp) {
+            
+            //TODO:this means I cna remove all fixture logic from the model--just use the body.
+             surface = new Path2D.Float();
+             //TOtally wrong, just to see
+             surface.moveTo(0, CANVAS_HEIGHT-10);
+             
+             ///TODO : make variable or something
+             surface.lineTo(CANVAS_WIDTH-10, CANVAS_WIDTH-10);
+            
+             try {
+                LemSprite = ImageIO.read(new File("Files/LEM.png")).getScaledInstance(LEM_WIDTH, LEM_HEIGHT, Image.SCALE_SMOOTH);
+                FlameSprite = ImageIO.read(new File("Files/Flame.png")).getScaledInstance(20, 20, Image.SCALE_SMOOTH);
+             } catch (IOException e1) {
+                // TODO Auto-generated catch block
+                e1.printStackTrace();
+            }
+
             
             this.gs = gs;
             this.telemetryPanel = tp;
@@ -71,29 +117,31 @@ public class Canvas extends JPanel {
             // changing the square's velocity accordingly. (The tick method below actually moves the
             // square.)
             addKeyListener(new KeyAdapter() {
-
+                int temp;
                 //TODO: Change j and i to +/- constants so that can change rate of throttle increase
                 
                 public void keyPressed(KeyEvent e) {
                      if (e.getKeyCode() == KeyEvent.VK_UP) {
                          
-                         j=0;
+                         //j=0;
+                         i+=THROTTLE_JUMP;
                          lm.throttle(i);
-                         i++;
 
                      }
                      if (e.getKeyCode() == KeyEvent.VK_DOWN) {
                          
-                         i=0;
-                         lm.throttle(j);
-                         j--;
+                        // i=0;
+                         i-=THROTTLE_JUMP;
+                         lm.throttle(i);
+                         
 
                      }
                      //Full throttle momentarily
                      if (e.getKeyCode() == KeyEvent.VK_F) {
                          
-                         
-                         lm.throttle(20);
+                         //store current throttle
+                         temp = lm.getThrottle();
+                         lm.throttle(LunarModel.MAX_THROTTLE);
 
                      }
                      //TODO: Add "Abort" key that sets full throttle until you manually bring it down/ shut it off
@@ -117,7 +165,7 @@ public class Canvas extends JPanel {
 
                     if (e.getKeyCode() == KeyEvent.VK_F) {
                         
-                        lm.throttle(0);
+                        lm.throttle(temp);
 
                     }
 
@@ -141,6 +189,7 @@ public class Canvas extends JPanel {
             
             i =0;
             j =0;
+            k = 0;
             playing = true;
 
             // Make sure that this component has the keyboard focus
@@ -153,25 +202,7 @@ public class Canvas extends JPanel {
         //TODO:I made this private.....
         private void tick() {
             if (playing) {
-                /*// advance the square and snitch in their current direction.
-                square.move();
-                snitch.move();
 
-                // make the snitch bounce off walls...
-                snitch.bounce(snitch.hitWall());
-                // ...and the mushroom
-                snitch.bounce(snitch.hitObj(poison));
-
-                // check for the game end conditions
-                if (square.intersects(poison)) {
-                    playing = false;
-                    status.setText("You lose!");
-                } else if (square.intersects(snitch)) {
-                    playing = false;
-                    status.setText("You win!");
-                }
-*/
-                
                 // update the display
                 //TODO:This is a demo of what some type of network listener should do
                 
@@ -187,7 +218,11 @@ public class Canvas extends JPanel {
                 
                 //TODO:moving paing up here doesnt fix anything, so can move back down later.
                 //Need to actually fix logic of getting error from queue.
-                
+                repaint();//Need to paint before checking if crashed....
+//
+//                if(isCrashed(surface, lemShape)) {
+//                    System.out.println("CRASHED");
+//                }
 
                 gs.setAltitude(lm.getAltitude());
                 
@@ -223,7 +258,6 @@ public class Canvas extends JPanel {
                 telemetryPanel.errorLabel.setText("Computer Error Code: " + gs.getComputerErrorCode());
 
                 
-                repaint();
                 
                 
                 
@@ -240,29 +274,119 @@ public class Canvas extends JPanel {
                 //super.repaint();
 
                 
-                if (lm.isCollided()) {
+                
+                //TODO:Still do actually need fixutre in the lemModel for landing.
+                if (lm.isCrashed()) {
                     
                     //TODO:Add logic for velocity of colossion with collision, can unit test that
                     //TODO:DO something more exciting, i.e. "you lose" (Have seperate class for "Game State"
                     reset();
                 }
+                //k = time to win
+                //TODO:gs.add contact light
+                if (lm.isLanded() && k > 100) {
+                    
+                    JOptionPane.showMessageDialog(null, "Engine Shutdown!");
+                    
+                    //TODO:Add logic for velocity of colossion with collision, can unit test that
+                    //TODO:DO something more exciting, i.e. "you lose" (Have seperate class for "Game State"
+                }
+
             }
         }
+        
+        
+      
+       
+         
+        /**
+         * We check if rect intersects with the lunar surface
+         * @param rect The rectangle that contains the LEM sprite (in this case)
+         * @return 
+         */
+        private boolean isCrashed(Shape shape, Rectangle2D rect) {
+
+            return shape.intersects(rect);
+        }
+        
+        
         @Override
         public void paintComponent(Graphics g) {
+            Graphics2D g2d = ((Graphics2D)g);
             super.paintComponent(g);
-//            snitch.draw(g);
+
+            //snitch.draw(g);
             //TODO:make color better....should I make this whole thing a seperate class, or 
             //just draw all in canvas directly like this?
 
            // TODO: DRAW BASED ON SHAPE, not body (use constant that sets both)
             //TODO: THis is for now the logic for drawing the lunar lander FIX THIS
-            g.fillRect(lm.getPx(), 
-                    lm.getPy(), 10, 10);
+            
+            //Draw the LunarLander:
+//TODO:Get basic idea of coordinates working, then fine tune images.
+            //GET better image
+            this.setBackground(Color.WHITE);
+            //
+            g.setColor(Color.RED);
+            g.drawRect(lm.getPx()+(LEM_WIDTH/2), lm.getPy()+(LEM_HEIGHT/2), 2, 2);
+            g.setColor(Color.BLACK);
+
+            g2d.draw(surface);
+            
+            //Drawing based on origin point of rectangle, consider center of mass to be basd on unifrom
+            //density squares, so in center of square.
+            
+            int PxToDrawCenter = lm.getPx()+(LEM_WIDTH/2);
+            int PyToDrawCenter = lm.getPy()+(LEM_HEIGHT/2);
+            float angleToDraw = lm.getAngle();
+            //* max in flame scale
+            float flameSizeMin = 1f;
+            float flameSizeMax = 20f;
+            int flameSize = Math.round(
+                    ((flameSizeMax-flameSizeMin)*(lm.getThrottle()-LunarModel.MIN_THROTTLE)/
+                    (LunarModel.MAX_THROTTLE-LunarModel.MIN_THROTTLE))
+                    + flameSizeMin
+                    );
+            //THis will be off, get the location first.
+            //TODO:Fix this, messing things up.
+            g2d.translate(PxToDrawCenter, PyToDrawCenter);
+            //TODO:Double check sign consistency with lem model
+            g2d.rotate(-angleToDraw);
+            g2d.drawImage(LemSprite, -(LEM_WIDTH/2), -(LEM_HEIGHT/2), null);
+            if (flameSize > 1 ) {
+                g2d.drawImage(FlameSprite.getScaledInstance(FlameSprite.getWidth(null), flameSize, Image.SCALE_SMOOTH), -(LEM_WIDTH/2), LemSprite.getHeight(null)-(LEM_HEIGHT/2), null);
+            }
+            //TODO:this wont fully work, but idea is chaning value of LemShape with each image draw and get that 
+            //coordinate system........wont work really. lets just try it.
+            
+            //TODO:draw the surface of teh ground however I do it.
+
+            //THe collisions logic will be done entirely in Swing, since we just need to compare
+            //2 boxes. 
+            
+            g2d.rotate(angleToDraw);
+            g2d.translate(-PxToDrawCenter, -PyToDrawCenter);
+            
+            //draw the lunar surface (get these numbers form same place as lunar model to ensure consistency
+            //maybe at to game state?
+            g2d.drawLine(0, CANVAS_HEIGHT-10, Canvas.CANVAS_WIDTH/2,Canvas.CANVAS_HEIGHT-30);
+            g2d.drawLine(Canvas.CANVAS_WIDTH/2,Canvas.CANVAS_HEIGHT-30, Canvas.CANVAS_WIDTH/2+10,Canvas.CANVAS_HEIGHT-30);
+            g2d.drawLine(Canvas.CANVAS_WIDTH/2+10,Canvas.CANVAS_HEIGHT-30, Canvas.CANVAS_WIDTH,Canvas.CANVAS_HEIGHT-10);
+            //TODO:Create a shape from those lines, and fill that shape.
+            //g2d.fillRect(0,0,10000,10000);
+
+           // g.fillRect(lm.getPx(), 
+             //       lm.getPy(), 10, 10);
+            
+            
+            
+            
+            //TODO:fix the thrust l vs right to be intutitive
+            //TODO:fix the telem panel to draw as large as largest number.
             //System.out.println(lm.getAngle());
-            g.drawLine(lm.getPx(), lm.getPy(), (int)Math.round(lm.getPx()+30*Math.sin(lm.getAngle())), (int)Math.round(lm.getPy()+30*Math.cos(lm.getAngle())));
+            //g.drawLine(lm.getPx(), lm.getPy(), (int)Math.round(lm.getPx()+30*Math.sin(lm.getAngle())), (int)Math.round(lm.getPy()+30*Math.cos(lm.getAngle())));
             //TODO: Draw the surface when its more complicated
-            g.drawLine(0, Canvas.CANVAS_HEIGHT-10, Canvas.CANVAS_WIDTH, Canvas.CANVAS_HEIGHT-10);
+            //g.drawLine(0, Canvas.CANVAS_HEIGHT-10, Canvas.CANVAS_WIDTH, Canvas.CANVAS_HEIGHT-10);
 
         }
         @Override

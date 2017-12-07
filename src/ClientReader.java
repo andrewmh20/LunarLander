@@ -29,6 +29,8 @@ public class ClientReader extends NetworkHandler implements Runnable {
             gs.setVx(packetIn.getVx());
             gs.setVy(packetIn.getVy());
             gs.setVw(packetIn.getVw());
+            //TODO:THis still screws up CPU...or soemthing does
+
 //TODO:this is weird, I can regactor to not need to do so many set gs and get gs, just set directly, but ok
             //FOr now move to graphics
             telemetryPanel.VxLabel.setText("Horizontal Velocity: " + String.format("%1$.2f",gs.getVx())); 
