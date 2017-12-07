@@ -57,6 +57,8 @@ public class NetworkPacket {
         catch(Exception e) {
             System.out.println("not enough tokens");
             }
+        
+        //TODO: I have an issue with this parsing and null pointers, when error doesnt get set properly...
             
         //TODO:this scoping might be wrong, need to local versions
         //WILL BE all zeros if parsing failed
@@ -67,7 +69,16 @@ public class NetworkPacket {
     //TODO:this needs to be really updated
     
     public String getPacket(){
-        String packet = "$"+Vx+"$"+Vy+"$"+Vw+"$"+error.getErrorCode()+"\n";
+        int errorCode;
+        
+        if (error == null) {
+            errorCode = 0;
+        }
+        else {
+            errorCode = error.getErrorCode();
+        }
+        //TODO:think I can remove this newline
+        String packet = "$"+Vx+"$"+Vy+"$"+Vw+"$"+errorCode+"\n";
         
         return packet;
         
@@ -76,6 +87,13 @@ public class NetworkPacket {
     
     public float getVx() {
         return Vx;
+    }
+    
+    public float getVy() {
+        return Vy;
+    }
+    public float getVw() {
+        return Vw;
     }
     
     //TODO:Okay to return the actual error here?

@@ -28,6 +28,10 @@ public class GameState {
     //the canvas..
     
     
+    //TODO:TEsting blockingqs instead of synchrozied mehtods....
+    private BlockingQueue<Float> VxQ = new LinkedBlockingQueue<Float>(); 
+
+    
     private float altitude;
     private float Vx;
     private float Vy;
@@ -65,7 +69,7 @@ public class GameState {
         return Vw;
     }
 
-    public synchronized void setVx(float Vx) {
+    public  void setVx(float Vx) {
         // TODO Auto-generated method stub
         this.Vx = Vx;
         

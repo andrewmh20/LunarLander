@@ -20,10 +20,7 @@ public class TelemetryComponent extends JPanel {
     public void paintComponent(Graphics gc) {
         //TODO:Which one? THis works but fix to be correct
         super.paintComponent(gc);
-        // display the light bulb here
-        //TODO:set the distances to constants that I can change?....
-        //System.out.println(Game.gameState.getVw());
-            gc.drawString("Horizontal Velocity: " + String.format("%1$.2f",gs.getVx()), 0, 15);
+        gc.drawString("Horizontal Velocity: " + String.format("%1$.2f",gs.getVx()), 0, 15);
             gc.drawString("Vertical Velocity: " + String.format("%1$.2f",gs.getVy()), 0, 30);
             gc.drawString("Angular Velocity: " + String.format("%1$.2f",gs.getVw()), 0, 45);
             gc.drawString("Altitude: " + String.format("%1$.2f",gs.getAltitude()), 0, 60);

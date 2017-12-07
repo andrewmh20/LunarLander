@@ -8,16 +8,19 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.net.UnknownHostException;
 
+import javax.swing.JPanel;
+
 public class Client extends NetworkHandler implements Runnable {
 
     private GameState gs;
     private Socket s;
+    private JPanel telemetryPanel;
 
-    Client(GameState gs, String hostname) throws UnknownHostException, IOException{
+    Client(GameState gs, String hostname, JPanel telemetryPanel) throws UnknownHostException, IOException{
         super();
         this.gs = gs;
         s = new Socket(hostname, 8080);
-
+        this.telemetryPanel = telemetryPanel;
 
         
     }
@@ -54,66 +57,74 @@ public class Client extends NetworkHandler implements Runnable {
     //TODO:this should realy use some sort of queue in gameState.
     System.out.println("here");
 
-while (true) {
-        try {
-            
-            Error err = gs.getError();
-            //TODO:more meaningful v's
-            //nos.write(new NetworkPacket(1,1,1,err).getPacket().getBytes());
-            pw.print(new NetworkPacket(1,1,1,err).getPacket());
-            pw.flush();
-            //System.out.println((new NetworkPacket(1,1,1,err)).getPacket().toString());
-            //gs.setError(null);
-        
-        }
-        
-
-        
-        catch (Exception e) {
-            e.printStackTrace(System.err);
-        }
-}   
-        /*
-        if (ready()) {
-            String packetIn = in.readLine();
-            if(packetIn.equals("FULLTHROTTLE")) {
-                gs.setError(new FullThrottleError());
-                
-            }
-            if(packetIn.equals("RESET")) {
-                gs.setError(new ResetErrors());
-                
-            }
-
-           // System.out.println("TEST");
-          //System.out.println(readPacket().toString());
-            //pw.write(new NetworkPacket(String.valueOf(gs.getVy())).getPacket());
-            try {
-                NetworkPacket np = NetworkPacket.parse(packetIn);
-            System.out.println(packetIn.toString());
-            //gs.setVx(np.getVx());
-            gs.setError(np.getError());
-            }
-            catch (IOException e) {
-                System.out.println(e.getMessage());
-            }
-            //TODO:Does not always work, but mostly does! Issue with some packets not getting sent to gamestate rightly.
-        //.setVy(Float.parseFloat(in.readLine()));
-            
-            //TODO:^^^use read pcaket, not reimpliment in.readLine parsing
-            
-            
-        }*/
-
-
+    
+//Assume ready--unlike in server
+    Thread cw = new Thread((new ClientWriter(gs, pw)));
+    cw.start();
+    Thread cr = new Thread((new ClientReader(gs, in, telemetryPanel)));
+    cr.start();
     }
+    
+//while (true) {
+//        try {
+            
+            //this blocks until there is an error avliable....
+//            Error err = gs.getErrorAttempt();
+//            System.out.println("Error:"+err);
+//            if (err != null) {
+//                
+//
+//            //TODO:more meaningful v's
+//            //nos.write(new NetworkPacket(1,1,1,err).getPacket().getBytes());
+//            pw.print(new NetworkPacket(1,1,1,err).getPacket());
+//            pw.flush();
+//            //System.out.println((new NetworkPacket(1,1,1,err)).getPacket().toString());
+//            gs.setError(null);
+//        
+//        }
+//        }
+//
+//        
+//        catch (Exception e) {
+//            e.printStackTrace(System.err);
+//        }
+        //get packets
+//        if (ready()) {
+//            try {
+//              //This will hang if it's not receiving packets
+//            if (in.ready()){
+//                NetworkPacket packetIn = NetworkPacket.parse(in.readLine());
+//                System.out.println(packetIn);
+//            System.out.println("READY");
+//
+//            gs.setVx(packetIn.getVx());
+//            gs.setVy(packetIn.getVy());
+//            gs.setVw(packetIn.getVw());
+//            
+////
+//            
+//            //TODO:^^^use read pcaket, not reimpliment in.readLine parsing
+//            }
+//        }
+//            catch (Exception e){
+//e.printStackTrace(System.err);
+//            }
+//            
+//        }
+//}   
+
+            
+
+
+
+//    }
 
     
     catch (Exception e) {
        e.printStackTrace(System.err);
     }
-
+    }
     //TODO:REmember to close the sockets correctly!
-}
+//}
     
 }

@@ -150,7 +150,8 @@ public class Canvas extends JPanel {
         /**
          * This method is called every time the timer defined in the constructor triggers.
          */
-        void tick() {
+        //TODO:I made this private.....
+        private void tick() {
             if (playing) {
                 /*// advance the square and snitch in their current direction.
                 square.move();

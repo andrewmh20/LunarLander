@@ -20,6 +20,9 @@ public abstract class Error {
     
     public static Error getError(int errorCode) {
         switch (errorCode) {
+        //can't put null in....
+            case 0:
+                return new DummyError();
             case 100:
                 return new FullThrottleError();
             case 101:
@@ -33,7 +36,7 @@ public abstract class Error {
                 return new ResetErrors();
             case 1201:
                 return new ComputerOverloadedError();
-            default: return null;
+            default: return new DummyError();
         }
         
     }
