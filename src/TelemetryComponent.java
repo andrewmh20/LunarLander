@@ -31,7 +31,7 @@ public class TelemetryComponent extends JPanel {
 
             if (gs.getShowComputerError()) {
                 //TODO: this still has issues with when it's seen....maybe err
-            gc.drawString("Computer Error Code" + gs.getComputerErrorCode(), 0, 75);
+            gc.drawString("Computer Error Code: " + gs.getComputerErrorCode(), 0, 75);
             System.out.println(gs.getComputerErrorCode());
             }
             else {
