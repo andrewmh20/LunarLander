@@ -35,7 +35,7 @@ public class Canvas extends JPanel {
         public boolean playing = false; // whether the game is running 
 
         // Game constants
-        public static final int CANVAS_WIDTH = 500;
+        public static final int CANVAS_WIDTH = 1000;
         public static final int CANVAS_HEIGHT = 500;
         public static final int SQUARE_VELOCITY = 4;
 
