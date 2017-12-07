@@ -25,7 +25,7 @@ bin/Game.class : $(DEPENDS) bin
 	$(JAVAC) -cp .:$(JARS) -d bin $(DEPENDS)
 
 run : bin/Game.class
-	java -cp .:./bin Game
+	java -cp .:$(JARS):./bin Game
 
 zip:	$(SUBMIT)
 	zip '$(ZIPNAME)' $(SUBMIT)

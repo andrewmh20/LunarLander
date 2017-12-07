@@ -34,18 +34,12 @@ public class Canvas extends JPanel {
         //not private because I need coutner to work in reset, and in the keypress listerner class
         protected int i =0 ;
         private int j =0;
-        private int vold;
         
         //create the physics world
         //TODO:Do I need to pass this anything else?
         //Important to be final bc I'm passing it around to the error classes
         private final LunarModel lm = new LunarModel();
-        
-        //Error from network
-        private Error error = new FullThrottleError();
-        //TODO: this creation will happen on network;
-        //ALSO--TODO: THis entire canvas is ONLY forthe server, I need a cleint one as well.
-        
+                
         private GameState gs;
         private JPanel tc;
         
@@ -67,7 +61,8 @@ public class Canvas extends JPanel {
                     tick();
                 }
             });
-            timer.start(); // MAKE SURE TO START THE TIMER!
+            // MAKE SURE TO START THE TIMER!
+            timer.start();
 
             // Enable keyboard focus on the court area.
             // When this component has the keyboard focus, key events are handled by its key listener.
@@ -84,7 +79,6 @@ public class Canvas extends JPanel {
                      if (e.getKeyCode() == KeyEvent.VK_UP) {
                          
                          j=0;
-                         //TODO:FOR NOW JUST APPLIES FORCE ONCE
                          lm.throttle(i);
                          i++;
 
@@ -92,7 +86,6 @@ public class Canvas extends JPanel {
                      if (e.getKeyCode() == KeyEvent.VK_DOWN) {
                          
                          i=0;
-                         //TODO:FOR NOW JUST APPLIES FORCE ONCE
                          lm.throttle(j);
                          j--;
 
@@ -101,8 +94,6 @@ public class Canvas extends JPanel {
                      if (e.getKeyCode() == KeyEvent.VK_F) {
                          
                          
-                         //TODO:FOR NOW JUST APPLIES FORCE ONCE
-                         //max useful throttle, not necesairly max throttle
                          lm.throttle(20);
 
                      }
@@ -124,14 +115,9 @@ public class Canvas extends JPanel {
                 }
 
                 public void keyReleased(KeyEvent e) {
-                    //square.setVx(0);
-                    //square.setVy(0);
-                    //lm.throttle(0);
+
                     if (e.getKeyCode() == KeyEvent.VK_F) {
                         
-                        
-                        //TODO:FOR NOW JUST APPLIES FORCE ONCE
-                        //max useful throttle, not necesairly max throttle
                         lm.throttle(0);
 
                     }
@@ -157,7 +143,6 @@ public class Canvas extends JPanel {
             
             i =0;
             j =0;
-            vold=0;
             playing = true;
             status.setText("Running...");
 
