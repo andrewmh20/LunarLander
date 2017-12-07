@@ -60,6 +60,7 @@ public class ErrorButtonPanel extends JPanel{
         
         //TODO:reset errors, not game
         this.add(StuckRightThruster);
+       
         JButton ResetGame= new JButton();
         ResetGame.setText("Reset Game");
         ResetGame.addActionListener(new ActionListener() {
@@ -73,6 +74,20 @@ public class ErrorButtonPanel extends JPanel{
             
         });
         this.add(ResetGame);
+
+        JButton Error1201= new JButton();
+        Error1201.setText("Error 1201");
+        Error1201.addActionListener(new ActionListener() {
+
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                gs.setError(new ComputerOverloadedError());
+                // TODO Auto-generated method stub
+                
+            }
+            
+        });
+        this.add(Error1201);
         
         
     }    

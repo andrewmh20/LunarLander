@@ -200,7 +200,14 @@ public class Canvas extends JPanel {
                 
                 //if theres an error in state, cause the error
                 //TODO:WILL NEED TO CHANGE THAT ERROR FIELD TO A QUEUE so that he can send multiple errors at time
-               
+                //paint before removing error from que, may as well repaint all here
+                
+                //TODO:moving paing up here doesnt fix anything, so can move back down later.
+                //Need to actually fix logic of getting error from queue.
+                
+                tc.repaint(); //Repaint the display panel
+                repaint();
+                
                 gs.setAltitude(lm.getAltitude());
                 
                 //TODO:change get error to not force waiting......annoying because in netwrork I need it 
@@ -209,8 +216,10 @@ public class Canvas extends JPanel {
                 Error err = gs.getErrorAttempt();
                 //System.out.println(err);
                 if (err != null) {
-                    err.causeFailure((lm));
+                    err.causeFailure(lm, gs);
+                    gs.setErrorsDone(err);
                     //System.out.println("here");
+                    
 
                 }
                 
@@ -238,8 +247,7 @@ public class Canvas extends JPanel {
 //System.out.println(lem.getLinearVelocity());
 
                 //super.repaint();
-                tc.repaint(); //Repaint the display panel
-                repaint();
+
                 
                 if (lm.isCollided()) {
                     

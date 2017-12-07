@@ -2,8 +2,11 @@
 public class ComputerOverloadedError extends Error {
 
     @Override
-    public void causeFailure(LunarModel lm) {
+    public void causeFailure(LunarModel lm, GameState gs) {
         // TODO Auto-generated method stub
+        //Can make this not need isComputerError....
+        gs.setShowComputerError(isComputerError());
+        gs.setComputerErrorCode(this.getErrorCode());
 
     }
 

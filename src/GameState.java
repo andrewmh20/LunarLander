@@ -1,3 +1,6 @@
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Queue;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.TimeUnit;
@@ -18,6 +21,8 @@ public class GameState {
     //Change this to be set in constrtuctor
     private BlockingQueue<Error> errorQue = new LinkedBlockingQueue<Error>(); 
     private Error currentError;
+    private LinkedList<Error> errorsDone = new LinkedList<Error>();
+    
     
     //TODO:weird to do it like this, but kind of good because then my display panels get all data from her erather than from
     //the canvas..
@@ -27,6 +32,8 @@ public class GameState {
     private float Vx;
     private float Vy;
     private float Vw;
+    private boolean showComputerError = false;
+    private int ComputerErrorCode;
     
     GameState(){
         //TODO:Set to initial values
@@ -91,6 +98,21 @@ public class GameState {
     }
 
     
+    
+    public void setShowComputerError(boolean b) {
+        showComputerError = b;
+    }
+    public boolean getShowComputerError() {
+        return showComputerError;
+    }
+
+    public void setErrorsDone(Error err) {
+        errorsDone.addLast(err);
+    }
+    public Error getErrorsDone() {
+        return  errorsDone.getLast();
+    }
+    
     //TODO:fix exceptions
     //Got rid of sync because blocking que should be synced already
     public  void setError(Error error) {
@@ -124,6 +146,22 @@ public class GameState {
              return null;
          }
      }
+
+    public Error peekError() {
+        // TODO Auto-generated method stub
+        return errorQue.peek();
+    }
+
+    public void setComputerErrorCode(int errorCode) {
+        // TODO Auto-generated method stub
+        ComputerErrorCode = errorCode;
+        
+    }
+    public int getComputerErrorCode() {
+        // TODO Auto-generated method stub
+        return ComputerErrorCode;
+        
+    }
 
     
 //    public synchronized void causeCurrentFailure(LunarModel lm) {
