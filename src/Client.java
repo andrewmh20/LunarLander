@@ -6,15 +6,19 @@ import java.io.OutputStream;
 import java.io.PrintWriter;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.net.UnknownHostException;
 
 public class Client extends NetworkHandler implements Runnable {
 
     private GameState gs;
+    private Socket s;
 
-    Client(GameState gs){
-        
+    Client(GameState gs, String hostname) throws UnknownHostException, IOException{
         super();
         this.gs = gs;
+        s = new Socket(hostname, 8080);
+
+
         
     }
     
@@ -28,7 +32,6 @@ public class Client extends NetworkHandler implements Runnable {
         
     try {
         
-            Socket s = new Socket("127.0.0.1", 8080);
             //TODO:use wait and notify to not need to have continuos loops just trying to send errors--wait until button actually pressed
 
     

@@ -21,7 +21,6 @@ public class Canvas extends JPanel {
   
 
         public boolean playing = false; // whether the game is running 
-        private JLabel status; // Current status text, i.e. "Running..."
 
         // Game constants
         public static final int CANVAS_WIDTH = 500;
@@ -45,7 +44,7 @@ public class Canvas extends JPanel {
         
         //TODO: change the status thing to just be a field of gs
         //Jpanel for display of info from model displayed in canvas
-        public Canvas(JLabel status, GameState gs, JPanel tc) {
+        public Canvas(GameState gs, JPanel tc) {
             
             this.gs = gs;
             this.tc = tc;
@@ -125,7 +124,6 @@ public class Canvas extends JPanel {
                 }
             });
 
-            this.status = status;
         }
 
         /**
@@ -144,7 +142,6 @@ public class Canvas extends JPanel {
             i =0;
             j =0;
             playing = true;
-            status.setText("Running...");
 
             // Make sure that this component has the keyboard focus
             requestFocusInWindow();
