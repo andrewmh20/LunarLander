@@ -18,7 +18,8 @@ public class ClientWriter extends NetworkHandler implements Runnable {
             //this blocks until ready--good!
             Error err = gs.getError();
 
-            pw.print(new NetworkPacket(1,1,1,err).getPacket());
+            //TODO:this.
+            pw.print(new NetworkPacket(1,1,1,1,1,err,1).getPacket());
             pw.flush();
 
             

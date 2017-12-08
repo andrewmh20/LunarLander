@@ -1,10 +1,4 @@
-import java.awt.BorderLayout;
 import java.awt.Dimension;
-import java.awt.FlowLayout;
-import java.awt.Graphics;
-import java.awt.GridLayout;
-import java.awt.LayoutManager;
-
 import javax.swing.BoxLayout;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -15,63 +9,70 @@ public class TelemetryPanel extends JPanel {
 
     //Package because other people need to be able to update this panel
     
-    final JLabel VxLabel = new JLabel("Horizontal Velocity: ");
-    final JLabel VyLabel = new JLabel("Vertical Velocity: ");
-    final JLabel VwLabel = new JLabel("Rotational Velocity: ");
-    final JLabel altLabel =  new JLabel("Altitude : ");
-    final JLabel errorLabel = new JLabel("Error Code : ");
+    private final JLabel fuelLabel = new JLabel("Fuel Remaining: ");
+    private final JLabel VxLabel = new JLabel("Horizontal Velocity: ");
+    private final JLabel VyLabel = new JLabel("Vertical Velocity: ");
+    private final JLabel VwLabel = new JLabel("Rotational Velocity: ");
+    private final JLabel altLabel =  new JLabel("Altitude : ");
+    private final JLabel attLabel =  new JLabel("Attitude (Angle) : ");
+    private final JLabel errorLabel = new JLabel("Computer Error Code : ");
+    
     
     private GameState gs;
 
 
     TelemetryPanel (GameState gs){
         
+        //TODO:make more visually pleasing
         super();
         this.gs = gs;
-        setLayout(new BoxLayout(this,BoxLayout.Y_AXIS));
-               add(VxLabel);
+        setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
+        add(fuelLabel);
+        add(new JLabel(" "));
+        add(VxLabel);
+        add(new JLabel(""));
+
         add(VyLabel);
+        add(new JLabel(""));
+
         add(VwLabel);
+        add(new JLabel(" "));
+
         add(altLabel);
+        add(new JLabel(""));
+
+        add(attLabel);
+        add(new JLabel(" "));
+
         add(errorLabel);
 
     }    
     
     //TODO:i could have a dfucntion that sets the labels and make the labels private. ugh
     // just see if what Im doing works, and then get to work on graphics/make playable
-    
-   /*
-    @Override
-    public void paintComponent(Graphics gc) {
-        //TODO:Which one? THis works but fix to be correct
-        super.paintComponent(gc);
-        gc.drawString("Horizontal Velocity: " + String.format("%1$.2f",gs.getVx()), 0, 15);
-            gc.drawString("Vertical Velocity: " + String.format("%1$.2f",gs.getVy()), 0, 30);
-            gc.drawString("Angular Velocity: " + String.format("%1$.2f",gs.getVw()), 0, 45);
-            gc.drawString("Altitude: " + String.format("%1$.2f",gs.getAltitude()), 0, 60);
-            //peek, because computer error might also have an effect
+                
+    public void updateTelemetryPanel() {
+        
+        fuelLabel.setText("Fuel Remaining: " + String.format("%1$.2f",gs.getFuel())); 
+        
+        VxLabel.setText("Horizontal Velocity: " + String.format("%1$.2f",gs.getVx())); 
+        VyLabel.setText("Vertical Velocity: " + String.format("%1$.2f",gs.getVy())); 
+        VwLabel.setText("Angular Velocity: " + String.format("%1$.2f",gs.getVw())); 
+        altLabel.setText("Altitude: " + String.format("%1$.2f",gs.getAltitude()));
+        attLabel.setText("Attitude (Angle): " + String.format("%1$.2f",gs.getAngle()));
 
-            if (gs.getShowComputerError()) {
-                //TODO: this still has issues with when it's seen....maybe err
-            gc.drawString("Computer Error Code: " + gs.getComputerErrorCode(), 0, 75);
-            System.out.println(gs.getComputerErrorCode());
-            }
-            else {
-                gc.drawString("Computer Error Code:" , 0, 75);
+        errorLabel.setText("Computer Error Code: " + gs.getComputerErrorCode());
 
-            }
-
-            //TODO: Add fuel
-            
+        
     }
-    */
+    
     
     //TODO: show message panel when computer error comes in
     
+    //TODO:make correct...
     @Override
     public Dimension getPreferredSize() {
-        //TODO:FIx to make correct
-        return new Dimension(200,75);
+        return new Dimension(200,200);
     }
     
     

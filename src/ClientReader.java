@@ -20,25 +20,24 @@ public class ClientReader extends NetworkHandler implements Runnable {
     
     @Override
     public void run() {
-        // TODO Auto-generated method stub
         
         while(true) {
-            //this blocks until ready--good!
           try {
+            //this blocks until ready
             NetworkPacket packetIn = NetworkPacket.parse(in.readLine());
+            
+            //Reason I do all this setting and getting is so that I could use the data later in other 
+            //ways if I wanted. Only issue is it leaves room for things to get messed up within the GameState
             gs.setVx(packetIn.getVx());
             gs.setVy(packetIn.getVy());
             gs.setVw(packetIn.getVw());
-            //TODO:THis still screws up CPU...or soemthing does
+            gs.setAltitude(packetIn.getAltitude());
+            gs.setFuel(packetIn.getFuel());
+            gs.setAngle(packetIn.getAngle());
+            //TODO:this might take work
+            gs.setError(packetIn.getError());
 
-//TODO:this is weird, I can regactor to not need to do so many set gs and get gs, just set directly, but ok
-            //FOr now move to graphics
-            telemetryPanel.VxLabel.setText("Horizontal Velocity: " + String.format("%1$.2f",gs.getVx())); 
-            telemetryPanel.VyLabel.setText("Vertical Velocity: " + String.format("%1$.2f",gs.getVy())); 
-            telemetryPanel.VwLabel.setText("Angular Velocity: " + String.format("%1$.2f",gs.getVw())); 
-            telemetryPanel.altLabel.setText("Altitude: " + String.format("%1$.2f",gs.getAltitude()));
-            telemetryPanel.errorLabel.setText("Computer Error Code: " + gs.getComputerErrorCode());
-
+            telemetryPanel.updateTelemetryPanel();
           
           } catch (IOException e) {
             // TODO Auto-generated catch block

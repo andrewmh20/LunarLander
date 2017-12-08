@@ -1,6 +1,4 @@
 import java.util.LinkedList;
-import java.util.List;
-import java.util.Queue;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.TimeUnit;
@@ -8,106 +6,117 @@ import java.util.concurrent.TimeUnit;
 //TODO:Is this the right way to structure it?
 //And put everything togethre in the Game class
 //TODO: Or create a seperate class for each actual panel
+
+
 public class GameState {
+    
+    private static final float FUEL_INITIAL = 10000;
 
     
-    private double fuel;
+    
+    //TODO:To use to show if crashed in telem panel--DO THIS
     private boolean crashed;
     //true if player is playing as simsup
     private boolean simSup;
-    private double timeLeft;
     
-    //as of now error is null
-    //Change this to be set in constrtuctor
-    private BlockingQueue<Error> errorQue = new LinkedBlockingQueue<Error>(); 
-    private Error currentError;
+    //TODO:if I want to add time in game
+    private float timeLeft;
+    
+    //TODO:for the error reset "Error"
     private LinkedList<Error> errorsDone = new LinkedList<Error>();
+        
     
     
-    //TODO:weird to do it like this, but kind of good because then my display panels get all data from her erather than from
-    //the canvas..
-    
-    
-    //TODO:TEsting blockingqs instead of synchrozied mehtods....
-    private BlockingQueue<Float> VxQ = new LinkedBlockingQueue<Float>(); 
-
-    
-    private float altitude;
     private float Vx;
     private float Vy;
     private float Vw;
+    private float angle;
+    private float altitude;
+    private BlockingQueue<Error> errorQue;
+    private float fuel = FUEL_INITIAL;
+    
+    private Error currentError;
+
     private boolean showComputerError = false;
     private int ComputerErrorCode;
     
     GameState(){
-        //TODO:Set to initial values
+       errorQue =  new LinkedBlockingQueue<Error>(); 
+       
+    }
+    public void reset(){
+        Vx = 0;
+        Vy = 0;
+        Vw = 0;
+        angle = 0;
+        altitude = 0;
+        errorQue =  new LinkedBlockingQueue<Error>(); 
+        fuel = FUEL_INITIAL;
+        currentError = null;
+        showComputerError = false;
+        ComputerErrorCode = 0;
 
+        
     }
     
-    ///TODO:Maybe these should not ll need to be synchronized, from network thread ONLY update Error field, an
-    //and have the rest hapen from tehre in this thread. and in client, gamestate is only updated from the network thread
-    
-    
-    //Encapsualted ok because its a primitive
-    public synchronized double getFuel() {
-        return fuel;
-    }
-
     public  float getVx() {
-        // TODO Auto-generated method stub
         return Vx;
     }
     
     public  float getVy() {
-        // TODO Auto-generated method stub
         return Vy;
     }
     
     public  float getVw() {
-        // TODO Auto-generated method stub
-        //System.out.println(this.Vw);
         return Vw;
     }
+    public  float getAngle() {
+        return angle;
+    }
+
+    public  float getAltitude() {
+        return altitude;
+    }
+    
+    public  float getFuel() {
+        return fuel;
+    }
+
+
 
     public  void setVx(float Vx) {
-        // TODO Auto-generated method stub
         this.Vx = Vx;
         
     }
-    public synchronized void setVy(float Vy) {
-        // TODO Auto-generated method stub
+    
+    public  void setVy(float Vy) {
         this.Vy = Vy;
         
     }
 
-    public synchronized void setVw(float Vw) {
-        // TODO Auto-generated method stub
-        //System.out.println(Vw);
+    public  void setVw(float Vw) {
         this.Vw = Vw;
-        //System.out.println(this.Vw);
     }
-    
-    public  float getAltitude() {
-        // TODO Auto-generated method stub
-        //System.out.println(Vw);
-        return altitude;
-        //System.out.println(this.Vw);
-    }
-    
     public  void setAltitude(float altitude) {
-        // TODO Auto-generated method stub
-        //System.out.println(Vw);
         this.altitude = altitude;
-        //System.out.println(this.Vw);
+    }
+        
+    public  void setAngle(float angle) {
+        this.angle = angle;
+    }
+
+    public  void setFuel(float fuel) {
+        this.fuel = fuel;
+    }
+
+
+    public boolean getShowComputerError() {
+        return showComputerError;
     }
 
     
-    
     public void setShowComputerError(boolean b) {
         showComputerError = b;
-    }
-    public boolean getShowComputerError() {
-        return showComputerError;
     }
 
     public void setErrorsDone(Error err) {
@@ -118,16 +127,13 @@ public class GameState {
     }
     
     //TODO:fix exceptions
-    //Got rid of sync because blocking que should be synced already
     public  void setError(Error error) {
-        //currentError = error;
         try {
             errorQue.put(error);
         } catch (InterruptedException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
         }
-        //this.notifyAll();
     }
     //TODO:FIx this encapsulation
     public Error getError() {
@@ -167,19 +173,11 @@ public class GameState {
         
     }
 
-    
-//    public synchronized void causeCurrentFailure(LunarModel lm) {
-//        if (currentError == null) {
-//            
-//        }
-//        //encapsulated
-//        else {
-//            currentError.causeFailure(lm);
-//            currentError = null;
-//        }
-    //}
+
+//TODO:Still a bunch of stuff here re errors I'm not sure I'm using. Deal with later
 
     
+
 
     
 }

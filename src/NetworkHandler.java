@@ -45,30 +45,30 @@ public abstract class NetworkHandler {
                 return true;
             }
         }
-
-        
-        public void writePacket(NetworkPacket packet){
-            pw.write(packet.getPacket());
-            
-        }
-        //TODO:handle exception if possible
-        public NetworkPacket readPacket() throws IOException {
-            String r;
-            
-               r = in.readLine();
-            String packetStr = "";
-            while(r != null) {
-                packetStr = packetStr + r;
-                return new NetworkPacket(packetStr);
-
-                //TODO:Handle the packet such that it can have newlines.....
-                //r = in.readLine();
-                }
-            return null;
-            
-            //TODO:Fix the packet that's actually created in NetworkPacket....!
-            
-        }
+////
+////        
+////        public void writePacket(NetworkPacket packet){
+////            pw.write(packet.getPacket());
+////            
+////        }
+////        //TODO:handle exception if possible
+////        public NetworkPacket readPacket() throws IOException {
+////            String r;
+////            
+////               r = in.readLine();
+////            String packetStr = "";
+////            while(r != null) {
+////                packetStr = packetStr + r;
+////                return new NetworkPacket(packetStr);
+////
+////                //TODO:Handle the packet such that it can have newlines.....
+////                //r = in.readLine();
+////                }
+////            return null;
+////            
+////            //TODO:Fix the packet that's actually created in NetworkPacket....!
+////            
+//        }
         
         //TODO:Fix scope of all the methods in here...what is constructor?
         

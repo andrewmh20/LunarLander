@@ -42,10 +42,12 @@ public class Canvas extends JPanel {
         // Update interval for timer, in milliseconds
         public static final int INTERVAL = 16;
 
-        protected static final int THROTTLE_JUMP = 5;
+        protected static final int THROTTLE_JUMP = 10;
         
         public static final int LEM_HEIGHT = 20;
         public static final int LEM_WIDTH = 20;
+
+        private static final float FUEL_INCREMENT = 10;
 
 
         //not private because I need coutner to work in reset, and in the keypress listerner class
@@ -67,14 +69,12 @@ public class Canvas extends JPanel {
          //Leave the ability to change the path depending on the game---but do that later. would set in reset area.
           private Path2D surface;
           private Rectangle2D lemShape = new Rectangle2D.Float(-(LEM_WIDTH/2),-(LEM_HEIGHT/2),LEM_WIDTH, LEM_HEIGHT);
-
-        private int k;;
-
+        private int k;
 
         //TODO: change the status thing to just be a field of gs
         //Jpanel for display of info from model displayed in canvas
         public Canvas(GameState gs, TelemetryPanel tp) {
-            
+
             //TODO:this means I cna remove all fixture logic from the model--just use the body.
              surface = new Path2D.Float();
              //TOtally wrong, just to see
@@ -125,6 +125,7 @@ public class Canvas extends JPanel {
                          
                          //j=0;
                          i+=THROTTLE_JUMP;
+                         temp = lm.getThrottle();
                          lm.throttle(i);
 
                      }
@@ -132,6 +133,8 @@ public class Canvas extends JPanel {
                          
                         // i=0;
                          i-=THROTTLE_JUMP;
+                         temp = lm.getThrottle();
+                         //TODO:change behavior for when F is held and then down is pressed and F is released
                          lm.throttle(i);
                          
 
@@ -144,6 +147,17 @@ public class Canvas extends JPanel {
                          lm.throttle(LunarModel.MAX_THROTTLE);
 
                      }
+                     
+                   //kill Engine
+                     if (e.getKeyCode() == KeyEvent.VK_K) {
+                         
+                         //store current throttle
+                         lm.throttle(LunarModel.MIN_THROTTLE);
+                         temp = 0;
+                         i = 0;
+
+                     }
+                     
                      //TODO: Add "Abort" key that sets full throttle until you manually bring it down/ shut it off
                      if (e.getKeyCode() == KeyEvent.VK_LEFT) {
 
@@ -186,6 +200,7 @@ public class Canvas extends JPanel {
             
             //OR just make a new one each time...this looks cleaner to me
             lm.reset();
+            gs.reset();
             
             i =0;
             j =0;
@@ -223,7 +238,8 @@ public class Canvas extends JPanel {
 //                if(isCrashed(surface, lemShape)) {
 //                    System.out.println("CRASHED");
 //                }
-
+                gs.setFuel(gs.getFuel()- FUEL_INCREMENT);
+                
                 gs.setAltitude(lm.getAltitude());
                 
                 //TODO:change get error to not force waiting......annoying because in netwrork I need it 
@@ -249,14 +265,11 @@ public class Canvas extends JPanel {
                 gs.setVx(lm.getVx());                
                 gs.setVy(lm.getVy());
                 gs.setVw(lm.getVw());
+                gs.setAngle(lm.getAngle());
+                gs.setAltitude(lm.getAltitude());
                 
                 //Set the linked panel labels
-                telemetryPanel.VxLabel.setText("Horizontal Velocity: " + String.format("%1$.2f",gs.getVx())); 
-                telemetryPanel.VyLabel.setText("Vertical Velocity: " + String.format("%1$.2f",gs.getVy())); 
-                telemetryPanel.VwLabel.setText("Angular Velocity: " + String.format("%1$.2f",gs.getVw())); 
-                telemetryPanel.altLabel.setText("Altitude: " + String.format("%1$.2f",gs.getAltitude()));
-                telemetryPanel.errorLabel.setText("Computer Error Code: " + gs.getComputerErrorCode());
-
+                telemetryPanel.updateTelemetryPanel();
                 
                 
                 
@@ -281,6 +294,10 @@ public class Canvas extends JPanel {
                     //TODO:Add logic for velocity of colossion with collision, can unit test that
                     //TODO:DO something more exciting, i.e. "you lose" (Have seperate class for "Game State"
                     reset();
+                }
+                //Fuel left can never be measured exactly! 
+                else if (gs.getFuel() < -5) {
+                    reset(); //TODO:Lose.
                 }
                 //k = time to win
                 //TODO:gs.add contact light
@@ -369,12 +386,11 @@ public class Canvas extends JPanel {
             
             //draw the lunar surface (get these numbers form same place as lunar model to ensure consistency
             //maybe at to game state?
-            g2d.drawLine(0, CANVAS_HEIGHT-10, Canvas.CANVAS_WIDTH/2,Canvas.CANVAS_HEIGHT-30);
-            g2d.drawLine(Canvas.CANVAS_WIDTH/2,Canvas.CANVAS_HEIGHT-30, Canvas.CANVAS_WIDTH/2+10,Canvas.CANVAS_HEIGHT-30);
-            g2d.drawLine(Canvas.CANVAS_WIDTH/2+10,Canvas.CANVAS_HEIGHT-30, Canvas.CANVAS_WIDTH,Canvas.CANVAS_HEIGHT-10);
+            g2d.drawLine(0, this.getHeight()-10, Canvas.this.getWidth()/2,Canvas.this.getHeight()-30);
+            g2d.drawLine(Canvas.this.getWidth()/2,Canvas.this.getHeight()-30, Canvas.this.getWidth()/2+10,Canvas.this.getHeight()-30);
+            g2d.drawLine(Canvas.this.getWidth()/2+10,Canvas.this.getHeight()-30, Canvas.this.getWidth(),Canvas.this.getHeight()-10);
             //TODO:Create a shape from those lines, and fill that shape.
             //g2d.fillRect(0,0,10000,10000);
-
            // g.fillRect(lm.getPx(), 
              //       lm.getPy(), 10, 10);
             
