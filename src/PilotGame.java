@@ -69,7 +69,7 @@ public class PilotGame implements Runnable {
         frame.setVisible(true);
 
         // Start game
-        //court.reset();
+        court.reset();
     }
 
 

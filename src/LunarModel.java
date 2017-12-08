@@ -203,6 +203,7 @@ public class LunarModel {
             if (lemBody.getPosition().x > vertices.get(i).x && lemBody.getPosition().x <= vertices.get(i+1).x) {
                surfaceDistanceProxy.set(surfaceShapeList.get(i),0);
             }
+        }
             
             //Setup distance and calculate
             DI.proxyA = lemDistanceProxy;
@@ -231,7 +232,6 @@ public class LunarModel {
             
             
     
-            }
             //TODO:Still working on fixing altitude/crashing (AnD do fuel) but getting there
             //TODO:DO not use reset button for now
             

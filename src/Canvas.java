@@ -61,7 +61,7 @@ public class Canvas extends JPanel {
         //create the physics world
         //TODO:Do I need to pass this anything else?
         //Important to be final bc I'm passing it around to the error classes
-        private LunarModel lm = new LunarModel();
+        private LunarModel lm;
                 
         private GameState gs;
         private TelemetryPanel telemetryPanel;
@@ -79,13 +79,8 @@ public class Canvas extends JPanel {
         //Jpanel for display of info from model displayed in canvas
         public Canvas(GameState gs, TelemetryPanel tp) {
             //Copied from reset.
-            i =0;
-            j =0;
-            k = 0;
-            playing = true;
 
             // Make sure that this component has the keyboard focus
-            requestFocusInWindow();
             
 
             //TODO:this means I cna remove all fixture logic from the model--just use the body.
@@ -129,6 +124,15 @@ public class Canvas extends JPanel {
             // This key listener allows the square to move as long as an arrow key is pressed, by
             // changing the square's velocity accordingly. (The tick method below actually moves the
             // square.)
+            
+            i = 0;
+            j = 0;
+            k = 0;
+            playing = true;
+            this.lm = new LunarModel();
+            this.gs.reset();
+            this.requestFocusInWindow();
+
             addKeyListener(new KeyAdapter() {
                 int temp;
                 //TODO: Change j and i to +/- constants so that can change rate of throttle increase
@@ -234,6 +238,7 @@ public class Canvas extends JPanel {
 
                 }
             });
+            
 
         }
 
