@@ -32,7 +32,8 @@ public class LunarModel {
     //6f
     private static final Vec2 gravity = new Vec2(0, 6f);
     //Scale to convert physics world to pixel world
-    private static final float SCALE = 1f;
+    //TODO:Test changing scale
+    public static final float SCALE = 1f;
     private static final float DENSITY_OF_SHAPES = 1;
 
 
@@ -142,6 +143,7 @@ public class LunarModel {
          
          //Add the shape to the lem Body as fixture
          lemBody.createFixture(lemShape, DENSITY_OF_SHAPES);
+         System.out.println(lemBody.getMass());
 
          
          //Create all the shapes for the lunar surface, using the vertices "linked" to the display
@@ -341,7 +343,12 @@ public void throttle(int throt) {
     }
     
     public LinkedList<Vec2> getSurfaceVertices() {
-        return new LinkedList<Vec2>(vertices);
+        
+        LinkedList<Vec2> verticesScaled = new LinkedList<Vec2>();
+        for (Vec2 v : vertices) {
+            verticesScaled.add(v.mul(SCALE));
+        }
+        return verticesScaled;
     }
     
 

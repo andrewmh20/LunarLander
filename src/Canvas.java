@@ -78,6 +78,15 @@ public class Canvas extends JPanel {
         //TODO: change the status thing to just be a field of gs
         //Jpanel for display of info from model displayed in canvas
         public Canvas(GameState gs, TelemetryPanel tp) {
+            //Copied from reset.
+            i =0;
+            j =0;
+            k = 0;
+            playing = true;
+
+            // Make sure that this component has the keyboard focus
+            requestFocusInWindow();
+            
 
             //TODO:this means I cna remove all fixture logic from the model--just use the body.
              surface = new Path2D.Float();
