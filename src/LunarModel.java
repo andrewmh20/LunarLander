@@ -128,7 +128,7 @@ public class LunarModel {
          lemBody = world.createBody(lemBodyDef);
          //bit of a hack, but it works
          //TODO: maybe I do not need this?
-         //lemBody.m_invI = 1;
+        lemBody.m_invI = 1;
          
          surfaceBody = world.createBody(surfaceBodyDef);
          
