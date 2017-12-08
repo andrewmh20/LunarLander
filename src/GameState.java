@@ -71,7 +71,19 @@ public class GameState {
         return Vw;
     }
     public  float getAngle() {
-        return angle;
+        
+        //TODO:THis works, but need to make decisions exactly how I want to display angles
+        
+        double angle = (this.angle%(2*Math.PI));
+        
+        if (angle < 0) {
+            return (float) Math.toDegrees(Math.PI*2+angle);
+
+        }
+        
+        return (float) Math.toDegrees(angle);
+
+
     }
 
     public  float getAltitude() {

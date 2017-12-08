@@ -238,9 +238,7 @@ public class Canvas extends JPanel {
 //                if(isCrashed(surface, lemShape)) {
 //                    System.out.println("CRASHED");
 //                }
-                gs.setFuel(gs.getFuel()- FUEL_INCREMENT);
                 
-                gs.setAltitude(lm.getAltitude());
                 
                 //TODO:change get error to not force waiting......annoying because in netwrork I need it 
                 //to wait but here it doesnt. Rethink.
@@ -267,7 +265,8 @@ public class Canvas extends JPanel {
                 gs.setVw(lm.getVw());
                 gs.setAngle(lm.getAngle());
                 gs.setAltitude(lm.getAltitude());
-                
+                gs.setFuel(gs.getFuel() - FUEL_INCREMENT);
+
                 //Set the linked panel labels
                 telemetryPanel.updateTelemetryPanel();
                 
@@ -291,7 +290,6 @@ public class Canvas extends JPanel {
                 //TODO:Still do actually need fixutre in the lemModel for landing.
                 if (lm.isCrashed()) {
                     
-                    //TODO:Add logic for velocity of colossion with collision, can unit test that
                     //TODO:DO something more exciting, i.e. "you lose" (Have seperate class for "Game State"
                     reset();
                 }
@@ -304,7 +302,6 @@ public class Canvas extends JPanel {
                 if (lm.isLanded() && k > 100) {
                     
                     JOptionPane.showMessageDialog(null, "Engine Shutdown!");
-                    
                     //TODO:Add logic for velocity of colossion with collision, can unit test that
                     //TODO:DO something more exciting, i.e. "you lose" (Have seperate class for "Game State"
                 }

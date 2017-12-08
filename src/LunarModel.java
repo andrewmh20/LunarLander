@@ -89,7 +89,7 @@ public class LunarModel {
            //Only have 2 fixtures to possibly contact....? TODO:Update this logic as needed
            if (lastVy > CRASH_VELOCITY_Y || lastAngle > CRASH_ANGLE || lastVx > CRASH_VELOCITY_X) {
                crashed = true;
-               landed = false;
+               crashed = false;
 
            }
            else {
@@ -100,7 +100,10 @@ public class LunarModel {
         }
         @Override
         public void endContact(Contact contact) {
-            // TODO Auto-generated method stub
+            crashed = false;
+            landed = false;
+
+
             
         }
         @Override
