@@ -25,12 +25,12 @@ public class LunarModel {
      */
 
     //Initial velocity settings
-    private static final Vec2 INITIAL_V = new Vec2(10,10);
+    private static final Vec2 INITIAL_V = new Vec2(10,0);
     private static final float INITIAL_Vw = 0;
     private static final Vec2 INITIAL_POSITION = new Vec2(30,30);
     //Gravity Vector
     //6f
-    private static final Vec2 gravity = new Vec2(0, 6f);
+    private static final Vec2 gravity = new Vec2(0, 0f);
     //Scale to convert physics world to pixel world
     //TODO:Test changing scale
     public static final float SCALE = 1f;
@@ -143,7 +143,7 @@ public class LunarModel {
          
          //Add the shape to the lem Body as fixture
          lemBody.createFixture(lemShape, DENSITY_OF_SHAPES);
-         System.out.println(lemBody.getMass());
+         //System.out.println(lemBody.getMass());
 
          
          //Create all the shapes for the lunar surface, using the vertices "linked" to the display
@@ -169,6 +169,8 @@ public class LunarModel {
              surfaceShapeList.add(surfaceShape);
          }
 
+         //TODO: in theory I could make all the vertices relative, but now all from top left corner
+         //I.e. surfaceBody's point
              //Add each shape to the body as a seperate fixture
          for (EdgeShape surfaceS : surfaceShapeList ) {
              //TODO: I can add friction and stuff
@@ -199,12 +201,15 @@ public class LunarModel {
         
         //Choose which surfaceShape to calculate distance on
         for(int i = 0; i < vertices.size() - 1; i++) {
-            //TODO:Set this  to be actually based on ceter of lem -- I.e. set surfaceDistanceProxy
-            if (lemBody.getPosition().x > vertices.get(i).x && lemBody.getPosition().x <= vertices.get(i+1).x) {
-               surfaceDistanceProxy.set(surfaceShapeList.get(i),0);
+            //I.e center of lemBody
+            if (lemBody.getPosition().x+Canvas.LEM_WIDTH/2 > vertices.get(i).x && lemBody.getPosition().x+Canvas.LEM_WIDTH/2 <= vertices.get(i+1).x) {
+                surfaceDistanceProxy = new DistanceProxy();
+                surfaceDistanceProxy.set(surfaceShapeList.get(i),0);
+            
             }
         }
-            
+        
+        //System.out.println(surfaceDistanceProxy);
             //Setup distance and calculate
             DI.proxyA = lemDistanceProxy;
             DI.proxyB = surfaceDistanceProxy;
