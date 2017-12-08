@@ -13,10 +13,11 @@ public class TelemetryPanel extends JPanel {
     private final JLabel VxLabel = new JLabel("Horizontal Velocity: ");
     private final JLabel VyLabel = new JLabel("Vertical Velocity: ");
     private final JLabel VwLabel = new JLabel("Rotational Velocity: ");
-    private final JLabel altLabel =  new JLabel("Altitude : ");
-    private final JLabel attLabel =  new JLabel("Attitude (Angle) : ");
-    private final JLabel errorLabel = new JLabel("Computer Error Code : ");
-    
+    private final JLabel altLabel =  new JLabel("Altitude: ");
+    private final JLabel attLabel =  new JLabel("Attitude (Angle): ");
+    private final JLabel errorLabel = new JLabel("Computer Error Code: ");
+    private final JLabel contactLightLabel = new JLabel("CONTACT LIGHT: ");
+
     
     private GameState gs;
 
@@ -45,6 +46,11 @@ public class TelemetryPanel extends JPanel {
         add(new JLabel(" "));
 
         add(errorLabel);
+        add(new JLabel(" "));
+        //TODO:make this an actual light
+        
+        add(contactLightLabel);
+
 
     }    
     
@@ -62,8 +68,8 @@ public class TelemetryPanel extends JPanel {
         attLabel.setText("Attitude (Angle): " + String.format("%1$.2f",gs.getAngle()));
 
         errorLabel.setText("Computer Error Code: " + gs.getComputerErrorCode());
+        contactLightLabel.setText("CONTACT LIGHT: " + gs.getContactLight());
 
-        
     }
     
     

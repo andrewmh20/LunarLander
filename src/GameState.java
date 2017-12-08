@@ -10,8 +10,19 @@ import java.util.concurrent.TimeUnit;
 
 public class GameState {
     
-    private static final float FUEL_INITIAL = 10000;
+    private static final float FUEL_INITIAL = 10000000;
 
+    private boolean contactLight = false;
+    
+    public void setContactLight(boolean contactLight) {
+        this.contactLight = contactLight;
+    }
+    
+    public boolean getContactLight() {
+        return contactLight;
+    }
+    
+    //TODO:change angle to be reversed.
     
     
     //TODO:To use to show if crashed in telem panel--DO THIS

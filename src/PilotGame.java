@@ -63,6 +63,7 @@ public class PilotGame implements Runnable {
         
         // Put the frame on the screen
         frame.pack();
+        frame.setResizable(false);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         //TODO:Make visible when done with network testing.
         frame.setVisible(true);

@@ -13,6 +13,8 @@ import java.awt.image.AffineTransformOp;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.util.Iterator;
+import java.util.LinkedList;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -49,6 +51,8 @@ public class Canvas extends JPanel {
 
         private static final float FUEL_INCREMENT = 10;
 
+        private static final float FUEL_INCREMENT_THRUSTER = 5;
+
 
         //not private because I need coutner to work in reset, and in the keypress listerner class
         protected int i =0 ;
@@ -57,7 +61,7 @@ public class Canvas extends JPanel {
         //create the physics world
         //TODO:Do I need to pass this anything else?
         //Important to be final bc I'm passing it around to the error classes
-        private final LunarModel lm = new LunarModel();
+        private LunarModel lm = new LunarModel();
                 
         private GameState gs;
         private TelemetryPanel telemetryPanel;
@@ -119,7 +123,9 @@ public class Canvas extends JPanel {
             addKeyListener(new KeyAdapter() {
                 int temp;
                 //TODO: Change j and i to +/- constants so that can change rate of throttle increase
-                
+                final public static int FUEL_INCREMENT_THRUSTER_JUMP_SCALE = 3;//use 3 times as much fuel 
+                boolean first = true;
+
                 public void keyPressed(KeyEvent e) {
                      if (e.getKeyCode() == KeyEvent.VK_UP) {
                          
@@ -143,7 +149,10 @@ public class Canvas extends JPanel {
                      if (e.getKeyCode() == KeyEvent.VK_F) {
                          
                          //store current throttle
-                         temp = lm.getThrottle();
+                         if (first) {
+                             temp = lm.getThrottle();
+                             first = false;
+                         }
                          lm.throttle(LunarModel.MAX_THROTTLE);
 
                      }
@@ -161,16 +170,40 @@ public class Canvas extends JPanel {
                      //TODO: Add "Abort" key that sets full throttle until you manually bring it down/ shut it off
                      if (e.getKeyCode() == KeyEvent.VK_LEFT) {
 
-                         
+                         //System.out.println(e.getKeyChar());
+
                          lm.thrustL();
+                         gs.setFuel(gs.getFuel()-FUEL_INCREMENT_THRUSTER);
 
                      }
                      if (e.getKeyCode() == KeyEvent.VK_RIGHT) {
 
                          
                          lm.thrustR();
+                         gs.setFuel(gs.getFuel()-FUEL_INCREMENT_THRUSTER);
+
 
                      }
+                     
+                     //TODO:holding down key doesnt work?
+                     if (e.getKeyCode() == KeyEvent.VK_G) {
+
+                         //System.out.println(e.getKeyChar());
+                         lm.jumpR();
+                         gs.setFuel(gs.getFuel()-FUEL_INCREMENT_THRUSTER*FUEL_INCREMENT_THRUSTER_JUMP_SCALE);
+
+
+                     }
+
+                     if (e.getKeyCode() == KeyEvent.VK_D) {
+
+                         
+                         lm.jumpL();
+                         gs.setFuel(gs.getFuel()-FUEL_INCREMENT_THRUSTER*FUEL_INCREMENT_THRUSTER_JUMP_SCALE);
+
+
+                     }
+
                      
              
                 }
@@ -180,6 +213,7 @@ public class Canvas extends JPanel {
                     if (e.getKeyCode() == KeyEvent.VK_F) {
                         
                         lm.throttle(temp);
+                        first = true;
 
                     }
 
@@ -199,7 +233,7 @@ public class Canvas extends JPanel {
             snitch = new Circle(CANVAS_WIDTH, CANVAS_HEIGHT, Color.YELLOW);*/
             
             //OR just make a new one each time...this looks cleaner to me
-            lm.reset();
+            lm = new LunarModel();
             gs.reset();
             
             i =0;
@@ -265,7 +299,14 @@ public class Canvas extends JPanel {
                 gs.setVw(lm.getVw());
                 gs.setAngle(lm.getAngle());
                 gs.setAltitude(lm.getAltitude());
-                gs.setFuel(gs.getFuel() - FUEL_INCREMENT);
+                gs.setContactLight(lm.getContactLight());
+                //TODO:Turn fuel back on
+                ///TODO: add thruster fuel gaugue too.
+                gs.setFuel(gs.getFuel() - (FUEL_INCREMENT*lm.getThrottle()));
+
+                
+                
+                lm.setBounds(this.getWidth(), this.getHeight());
 
                 //Set the linked panel labels
                 telemetryPanel.updateTelemetryPanel();
@@ -345,7 +386,7 @@ public class Canvas extends JPanel {
             g.drawRect(lm.getPx()+(LEM_WIDTH/2), lm.getPy()+(LEM_HEIGHT/2), 2, 2);
             g.setColor(Color.BLACK);
 
-            g2d.draw(surface);
+            //g2d.draw(surface);
             
             //Drawing based on origin point of rectangle, consider center of mass to be basd on unifrom
             //density squares, so in center of square.
@@ -383,13 +424,52 @@ public class Canvas extends JPanel {
             
             //draw the lunar surface (get these numbers form same place as lunar model to ensure consistency
             //maybe at to game state?
-            g2d.drawLine(0, this.getHeight()-10, Canvas.this.getWidth()/2,Canvas.this.getHeight()-30);
-            g2d.drawLine(Canvas.this.getWidth()/2,Canvas.this.getHeight()-30, Canvas.this.getWidth()/2+10,Canvas.this.getHeight()-30);
-            g2d.drawLine(Canvas.this.getWidth()/2+10,Canvas.this.getHeight()-30, Canvas.this.getWidth(),Canvas.this.getHeight()-10);
-            //TODO:Create a shape from those lines, and fill that shape.
-            //g2d.fillRect(0,0,10000,10000);
-           // g.fillRect(lm.getPx(), 
-             //       lm.getPy(), 10, 10);
+            
+            //TODO:I can move the getting out of this method....
+            LinkedList<Vec2> vertices = lm.getSurfaceVertices();
+            
+            
+//            g2d.drawLine((int)vertices.get(0).x, (int)vertices.get(0).y, (int)vertices.get(1).x, (int)vertices.get(1).y);
+//            g2d.drawLine((int)vertices.get(1).x, (int)vertices.get(1).y, (int)vertices.get(2).x, (int)vertices.get(2).y);
+//            g2d.drawLine((int)vertices.get(2).x, (int)vertices.get(2).y, (int)vertices.get(3).x, (int)vertices.get(3).y);
+//            g2d.drawLine((int)vertices.get(3).x, (int)vertices.get(3).y, (int)vertices.get(4).x, (int)vertices.get(4).y);
+
+//TODO: actually draw this and finish with altitude
+            for (int i = 0; i < vertices.size()-1; i++) {
+//System.out.println(vertices.size());              
+g2d.drawLine((int)Math.round(vertices.get(i).x), (int)Math.round(vertices.get(i).y), 
+       (int)Math.round(vertices.get(i+1).x), (int)Math.round(vertices.get(i+1).y));
+//
+            }
+            
+            
+            
+//            //            
+//            while (verticesIterator.hasNext()) {
+//                 v1 = verticesIterator.next();
+//                 if (v2 != null) {
+//                     g2d.drawLine((int)v2.x, (int)v2.y, (int)v1.x, (int)v1.y);
+//
+//                 }
+//
+//                if (verticesIterator.hasNext()) {
+//                     v2 = verticesIterator.next();
+//                    g2d.drawLine((int)v1.x, (int)v1.y, (int)v2.x, (int)v2.y);
+//                    
+//                }
+////                
+//                
+//            }
+            
+//            
+//            
+//            g2d.drawLine(0, this.getHeight()-10, Canvas.this.getWidth()/2,Canvas.this.getHeight()-30);
+//            g2d.drawLine(Canvas.this.getWidth()/2,Canvas.this.getHeight()-30, Canvas.this.getWidth()/2+10,Canvas.this.getHeight()-30);
+//            g2d.drawLine(Canvas.this.getWidth()/2+10,Canvas.this.getHeight()-30, Canvas.this.getWidth(),Canvas.this.getHeight()-10);
+//            //TODO:Create a shape from those lines, and fill that shape.
+//            //g2d.fillRect(0,0,10000,10000);
+//           // g.fillRect(lm.getPx(), 
+//             //       lm.getPy(), 10, 10);
             
             
             
