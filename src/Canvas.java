@@ -145,6 +145,12 @@ public class Canvas extends JPanel {
                          
 
                      }
+                     if (e.getKeyCode() == KeyEvent.VK_N) {
+                         
+                         lm.nullAngularForces();
+
+                      }
+
                      //Full throttle momentarily
                      if (e.getKeyCode() == KeyEvent.VK_F) {
                          

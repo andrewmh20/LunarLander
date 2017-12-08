@@ -14,7 +14,8 @@ public class ResetErrors extends Error {
     
     @Override
     public void causeFailure(LunarModel lm, GameState gs) {
-        lm.reset();
+        //TODO:Check this!
+        lm = new LunarModel();
         gs.reset();
 
     }
