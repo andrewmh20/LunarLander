@@ -1,6 +1,6 @@
 package game;
+
 import java.awt.Dimension;
-import java.awt.Graphics;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -21,38 +21,36 @@ import errors.VxInstrumentError;
 import errors.VyInstrumentError;
 
 @SuppressWarnings("serial")
-public class ErrorButtonPanel extends JPanel{
-    
-    private GameState gs;
-    
-    private JButton FullThrottle;
+public class ErrorButtonPanel extends JPanel {
 
-    private JButton stuckLeftThruster;
+    private final JButton FullThrottle;
 
-    private JButton stuckRightThruster;
+    private final JButton stuckLeftThruster;
 
-    private JButton error1201;
+    private final JButton stuckRightThruster;
 
-    private JButton error1202;
+    private final JButton error1201;
 
-    private JButton fuel;
+    private final JButton error1202;
 
-    private JButton vxIns;
+    private final JButton fuel;
 
-    private JButton vyIns;
+    private final JButton vxIns;
 
-    private JButton vwIns;
+    private final JButton vyIns;
 
-    private JButton attIns;
+    private final JButton vwIns;
 
-    private JButton altIns;
-    ErrorButtonPanel (GameState gs){
-        
+    private final JButton attIns;
+
+    private final JButton altIns;
+
+    ErrorButtonPanel(GameState gs) {
+
         super();
-        this.gs = gs;
-//Set layout
-        setLayout(new GridLayout(5,2));
-        
+        // Set layout
+        setLayout(new GridLayout(6, 2));
+
         FullThrottle = new JButton();
         FullThrottle.setText("Full Throttle: " + gs.getErrorFreq(new FullThrottleError()));
         FullThrottle.addActionListener(new ActionListener() {
@@ -60,96 +58,94 @@ public class ErrorButtonPanel extends JPanel{
             @Override
             public void actionPerformed(ActionEvent e) {
                 gs.setErrorToSend(new FullThrottleError());
-                // TODO Auto-generated method stub
-                //System.out.println(gs.getErrorFreq(new FullThrottleError()));
                 FullThrottle.setText("Full Throttle: " + gs.getErrorFreq(new FullThrottleError()));
 
-                
             }
-//            
+            //
         });
         this.add(FullThrottle);
         stuckLeftThruster = new JButton();
-        stuckLeftThruster.setText("Stuck Left Thruster: "+ gs.getErrorFreq(new LeftThrusterError()));
+        stuckLeftThruster
+                .setText("Stuck Left Thruster: " + gs.getErrorFreq(new LeftThrusterError()));
         stuckLeftThruster.addActionListener(new ActionListener() {
 
             @Override
             public void actionPerformed(ActionEvent e) {
                 gs.setErrorToSend(new LeftThrusterError());
-                stuckLeftThruster.setText("Stuck Left Thruster: "+ gs.getErrorFreq(new LeftThrusterError()));
+                stuckLeftThruster.setText(
+                        "Stuck Left Thruster: " + gs.getErrorFreq(new LeftThrusterError()));
 
-                // TODO Auto-generated method stub
-                
             }
-            
+
         });
         this.add(stuckLeftThruster);
-    stuckRightThruster = new JButton();
-        stuckRightThruster.setText("Stuck Right Thruster: "+ gs.getErrorFreq(new RightThrusterError()));
+        stuckRightThruster = new JButton();
+        stuckRightThruster
+                .setText("Stuck Right Thruster: " + gs.getErrorFreq(new RightThrusterError()));
         stuckRightThruster.addActionListener(new ActionListener() {
 
             @Override
             public void actionPerformed(ActionEvent e) {
                 gs.setErrorToSend(new RightThrusterError());
-                stuckRightThruster.setText("Stuck Right Thruster: "+ gs.getErrorFreq(new RightThrusterError()));
+                stuckRightThruster.setText(
+                        "Stuck Right Thruster: " + gs.getErrorFreq(new RightThrusterError()));
 
                 // TODO Auto-generated method stub
-                
+
             }
-            
+
         });
-        
-        //TODO:reset errors, not game
+
+        // TODO:reset errors, not game
         this.add(stuckRightThruster);
-    error1201 = new JButton();
-        error1201.setText("Error 1201: "+ gs.getErrorFreq(new ComputerOverloadedError1201()));
+        error1201 = new JButton();
+        error1201.setText("Error 1201: " + gs.getErrorFreq(new ComputerOverloadedError1201()));
         error1201.addActionListener(new ActionListener() {
 
             @Override
             public void actionPerformed(ActionEvent e) {
                 gs.setErrorToSend(new ComputerOverloadedError1201());
-                error1201.setText("Error 1201: "+ gs.getErrorFreq(new ComputerOverloadedError1201()));
+                error1201.setText(
+                        "Error 1201: " + gs.getErrorFreq(new ComputerOverloadedError1201()));
 
-                // TODO Auto-generated method stub
-                
             }
-            
+
         });
         this.add(error1201);
-        
-        
+
         error1202 = new JButton();
-        error1202.setText("Error 1202: "+ gs.getErrorFreq(new ComputerOverloadedError1202()));
+        error1202.setText("Error 1202: " + gs.getErrorFreq(new ComputerOverloadedError1202()));
         error1202.addActionListener(new ActionListener() {
 
             @Override
             public void actionPerformed(ActionEvent e) {
                 gs.setErrorToSend(new ComputerOverloadedError1202());
-                error1202.setText("Error 1202: "+ gs.getErrorFreq(new ComputerOverloadedError1202()));
+                error1202.setText(
+                        "Error 1202: " + gs.getErrorFreq(new ComputerOverloadedError1202()));
 
                 // TODO Auto-generated method stub
-                
+
             }
-            
+
         });
         this.add(error1202);
-        
+
         fuel = new JButton();
-        fuel.setText("Fuel Leak: "+ gs.getErrorFreq(new FuelLeakError()));
+        fuel.setText("Fuel Leak: " + gs.getErrorFreq(new FuelLeakError()));
         fuel.addActionListener(new ActionListener() {
 
             @Override
             public void actionPerformed(ActionEvent e) {
                 gs.setErrorToSend(new FuelLeakError());
-                fuel.setText("Fuel Leak: "+ gs.getErrorFreq(new FuelLeakError()));
+                fuel.setText("Fuel Leak: " + gs.getErrorFreq(new FuelLeakError()));
 
                 // TODO Auto-generated method stub
-                
+
             }
-            
+
         });
         this.add(fuel);
-        
+
         vxIns = new JButton();
         vxIns.setText("Horizontal Velocity Failure: " + gs.getErrorFreq(new VxInstrumentError()));
         vxIns.addActionListener(new ActionListener() {
@@ -157,15 +153,16 @@ public class ErrorButtonPanel extends JPanel{
             @Override
             public void actionPerformed(ActionEvent e) {
                 gs.setErrorToSend(new VxInstrumentError());
-                vxIns.setText("Horizontal Velocity Failure: " + gs.getErrorFreq(new VxInstrumentError()));
+                vxIns.setText(
+                        "Horizontal Velocity Failure: " + gs.getErrorFreq(new VxInstrumentError()));
 
                 // TODO Auto-generated method stub
-                
+
             }
-            
+
         });
         this.add(vxIns);
-        
+
         vyIns = new JButton();
         vyIns.setText("Vertical Velocity Failure: " + gs.getErrorFreq(new VyInstrumentError()));
         vyIns.addActionListener(new ActionListener() {
@@ -173,107 +170,73 @@ public class ErrorButtonPanel extends JPanel{
             @Override
             public void actionPerformed(ActionEvent e) {
                 gs.setErrorToSend(new VyInstrumentError());
-                vyIns.setText("Vertical Velocity Failure: " + gs.getErrorFreq(new VyInstrumentError()));
+                vyIns.setText(
+                        "Vertical Velocity Failure: " + gs.getErrorFreq(new VyInstrumentError()));
 
                 // TODO Auto-generated method stub
-                
+
             }
-            
+
         });
         this.add(vyIns);
 
         vwIns = new JButton();
-        vwIns.setText("Rotational Velocity Failure: "+ gs.getErrorFreq(new VwInstrumentError()));
+        vwIns.setText("Rotational Velocity Failure: " + gs.getErrorFreq(new VwInstrumentError()));
         vwIns.addActionListener(new ActionListener() {
 
             @Override
             public void actionPerformed(ActionEvent e) {
                 gs.setErrorToSend(new VwInstrumentError());
-                vwIns.setText("Rotational Velocity Failure: "+ gs.getErrorFreq(new VwInstrumentError()));
+                vwIns.setText(
+                        "Rotational Velocity Failure: " + gs.getErrorFreq(new VwInstrumentError()));
 
                 // TODO Auto-generated method stub
-                
+
             }
-            
+
         });
         this.add(vwIns);
-        
+
         attIns = new JButton();
-        attIns.setText("Attitude Indicator Failure: "+ gs.getErrorFreq(new AttInstrumentError()));
+        attIns.setText("Attitude Indicator Failure: " + gs.getErrorFreq(new AttInstrumentError()));
         attIns.addActionListener(new ActionListener() {
 
             @Override
             public void actionPerformed(ActionEvent e) {
                 gs.setErrorToSend(new AttInstrumentError());
-                attIns.setText("Attitude Indicator Failure: "+ gs.getErrorFreq(new AttInstrumentError()));
+                attIns.setText(
+                        "Attitude Indicator Failure: " + gs.getErrorFreq(new AttInstrumentError()));
 
                 // TODO Auto-generated method stub
-                
+
             }
-            
+
         });
         this.add(attIns);
-        
+
         altIns = new JButton();
-        altIns.setText("Altitude Indicator Failure: "+gs.getErrorFreq(new AltInstrumentError()));
+        altIns.setText("Altitude Indicator Failure: " + gs.getErrorFreq(new AltInstrumentError()));
         altIns.addActionListener(new ActionListener() {
 
             @Override
             public void actionPerformed(ActionEvent e) {
                 gs.setErrorToSend(new AltInstrumentError());
-                altIns.setText("Altitude Indicator Failure: "+gs.getErrorFreq(new AltInstrumentError()));
+                altIns.setText(
+                        "Altitude Indicator Failure: " + gs.getErrorFreq(new AltInstrumentError()));
 
                 // TODO Auto-generated method stub
-                
+
             }
-            
+
         });
         this.add(altIns);
-        
-        
-
-
-
-        
-        
-        
-    }    
-    
-    public void updateErrorButtonPanel() {
-     
-        FullThrottle.setText("Full Throttle: " + gs.getErrorFreq(new FullThrottleError()));
-        stuckLeftThruster.setText("Stuck Left Thruster: "+ gs.getErrorFreq(new LeftThrusterError()));
-        stuckRightThruster.setText("Stuck Right Thruster: "+ gs.getErrorFreq(new RightThrusterError()));
-        error1202.setText("Error 1201: "+ gs.getErrorFreq(new ComputerOverloadedError1202()));
-        fuel.setText("Fuel Leak: "+ gs.getErrorFreq(new FuelLeakError()));
-        vxIns.setText("Horizontal Velocity Failure: " + gs.getErrorFreq(new VxInstrumentError()));
-        vyIns.setText("Vertical Velocity Failure: " + gs.getErrorFreq(new VyInstrumentError()));
-        vwIns.setText("Rotational Velocity Failure: "+ gs.getErrorFreq(new VwInstrumentError()));
-        attIns.setText("Attitude Indicator Failure: "+ gs.getErrorFreq(new AttInstrumentError()));
-        altIns.setText("Altitude Indicator Failure: "+ gs.getErrorFreq(new AltInstrumentError()));
-
 
     }
-    
-    public void paintComponent(Graphics gc) {
-       // display the light bulb here
-        //TODO:set the distances to constants that I can change?....
-        //System.out.println(Game.gameState.getVw());
-        
 
-//        if (gs.getErrorFreq(new FullThrottleError()) != null) {
-//            FullThrottle.setText("Full Throttle"+ gs.getErrorFreq(new FullThrottleError()));
-//
-//        }
-
-    }
-    
     @Override
     public Dimension getPreferredSize() {
-        //TODO:FIx to make correct
-        return new Dimension(500,400);
+        // TODO:FIx to make correct
+        return new Dimension(700, 400);
     }
-
-
 
 }

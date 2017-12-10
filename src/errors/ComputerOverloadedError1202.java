@@ -1,4 +1,5 @@
 package errors;
+
 import game.GameState;
 import game.LunarModel;
 
@@ -29,7 +30,7 @@ public class ComputerOverloadedError1202 extends Error {
     public void undoError(LunarModel lm, GameState gs) {
         // TODO Auto-generated method stub
         gs.setShowComputerError(false);
-        
+
     }
 
 }

@@ -1,4 +1,5 @@
 package errors;
+
 import game.GameState;
 import game.LunarModel;
 
@@ -8,7 +9,8 @@ public class ComputerOverloadedError1201 extends Error {
     public void causeFailure(LunarModel lm, GameState gs) {
         // TODO Auto-generated method stub
 
-        //This is more fine grained control than I need, could just shpw the computer Error anytime "isComputerError"
+        // This is more fine grained control than I need, could just shpw the computer Error anytime
+        // "isComputerError"
         super.causeFailure(lm, gs);
         gs.setShowComputerError(isComputerError());
 

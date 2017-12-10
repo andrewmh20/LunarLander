@@ -1,49 +1,47 @@
 package game;
+
 import java.io.BufferedReader;
 import java.io.IOException;
-import java.net.Socket;
 
 import javax.swing.JOptionPane;
 
 public class ServerReader extends NetworkHandler implements Runnable {
 
-    
-    private GameState gs;
-    private BufferedReader in;
+    private final GameState gs;
+    private final BufferedReader in;
 
-    
-    ServerReader(GameState gs, BufferedReader in){
+    ServerReader(GameState gs, BufferedReader in) {
         this.gs = gs;
         this.in = in;
     }
-    
+
     @Override
     public void run() {
-        
-        while(true) {
-            //Bock until read avaliable
+
+        while (true) {
+            // Bock until read avaliable
             try {
-                String lineIn = in.readLine();
+                final String lineIn = in.readLine();
                 if (lineIn == null) {
                     throw new IOException("Client disconnected");
-                }
-                else {
-                    NetworkPacket packetIn = NetworkPacket.parse(lineIn);
+                } else {
+                    final NetworkPacket packetIn = NetworkPacket.parse(lineIn);
                     gs.setErrorReceived(packetIn.getError());
 
                 }
 
-            } catch (IOException e) {
+            } catch (final IOException e) {
                 JOptionPane.showMessageDialog(null, e.getMessage() + " Simulation is now closing");
-                e.printStackTrace();
-                System.exit(0);            }
-            //TODO: prevent the incessacnt dialogs!
-            finally{
-               // return;
+                e.printStackTrace(System.err);
+                System.exit(0);
+            }
+            // TODO: prevent the incessacnt dialogs!
+            finally {
+                // return;
             }
 
         }
-        
+
     }
 
 }

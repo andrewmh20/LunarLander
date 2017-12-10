@@ -1,5 +1,5 @@
 package errors;
-import errors.Error;
+
 import game.GameState;
 import game.LunarModel;
 
@@ -9,7 +9,6 @@ public class RightThrusterError extends Error {
     public void causeFailure(LunarModel lm, GameState gs) {
         // TODO Auto-generated method stub
         lm.thrustR(gs.getHasFuel());
-
 
     }
 
@@ -28,7 +27,7 @@ public class RightThrusterError extends Error {
     @Override
     public void undoError(LunarModel lm, GameState gs) {
         // TODO Auto-generated method stub
-        //just stop doing it 
+        // just stop doing it
     }
 
 }

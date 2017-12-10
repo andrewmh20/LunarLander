@@ -1,4 +1,5 @@
 package errors;
+
 import game.GameState;
 import game.LunarModel;
 
@@ -7,8 +8,8 @@ public class ResetLastError extends Error {
     @Override
     public void causeFailure(LunarModel lm, GameState gs) {
         // TODO Auto-generated method stub
-        //Dummy class to signigfy reset the errors.
-        
+        // Dummy class to signigfy reset the errors.
+
     }
 
     @Override
@@ -26,7 +27,7 @@ public class ResetLastError extends Error {
     @Override
     public void undoError(LunarModel lm, GameState gs) {
         // TODO Auto-generated method stub
-        
+
     }
 
 }

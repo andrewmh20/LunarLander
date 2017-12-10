@@ -1,4 +1,5 @@
 package errors;
+
 import game.GameState;
 import game.LunarModel;
 
@@ -9,7 +10,7 @@ public class AttInstrumentError extends Error {
     @Override
     public void causeFailure(LunarModel lm, GameState gs) {
         // TODO Auto-generated method stub
-        gs.setAngle((float)(Math.random()*ANGLE_SCALE));
+        gs.setAngle((float) (Math.random() * ANGLE_SCALE));
 
     }
 
@@ -28,7 +29,7 @@ public class AttInstrumentError extends Error {
     @Override
     public void undoError(LunarModel lm, GameState gs) {
         // TODO Auto-generated method stub
-        
+
     }
 
 }

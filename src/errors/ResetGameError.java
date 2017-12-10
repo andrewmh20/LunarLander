@@ -1,10 +1,10 @@
 package errors;
+
 import game.GameState;
 import game.LunarModel;
 
 public class ResetGameError extends Error {
 
-    
     @Override
     public void causeFailure(LunarModel lm, GameState gs) {
         // TODO Auto-generated method stub
@@ -27,7 +27,7 @@ public class ResetGameError extends Error {
     @Override
     public void undoError(LunarModel lm, GameState gs) {
         // TODO Auto-generated method stub
-        //cannot undo (for now)
+        // cannot undo (for now)
     }
 
 }
