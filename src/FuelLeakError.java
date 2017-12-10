@@ -2,7 +2,7 @@
 public class FuelLeakError extends Error {
 
     
-    private static final float FUEL_LEAK_RATE = 30;
+    private static final float FUEL_LEAK_RATE = 300;
 
     @Override
     public void causeFailure(LunarModel lm, GameState gs) {
@@ -16,7 +16,7 @@ public class FuelLeakError extends Error {
     @Override
     public int getErrorCode() {
         // TODO Auto-generated method stub
-        return 104;
+        return 103;
     }
 
     @Override

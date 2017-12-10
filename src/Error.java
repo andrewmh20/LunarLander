@@ -67,8 +67,12 @@ public abstract class Error implements Comparable<Error>{
         }
         
     }
+    
     @Override
     public int compareTo(Error e) {
+//        if(e==null ) {
+//            return -1;
+//        }
         // TODO Auto-generated method stub
         if(getErrorCode() < e.getErrorCode()) {
             return -1;

@@ -40,7 +40,10 @@ public class GameState {
     //TODO:for the error reset "Error"
     private LinkedList<Error> errorsDone = new LinkedList<Error>();
         
-    
+    private Set<Integer> indicesToRemove;
+    private Map<Error, Integer> errorFreqSent;
+    private LinkedList<Error> errors;
+
     
     private float Vx;
     private float Vy;
@@ -77,6 +80,10 @@ public class GameState {
         ComputerErrorCode = 0;
 
         hasFuel = true;
+        indicesToRemove = new TreeSet<Integer>();
+        errorFreqSent = new TreeMap<Error, Integer>();
+       errors = new LinkedList<Error>();
+
 
         
     }
@@ -154,16 +161,19 @@ public class GameState {
     }
 
     
-    private LinkedList<Error> errors = new LinkedList<Error>();
     
     public void setErrorToSend(Error error) {
-        if (errorFreqSent.get(error)==null) {
-            errorFreqSent.put(error, 1);
-
-        }
-        else {
-            errorFreqSent.put(error, errorFreqSent.get(error)+1);
-        }
+        System.out.println(error);
+//        if(error == null) {
+//            
+//        }
+//        else if (errorFreqSent.get(error)==null) {
+//            errorFreqSent.put(error, 1);
+//
+//        }
+//        else {
+//            errorFreqSent.put(error, errorFreqSent.get(error)+1);
+//        }
         try {
           errorQue.put(error);
       } catch (InterruptedException e) {
@@ -195,7 +205,7 @@ public class GameState {
        
 
 
-      Set<Integer> indicesToRemove = new TreeSet<Integer>();
+      
       
       for (int i = 0; i< errors.size(); i++) {
           
@@ -204,42 +214,50 @@ public class GameState {
               return;
           }
 
-          if (errorInList instanceof ResetGameError) {
-              canvas.reset();
-              indicesToRemove.add(i);
-          }
-          else if (errorInList instanceof ResetLastError) {
-              if (errors.get(i-1) != null) {
-                  errors.get(i-1).undoError(lm, gs);
-
-              }
-              indicesToRemove.add(i-1);
-          }
-          else if (errorInList instanceof ResetErrorsError) {
-              for (Error errorsInList: errors) {
-                  errorsInList.undoError(lm, gs);
-              }
-              for (int j = 0 ; j<errors.size(); j++) {
-                  indicesToRemove.add(j);
-
-              }
-              
-          }
-          
-          else {
+//          if (errorInList instanceof ResetGameError) {
+//              canvas.reset();
+//              indicesToRemove.add(i);
+//          }
+//          else if (errorInList instanceof ResetLastError) {
+//              if (errors.get(i-1) != null) {
+//                  errors.get(i-1).undoError(lm, gs);
+//
+//              }
+//              indicesToRemove.add(i-1);
+//          }
+//          else if (errorInList instanceof ResetErrorsError) {
+//              for (Error errorsInList: errors) {
+//                  errorsInList.undoError(lm, gs);
+//              }
+//              for (int j = 0 ; j<errors.size(); j++) {
+//                  indicesToRemove.add(j);
+//
+//              }
+//              
+//          }
+//          
+//          else {
               errorInList.causeFailure(lm, gs);
-          }
+//          }
       }
-      for (int i : indicesToRemove) {
-          errors.remove(i);
-      }
+//      if (errors.size() > 0 ){
+//          for (int i : indicesToRemove) {
+//              errors.remove(i);
+//          }
+//
+//      }
       
   }
   
-  private Map<Error, Integer> errorFreqSent = new TreeMap<Error, Integer>();
 
   public int getErrorFreq(Error error) {
-      return errorFreqSent.get(error);
+      if (errorFreqSent.get(error) == null) {
+          return 0;
+      }
+      else {
+          return errorFreqSent.get(error);
+
+      }
   }
   
   

@@ -7,7 +7,6 @@ import javax.swing.JPanel;
 @SuppressWarnings("serial")
 public class TelemetryPanel extends JPanel {
 
-    //Package because other people need to be able to update this panel
     
     private final JLabel fuelLabel = new JLabel("Fuel Remaining: ");
     private final JLabel VxLabel = new JLabel("Horizontal Velocity: ");
@@ -17,39 +16,66 @@ public class TelemetryPanel extends JPanel {
     private final JLabel attLabel =  new JLabel("Attitude (Angle): ");
     private final JLabel errorLabel = new JLabel("Computer Error Code: ");
     private final JLabel contactLightLabel = new JLabel("CONTACT LIGHT: ");
+    
 
     
     private GameState gs;
+    
 
-
-    TelemetryPanel (GameState gs){
-        
-        //TODO:make more visually pleasing
-        super();
+    TelemetryPanel (GameState gs, boolean simsup){
         this.gs = gs;
-        setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
-        add(fuelLabel);
-        add(new JLabel(" "));
-        add(VxLabel);
-        add(new JLabel(""));
 
-        add(VyLabel);
-        add(new JLabel(""));
-
-        add(VwLabel);
-        add(new JLabel(" "));
-
-        add(altLabel);
-        add(new JLabel(""));
-
-        add(attLabel);
-        add(new JLabel(" "));
-
-        add(errorLabel);
-        add(new JLabel(" "));
-        //TODO:make this an actual light
         
-        add(contactLightLabel);
+        if (simsup) {
+            
+            setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
+            add(fuelLabel);
+            add(new JLabel(" "));
+            add(VxLabel);
+            add(new JLabel(""));
+
+            add(VyLabel);
+            add(new JLabel(""));
+
+            add(VwLabel);
+            add(new JLabel(" "));
+
+            add(altLabel);
+            add(new JLabel(""));
+
+            add(attLabel);
+            add(new JLabel(" "));
+
+
+            
+            
+        }
+        else {
+            //TODO:make more visually pleasing
+            setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
+            add(fuelLabel);
+            add(new JLabel(" "));
+            add(VxLabel);
+            add(new JLabel(""));
+
+            add(VyLabel);
+            add(new JLabel(""));
+
+            add(VwLabel);
+            add(new JLabel(" "));
+
+            add(altLabel);
+            add(new JLabel(""));
+
+            add(attLabel);
+            add(new JLabel(" "));
+
+            add(errorLabel);
+            add(new JLabel(" "));
+            
+            add(contactLightLabel);
+
+        }
 
 
     }    
@@ -68,8 +94,15 @@ public class TelemetryPanel extends JPanel {
         attLabel.setText("Attitude (Angle): " + String.format("%1$.2f",gs.getAngle()));
 
         errorLabel.setText("Computer Error Code: " + gs.getComputerErrorCode());
-        contactLightLabel.setText("CONTACT LIGHT: " + gs.getContactLight());
-System.out.println("TELEM: " + gs.getFuel());
+        if (gs.getContactLight()) {
+            contactLightLabel.setText("CONTACT LIGHT: " + "CONTACT");
+
+        }
+        else {
+            contactLightLabel.setText("CONTACT LIGHT: ");
+
+        }
+//System.out.println("TELEM: " + gs.getFuel());
     }
     
     

@@ -6,7 +6,7 @@ public class VyInstrumentError extends Error {
     @Override
     public void causeFailure(LunarModel lm, GameState gs) {
         // TODO Auto-generated method stub
-        gs.setVx((float)(Math.random()*VELOCITY_SCALE));
+        gs.setVy((float)(Math.random()*VELOCITY_SCALE));
 
     }
 

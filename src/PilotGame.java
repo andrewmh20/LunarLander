@@ -54,7 +54,7 @@ public class PilotGame implements Runnable {
 
         //Panel for Lander information that is linked to the canvas (i.e. the lander)
                 //TODO:Panel or component?
-        final TelemetryPanel telemetryPanel = new TelemetryPanel(gameState);
+        final TelemetryPanel telemetryPanel = new TelemetryPanel(gameState, false);
         
         frame.add(telemetryPanel, BorderLayout.EAST);
         
@@ -69,16 +69,17 @@ public class PilotGame implements Runnable {
         final JPanel control_panel = new JPanel();
         frame.add(control_panel, BorderLayout.NORTH);
         
-        //Go back to difficulty screen
-        final JButton mainMenu = new JButton("Main Menu");
-        mainMenu.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                SwingUtilities.invokeLater(new PilotGame());
-                frame.dispose();
-            }
-        });
-        control_panel.add(mainMenu);
-
+        //Causes bug because cant update netowrk that I am now new game
+//        //Go back to difficulty screen
+//        final JButton mainMenu = new JButton("Main Menu");
+//        mainMenu.addActionListener(new ActionListener() {
+//            public void actionPerformed(ActionEvent e) {
+//                SwingUtilities.invokeLater(new PilotGame());
+//                frame.dispose();
+//            }
+//        });
+//        control_panel.add(mainMenu);
+//
 
 
         // Note here that when we add an action listener to the reset button, we define it as an
