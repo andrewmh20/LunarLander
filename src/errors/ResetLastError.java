@@ -1,3 +1,6 @@
+package errors;
+import game.GameState;
+import game.LunarModel;
 
 public class ResetLastError extends Error {
 

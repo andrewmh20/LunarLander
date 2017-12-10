@@ -2,12 +2,12 @@
 JARS :=jbox2d-library-2.3.1-SNAPSHOT.jar
 
 # DO NOT EDIT BELOW HERE
-SUBMIT  := $(wildcard src/*.java test/*.java files/* *.jar Makefile README.txt)
+SUBMIT  := $(wildcard src/*.java test/*.java files/* src/errors/*.java src/game/*.java *.jar Makefile README.txt)
 
 
 JAVAC	:= javac
 
-DEPENDS := $(wildcard src/*.java)
+DEPENDS := $(wildcard src/*.java src/game/*.java src/errors/*.java)
 
 HWNAME := hw09
 ts := $(shell /bin/date "+%Y-%m-%d-%H:%M:%S")

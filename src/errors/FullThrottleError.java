@@ -1,7 +1,10 @@
+package errors;
+import game.GameState;
+import game.LunarModel;
 
 public class FullThrottleError extends Error {
     
-    FullThrottleError(){
+    public FullThrottleError(){
         super();
     }
     

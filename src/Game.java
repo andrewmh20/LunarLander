@@ -1,9 +1,4 @@
-package game;
-/**
- * CIS 120 Game HW
- * (c) University of Pennsylvania
- * @version 2.1, Apr 2017
- */
+
 
 // imports necessary libraries for Java swing
 import java.awt.*;
@@ -13,6 +8,9 @@ import java.lang.reflect.Array;
 
 import javax.swing.*;
 import javax.swing.plaf.metal.MetalIconFactory;
+
+import game.PilotGame;
+import game.SimsupGame;
 
 /**
  * Game Main class that specifies the frame and widgets of the GUI

@@ -1,15 +1,24 @@
-import java.awt.Component;
-import java.awt.Container;
+package game;
 import java.awt.Dimension;
 import java.awt.Graphics;
-import java.awt.GridBagLayout;
 import java.awt.GridLayout;
-import java.awt.LayoutManager;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
 import javax.swing.JPanel;
+
+import errors.AltInstrumentError;
+import errors.AttInstrumentError;
+import errors.ComputerOverloadedError1201;
+import errors.ComputerOverloadedError1202;
+import errors.FuelLeakError;
+import errors.FullThrottleError;
+import errors.LeftThrusterError;
+import errors.RightThrusterError;
+import errors.VwInstrumentError;
+import errors.VxInstrumentError;
+import errors.VyInstrumentError;
 
 @SuppressWarnings("serial")
 public class ErrorButtonPanel extends JPanel{

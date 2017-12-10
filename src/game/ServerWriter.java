@@ -1,3 +1,4 @@
+package game;
 import java.io.PrintWriter;
 
 import javax.swing.JOptionPane;

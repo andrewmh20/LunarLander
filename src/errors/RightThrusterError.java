@@ -1,3 +1,7 @@
+package errors;
+import errors.Error;
+import game.GameState;
+import game.LunarModel;
 
 public class RightThrusterError extends Error {
 

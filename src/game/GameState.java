@@ -1,3 +1,4 @@
+package game;
 import java.lang.reflect.InvocationTargetException;
 import java.util.LinkedList;
 import java.util.Map;
@@ -10,6 +11,8 @@ import java.util.concurrent.TimeUnit;
 
 import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
+
+import errors.Error;
 
 public class GameState {
     

@@ -1,3 +1,7 @@
+package errors;
+import game.GameState;
+import game.LunarModel;
+
 //TODO: NEXT really decide on what state game with have, and implement that for serverseide comms
 //THen write the client code/add it to the windows
 //TODO:set borders, set colors

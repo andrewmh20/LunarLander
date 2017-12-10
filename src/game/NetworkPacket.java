@@ -1,7 +1,10 @@
+package game;
 import java.io.IOException;
 import java.util.Map;
 import java.util.StringTokenizer;
 import java.util.TreeMap;
+
+import errors.Error;
 
 public class NetworkPacket {
         

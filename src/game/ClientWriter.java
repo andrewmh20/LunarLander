@@ -1,4 +1,7 @@
+package game;
 import java.io.PrintWriter;
+
+import errors.Error;
 
 public class ClientWriter extends NetworkHandler implements Runnable {
 
