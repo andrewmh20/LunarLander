@@ -35,7 +35,9 @@ public class ClientReader extends NetworkHandler implements Runnable {
             gs.setFuel(packetIn.getFuel());
             gs.setAngle(packetIn.getAngle());
             //TODO:this might take work
-            gs.setError(packetIn.getError());
+            //"TO SEND" should really be named, client.
+            //Ignore this, dont set any errors
+            //gs.setTo(packetIn.getError());
 
             telemetryPanel.updateTelemetryPanel();
           

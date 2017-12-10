@@ -2,7 +2,7 @@
 //THen write the client code/add it to the windows
 //TODO:set borders, set colors
 
-public abstract class Error {
+public abstract class Error implements Comparable<Error>{
 ///TODO:OR MAKE INTERFACE
     
     Error(){
@@ -40,6 +40,9 @@ public abstract class Error {
                 return new ResetGameError();
             case 2:
                 return new ResetErrorsError();
+            case 3:
+                return new ResetLastError();
+
             case 1201:
                 return new ComputerOverloadedError1201();
             case 1202:
@@ -63,5 +66,16 @@ public abstract class Error {
             default: return new DummyError();
         }
         
+    }
+    @Override
+    public int compareTo(Error e) {
+        // TODO Auto-generated method stub
+        if(getErrorCode() < e.getErrorCode()) {
+            return -1;
+        }
+        else if (getErrorCode() > e.getErrorCode()) {
+            return 1;
+        }
+        else return 0;
     }
 }

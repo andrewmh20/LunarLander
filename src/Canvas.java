@@ -407,7 +407,6 @@ public class Canvas extends JPanel {
                 //Need to actually fix logic of getting error from queue.
                 repaint();//Need to paint before checking if crashed....
 //
-                telemetryPanel.updateTelemetryPanel();
 
 //                if(isCrashed(surface, lemShape)) {
 //                    System.out.println("CRASHED");
@@ -417,17 +416,9 @@ public class Canvas extends JPanel {
                 //TODO:change get error to not force waiting......annoying because in netwrork I need it 
                 //to wait but here it doesnt. Rethink.
                 
-                Error err = gs.getErrorAttempt();
-                //System.out.println(err);
-                if (err != null) {
-                    err.causeFailure(lm, gs);
-                    gs.setErrorsDone(err);
-                    //System.out.println("here");
-                    
+                gs.doErrors(this, lm, gs);
+                telemetryPanel.updateTelemetryPanel();
 
-                }
-                
-                
                 //TODO: actually, thats the way to screw up the telemetry--just set gs.vx but not lm.vx
                 
                 //update the game state velocities

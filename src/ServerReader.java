@@ -22,7 +22,7 @@ public class ServerReader extends NetworkHandler implements Runnable {
             try {
                 NetworkPacket packetIn = NetworkPacket.parse(in.readLine());
                 //ok to not sync because of way I am writing and reading data.....
-                gs.setError(packetIn.getError());
+                gs.setErrorReceived(packetIn.getError());
 
             } catch (IOException e) {
                 // TODO Auto-generated catch block

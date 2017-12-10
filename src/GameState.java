@@ -1,4 +1,8 @@
 import java.util.LinkedList;
+import java.util.Map;
+import java.util.Set;
+import java.util.TreeMap;
+import java.util.TreeSet;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.TimeUnit;
@@ -149,48 +153,139 @@ public class GameState {
         showComputerError = b;
     }
 
-    public void setErrorsDone(Error err) {
-        errorsDone.addLast(err);
-    }
-    public Error getErrorsDone() {
-        return  errorsDone.getLast();
+    
+    private LinkedList<Error> errors = new LinkedList<Error>();
+    
+    public void setErrorToSend(Error error) {
+        if (errorFreqSent.get(error)==null) {
+            errorFreqSent.put(error, 1);
+
+        }
+        else {
+            errorFreqSent.put(error, errorFreqSent.get(error)+1);
+        }
+        try {
+          errorQue.put(error);
+      } catch (InterruptedException e) {
+          // TODO Auto-generated catch block
+          e.printStackTrace();
+      }
     }
     
-    //TODO:fix exceptions
-    public  void setError(Error error) {
-        try {
-            errorQue.put(error);
-        } catch (InterruptedException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
-    }
-    //TODO:FIx this encapsulation
-    public Error getError() {
-       // return currentError;
-        try {
-            return errorQue.take();
-        } catch (InterruptedException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-            return null;
-        }
-    }
-    public Error getErrorAttempt() {
-        // return currentError;
-         try {
-             return errorQue.poll(1, TimeUnit.MILLISECONDS);
-         } catch (InterruptedException e) {
-             // TODO Auto-generated catch block
-             e.printStackTrace();
-             return null;
-         }
-     }
+  public Error getErrorToSend() {
+  // return currentError;
+   try {
+       return errorQue.take();
+   } catch (InterruptedException e) {
+       // TODO Auto-generated catch block
+       e.printStackTrace();
+       return null;
+   }
+}
+  
+  public void setErrorReceived(Error error) {
+      
+          
+          errors.addLast(error);
+  
+  }
+    
+  public void doErrors(Canvas canvas, LunarModel lm, GameState gs) {
 
-    public Error peekError() {
-        // TODO Auto-generated method stub
-        return errorQue.peek();
-    }
+       
+
+
+      Set<Integer> indicesToRemove = new TreeSet<Integer>();
+      
+      for (int i = 0; i< errors.size(); i++) {
+          
+          Error errorInList = errors.get(i);
+          if (errorInList == null) {
+              return;
+          }
+
+          if (errorInList instanceof ResetGameError) {
+              canvas.reset();
+              indicesToRemove.add(i);
+          }
+          else if (errorInList instanceof ResetLastError) {
+              if (errors.get(i-1) != null) {
+                  errors.get(i-1).undoError(lm, gs);
+
+              }
+              indicesToRemove.add(i-1);
+          }
+          else if (errorInList instanceof ResetErrorsError) {
+              for (Error errorsInList: errors) {
+                  errorsInList.undoError(lm, gs);
+              }
+              for (int j = 0 ; j<errors.size(); j++) {
+                  indicesToRemove.add(j);
+
+              }
+              
+          }
+          
+          else {
+              errorInList.causeFailure(lm, gs);
+          }
+      }
+      for (int i : indicesToRemove) {
+          errors.remove(i);
+      }
+      
+  }
+  
+  private Map<Error, Integer> errorFreqSent = new TreeMap<Error, Integer>();
+
+  public int getErrorFreq(Error error) {
+      return errorFreqSent.get(error);
+  }
+  
+  
+//    
+//    public void setErrorsDone(Error err) {
+//        errorsDone.addLast(err);
+//    }
+//    public Error getErrorsDone() {
+//        return  errorsDone.getLast();
+//    }
+//    
+//    //TODO:fix exceptions
+//    public  void setError(Error error) {
+//        try {
+//            errorQue.put(error);
+//        } catch (InterruptedException e) {
+//            // TODO Auto-generated catch block
+//            e.printStackTrace();
+//        }
+//    }
+//    //TODO:FIx this encapsulation
+//    public Error getError() {
+//       // return currentError;
+//        try {
+//            return errorQue.take();
+//        } catch (InterruptedException e) {
+//            // TODO Auto-generated catch block
+//            e.printStackTrace();
+//            return null;
+//        }
+//    }
+//    public Error getErrorAttempt() {
+//        // return currentError;
+//         try {
+//             return errorQue.poll(1, TimeUnit.MILLISECONDS);
+//         } catch (InterruptedException e) {
+//             // TODO Auto-generated catch block
+//             e.printStackTrace();
+//             return null;
+//         }
+//     }
+//
+//    public Error peekError() {
+//        // TODO Auto-generated method stub
+//        return errorQue.peek();
+//    }
 
     public void setComputerErrorCode(int errorCode) {
         // TODO Auto-generated method stub
