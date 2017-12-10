@@ -19,14 +19,17 @@ public class PilotGame implements Runnable {
     
     public void run() {
         
+        
+        final JFrame dialog = new JFrame("LunarLander LaunchPad");
+        //dialog.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         String[] options = new String[2];
         Array.set(options, 0, "Easy");
         Array.set(options, 1, "Realistic");
         
-        int difficulty = JOptionPane.showOptionDialog(null, "Choose a difficulty", "LunarLander Launchpad", 0, 0, new ImageIcon("Files/MissionControl.jpg"), options, null);
+        int difficulty = JOptionPane.showOptionDialog(dialog, "Choose a difficulty", "LunarLander Launchpad", 0, 0, new ImageIcon("Files/MissionControl.jpg"), options, null);
         //TODO:handle correctly clsoing the dialog
         System.out.println(difficulty);
-        boolean isEasy;
+        boolean isEasy = false;
         if (difficulty == 0) {
             isEasy = true;
             
@@ -35,6 +38,10 @@ public class PilotGame implements Runnable {
         else if (difficulty == 1) {
             isEasy = false;
             
+        }
+        else if (difficulty == JOptionPane.CLOSED_OPTION) {
+        dialog.dispose();
+        System.exit(0);
         }
         else {
             throw new RuntimeException("didn't initialize diffculty");

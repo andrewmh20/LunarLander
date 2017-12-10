@@ -18,45 +18,70 @@ import javax.swing.plaf.metal.MetalIconFactory;
  */
 public class Game implements Runnable {
     
+    boolean nextFrameOpened = false;
     public void run() {
         
         //The first dialog box for mode selection
         //TODO:make this close correctly when closed
         final JFrame dialog = new JFrame("LunarLander LaunchPad");
-
-        final JButton[] modeOptions = new JButton[2];
         
-        final JButton SimSup =  new JButton("SimSup");
-        SimSup.addActionListener(new ActionListener() {
-            
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                SwingUtilities.invokeLater(new SimsupGame());
-                dialog.dispose();
-            }
-        });
+        //dialog.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         
-        Array.set(modeOptions, 0, SimSup);
+        //final JButton[] modeOptions = new JButton[2];
         
-        final JButton Pilot = new JButton("Pilot");
-        Pilot.addActionListener(new ActionListener() {
-            
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                SwingUtilities.invokeLater(new PilotGame());
-                dialog.dispose();
-                
-            }
-        });
+//        final JButton SimSup =  new JButton("SimSup");
+//        SimSup.addActionListener(new ActionListener() {
+//            
+//            @Override
+//            public void actionPerformed(ActionEvent e) {
+//                SwingUtilities.invokeLater(new SimsupGame());
+//                //dialog.setVisible(false);
+//                dialog.dispose();
+//               // nextFrameOpened = true;
+//                }
+//        });
+//        
+//        Array.set(modeOptions, 0, SimSup);
+//        
+//        
+//        final JButton Pilot = new JButton("Pilot");
+//        Pilot.addActionListener(new ActionListener() {
+//            
+//            @Override
+//            public void actionPerformed(ActionEvent e) {
+//                SwingUtilities.invokeLater(new PilotGame());
+//                //dialog.setVisible(false);
+//                dialog.dispose();
+//               
+//            }
+//        });
+//        
+//        Array.set(modeOptions, 1, Pilot);
+//
+        String[] modeOptions = new String[2];
+        Array.set(modeOptions, 0, "SimSup");
+        Array.set(modeOptions, 1, "Pilot");
         
-        Array.set(modeOptions, 1, Pilot);
-
-        
-        JOptionPane.showOptionDialog(dialog, "Are you the pilot or the SimSup?", 
+        int result = JOptionPane.showOptionDialog(dialog, "Are you the pilot or the SimSup?", 
                 "LunarLander Launchpad", 
                 0, 0, new ImageIcon("Files/MissionControl.jpg"), modeOptions, null);
-        
+        if (result == 0) {
+            SwingUtilities.invokeLater(new SimsupGame());
+            dialog.dispose();
+        }
+        else if (result == 1) {
+            SwingUtilities.invokeLater(new PilotGame());
+            dialog.dispose();
+        }
+        else if (result == JOptionPane.CLOSED_OPTION){
+            dialog.dispose();            
+            System.exit(0);
+        }
+
+        System.out.println(result);
+        //dialog.dispose();
     }
+    
     
     public static void main(String[] args) throws IOException {
         //TODO:Start network handler to accept client connections
