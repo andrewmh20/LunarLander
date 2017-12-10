@@ -12,7 +12,7 @@ public class FullThrottleError extends Error {
     
     @Override
     public void causeFailure(LunarModel lm, GameState gs) {
-        lm.throttle(LunarModel.MAX_THROTTLE);
+        lm.throttle(LunarModel.MAX_THROTTLE, gs.getHasFuel());
     }
     
     @Override

@@ -25,16 +25,19 @@ public class LunarModel {
      */
 
     //Initial velocity settings
-    private static final Vec2 INITIAL_V = new Vec2(10,0);
+    private static final Vec2 INITIAL_V = new Vec2(10,30);
     private static final float INITIAL_Vw = 0;
     private static final Vec2 INITIAL_POSITION = new Vec2(30,30);
     //Gravity Vector
     //6f
-    private static final Vec2 gravity = new Vec2(0, 0f);
+    private static final Vec2 gravity = new Vec2(0, 6f);
     //Scale to convert physics world to pixel world
     //TODO:Test changing scale
     public static final float SCALE = 1f;
     private static final float DENSITY_OF_SHAPES = 1;
+    //Between 0 and 1
+    private static final float SURFACE_FRICTION = 1;
+    private static final float LEM_FRICTION = 1;
 
 
     public static final float THROT_SCALE = 250f;
@@ -44,6 +47,35 @@ public class LunarModel {
     private static final int  TORQUE = 10000000;
 
     
+    //Vertices of lunar surface
+    
+    private static final Vec2 V1= new Vec2(0,Canvas.CANVAS_HEIGHT-10);
+    private static final Vec2 V2= new Vec2(35,Canvas.CANVAS_HEIGHT-10);
+    private static final Vec2 V3= new Vec2(60,Canvas.CANVAS_HEIGHT-145+30);
+    private static final Vec2 V4= new Vec2(107,Canvas.CANVAS_HEIGHT-114+30);
+    private static final Vec2 V5= new Vec2(134,Canvas.CANVAS_HEIGHT-114+30);
+    private static final Vec2 V6= new Vec2(150,Canvas.CANVAS_HEIGHT-58+30);
+    private static final Vec2 V7= new Vec2(210,Canvas.CANVAS_HEIGHT-58+30);
+    private static final Vec2 V8= new Vec2(253,Canvas.CANVAS_HEIGHT-86+30);
+    private static final Vec2 V9= new Vec2(299,Canvas.CANVAS_HEIGHT-98+30);
+    private static final Vec2 V10= new Vec2(378,Canvas.CANVAS_HEIGHT-98+30);
+    private static final Vec2 V11= new Vec2(420,Canvas.CANVAS_HEIGHT-140+30);
+    private static final Vec2 V12= new Vec2(476,Canvas.CANVAS_HEIGHT-163+30);
+    private static final Vec2 V13= new Vec2(530,Canvas.CANVAS_HEIGHT-81+30);
+    private static final Vec2 V14= new Vec2(578,Canvas.CANVAS_HEIGHT-81+30);
+    private static final Vec2 V15= new Vec2(642,Canvas.CANVAS_HEIGHT-106+30);
+    private static final Vec2 V16= new Vec2(738,Canvas.CANVAS_HEIGHT-98+30);
+    private static final Vec2 V17= new Vec2(757,Canvas.CANVAS_HEIGHT-81+30);
+    private static final Vec2 V18= new Vec2(913,Canvas.CANVAS_HEIGHT-123+30);
+    private static final Vec2 V19= new Vec2(963,Canvas.CANVAS_HEIGHT-83+30);
+    private static final Vec2 V20= new Vec2(1000,Canvas.CANVAS_HEIGHT-83+30);
+
+    
+
+
+
+
+
     
     //initial setttings
     private float throttle = 0; 
@@ -123,7 +155,7 @@ public class LunarModel {
         lemBodyDef.setType(BodyType.DYNAMIC);
         
         surfaceBodyDef = new BodyDef();
-         
+        
          //Create the bodies
          lemBody = world.createBody(lemBodyDef);
          //bit of a hack, but it works
@@ -141,26 +173,45 @@ public class LunarModel {
          lemShape = new PolygonShape();
          lemShape.setAsBox(Canvas.LEM_WIDTH, Canvas.LEM_HEIGHT);
          
+         
          //Add the shape to the lem Body as fixture
-         lemBody.createFixture(lemShape, DENSITY_OF_SHAPES);
+         FixtureDef lemFixtureDef = new FixtureDef();
+         lemFixtureDef.setDensity(DENSITY_OF_SHAPES);
+         lemFixtureDef.setFriction(LEM_FRICTION);
+         lemFixtureDef.setRestitution(0);
+         lemFixtureDef.setShape(lemShape);
+        
+         
+         lemBody.createFixture(lemFixtureDef);
+         //lemBody.getFixtureList().setRestitution(0);
+        // lemBody.createFixture(lemShape, DENSITY_OF_SHAPES);
          //System.out.println(lemBody.getMass());
 
          
          //Create all the shapes for the lunar surface, using the vertices "linked" to the display
          
              //Add the vertices
-         vertices.add(new Vec2(0, (Canvas.CANVAS_HEIGHT-10)));
-         vertices.add(new Vec2(30, Canvas.CANVAS_HEIGHT-10));
-         vertices.add(new Vec2(30+30, (Canvas.CANVAS_HEIGHT-10-20)));
-         vertices.add(new Vec2(30+30+20, (Canvas.CANVAS_HEIGHT-10-20)));
-         vertices.add(new Vec2((30+30+20+50), (Canvas.CANVAS_HEIGHT-10-20+20)));
-         vertices.add(new Vec2(30+30+20+50+30, (Canvas.CANVAS_HEIGHT-10-20+20)));
-         vertices.add(new Vec2(30+30+20+50+30+60, (Canvas.CANVAS_HEIGHT-10-20)));
-         vertices.add(new Vec2(30+30+20+50+30+60+20, (Canvas.CANVAS_HEIGHT-10-20+20)));
-         vertices.add(new Vec2(30+30+20+50+30+60+20+40, (Canvas.CANVAS_HEIGHT-10-20+20-40)));
-         vertices.add(new Vec2(30+30+20+50+30+60+20+40+60, (Canvas.CANVAS_HEIGHT-10-20+20-40+20)));
-         vertices.add(new Vec2(30+30+20+50+30+60+20+40+60+30, (Canvas.CANVAS_HEIGHT-10-20+20-40+20+20)));
-         
+         vertices.add(V1);
+         vertices.add(V2);
+         vertices.add(V3);
+         vertices.add(V4);
+         vertices.add(V5);
+         vertices.add(V6);
+         vertices.add(V7);
+         vertices.add(V8);
+         vertices.add(V9);
+         vertices.add(V10);
+         vertices.add(V11);
+         vertices.add(V12);
+         vertices.add(V13);
+         vertices.add(V14);
+         vertices.add(V15);
+         vertices.add(V16);
+         vertices.add(V17);
+         vertices.add(V18);
+         vertices.add(V19);
+         vertices.add(V20);
+
              //Create the shapes and add to the shape list
          for (int i = 0; i < vertices.size()-1; i++) {
              
@@ -173,9 +224,12 @@ public class LunarModel {
          //I.e. surfaceBody's point
              //Add each shape to the body as a seperate fixture
          for (EdgeShape surfaceS : surfaceShapeList ) {
-             //TODO: I can add friction and stuff
              FixtureDef surfaceFixtureDef = new FixtureDef();
+             surfaceFixtureDef.setDensity(DENSITY_OF_SHAPES);
              surfaceFixtureDef.setShape(surfaceS);
+             //Never bounce
+             surfaceFixtureDef.setRestitution(0);
+             surfaceFixtureDef.setFriction(SURFACE_FRICTION);
              surfaceBody.createFixture(surfaceFixtureDef);
              //surface.createFixture(surfaceS, DENSITY_OF_SHAPES);
          }
@@ -214,11 +268,12 @@ public class LunarModel {
             DI.proxyA = lemDistanceProxy;
             DI.proxyB = surfaceDistanceProxy;
             DI.transformA = lemBody.getTransform();
-            DI.transformB = surfaceBody.getTransform();
+          DI.transformB = surfaceBody.getTransform();
         
             distance.distance(DO, SC, DI);
         
-            altitude = DO.distance;
+            //TODO: 20 off always...
+            altitude = DO.distance-20;
     
     
             //Set the new attitude, save the velocity and angle states
@@ -247,28 +302,38 @@ public class LunarModel {
     //use field to "delegate" force application to move, so it applies each step.
     //TODO:Keep an eye o n this with erors.
     
-public void throttle(int throt) {
-        
-        if (throt > MAX_THROTTLE) {
-            throttle = MAX_THROTTLE*THROT_SCALE;
+public void throttle(int throt, boolean hasFuel) {
+        if (hasFuel) {
             
-        }
-        else if (throt < MIN_THROTTLE) {
-            throttle = MIN_THROTTLE*THROT_SCALE;
+            if (throt > MAX_THROTTLE) {
+                throttle = MAX_THROTTLE*THROT_SCALE;
+                
+            }
+            else if (throt < MIN_THROTTLE) {
+                throttle = MIN_THROTTLE*THROT_SCALE;
+                
+            }
+            else {
+                
+                throttle = (throt*THROT_SCALE);
+            }
+
             
-        }
-        else {
-            
-            throttle = (throt*THROT_SCALE);
         }
     }
     
-    public void thrustL() {
-        lemBody.applyTorque(TORQUE);
+    public void thrustL(boolean hasFuel) {
+        if (hasFuel) {
+            lemBody.applyTorque(TORQUE);
+
+        }
 
     }
-    public void thrustR() {
-        lemBody.applyTorque(-TORQUE);
+    public void thrustR(boolean hasFuel) {
+        if (hasFuel) {
+            lemBody.applyTorque(-TORQUE);
+
+        }
         
     }
     
@@ -277,18 +342,23 @@ public void throttle(int throt) {
     
     
     //TODO:These do not work in combo with torque movements.
-    public void jumpL() {
+    public void jumpL(boolean hasFuel) {
         
-        
+        if (hasFuel) {
             lemBody.setTransform(lemBody.getPosition(), lemBody.getAngle()+JUMP_ANGLE);
+
+        }
         //lem.applyTorque((TORQUE));
         //thrusted++;
         //lem.applyAngularImpulse((-TORQUE));
 
 
     }
-    public void jumpR() {
-        lemBody.setTransform(lemBody.getPosition(), lemBody.getAngle()-JUMP_ANGLE);
+    public void jumpR(boolean hasFuel) {
+        if(hasFuel) {
+            lemBody.setTransform(lemBody.getPosition(), lemBody.getAngle()-JUMP_ANGLE);
+
+        }
 
         
     }
@@ -370,6 +440,16 @@ public void throttle(int throt) {
     //TODO: Created surface above
     
     public boolean isCrashed() {
+        
+        if (contactLight && (lastVy > CRASH_VELOCITY_Y || Math.abs(lastAngle) > CRASH_ANGLE || lastVx > CRASH_VELOCITY_X)) {
+            crashed = true;
+
+        }
+        else {
+            crashed = false;
+        }
+
+        
         return crashed;
         //Looked at tutorial https://www.programcreek.com/java-api-examples/index.php?api=org.jbox2d.callbacks.ContactListener
         
@@ -379,6 +459,15 @@ public void throttle(int throt) {
     }
   
     public boolean isLanded() {
+        
+        if (contactLight && !(lastVy > CRASH_VELOCITY_Y || Math.abs(lastAngle) > CRASH_ANGLE || lastVx > CRASH_VELOCITY_X)) {
+            landed = true;
+        }
+        else {
+            landed = false;
+        }
+
+        
         return landed;
         //Looked at tutorial https://www.programcreek.com/java-api-examples/index.php?api=org.jbox2d.callbacks.ContactListener
         
@@ -403,21 +492,10 @@ public void throttle(int throt) {
         
         @Override
         public void beginContact(Contact contact) {
-           Fixture c1 = contact.getFixtureA();
-           Fixture c2 = contact.getFixtureB();
            
            contactLight = true;
            
            //Only have 2 fixtures to possibly contact....? TODO:Update this logic as needed
-           if (lastVy > CRASH_VELOCITY_Y || Math.abs(lastAngle) > CRASH_ANGLE || lastVx > CRASH_VELOCITY_X) {
-               crashed = true;
-               landed = false;
-
-           }
-           else {
-               landed = true;
-               crashed = false;
-           }
             
         }
         @Override

@@ -69,7 +69,7 @@ public class TelemetryPanel extends JPanel {
 
         errorLabel.setText("Computer Error Code: " + gs.getComputerErrorCode());
         contactLightLabel.setText("CONTACT LIGHT: " + gs.getContactLight());
-
+System.out.println("TELEM: " + gs.getFuel());
     }
     
     

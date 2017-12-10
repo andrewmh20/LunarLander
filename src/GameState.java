@@ -10,7 +10,7 @@ import java.util.concurrent.TimeUnit;
 
 public class GameState {
     
-    private static final float FUEL_INITIAL = 10000000;
+    private static final float FUEL_INITIAL = 10000;
 
     private boolean contactLight = false;
     
@@ -44,12 +44,14 @@ public class GameState {
     private float angle;
     private float altitude;
     private BlockingQueue<Error> errorQue;
-    private float fuel = FUEL_INITIAL;
+    private  float fuel = FUEL_INITIAL;
     
     private Error currentError;
 
     private boolean showComputerError = false;
     private int ComputerErrorCode;
+
+    private boolean hasFuel = true;
     
     GameState(){
        errorQue =  new LinkedBlockingQueue<Error>(); 
@@ -66,6 +68,8 @@ public class GameState {
         currentError = null;
         showComputerError = false;
         ComputerErrorCode = 0;
+
+        hasFuel = true;
 
         
     }
@@ -195,6 +199,14 @@ public class GameState {
         return ComputerErrorCode;
         
     }
+
+    public void setHasFuel(boolean hasFuel) {
+this.hasFuel  = hasFuel;        
+    }
+    public boolean getHasFuel() {
+return hasFuel;        
+    }
+
 
 
 //TODO:Still a bunch of stuff here re errors I'm not sure I'm using. Deal with later

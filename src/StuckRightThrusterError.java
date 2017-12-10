@@ -12,7 +12,7 @@ public class StuckRightThrusterError extends Error {
     
     @Override
     public void causeFailure(LunarModel lm, GameState gs) {
-            lm.thrustR();
+            lm.thrustR(gs.getHasFuel());
     }
     
     @Override

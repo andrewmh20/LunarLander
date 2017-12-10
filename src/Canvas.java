@@ -8,6 +8,8 @@
     import java.awt.event.*;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Path2D;
+import java.awt.geom.PathIterator;
+import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.awt.image.AffineTransformOp;
 import java.awt.image.BufferedImage;
@@ -49,14 +51,19 @@ public class Canvas extends JPanel {
         public static final int LEM_HEIGHT = 20;
         public static final int LEM_WIDTH = 20;
 
-        private static final float FUEL_INCREMENT = 10;
+        private static final float FUEL_INCREMENT = 1;
 
         private static final float FUEL_INCREMENT_THRUSTER = 5;
 
+        private static final int LANDED_DURATION = 90;
+
+        protected static final float NULL_FORCES_PENALTY = 20;
+
 
         //not private because I need coutner to work in reset, and in the keypress listerner class
-        protected int i =0 ;
+        private int i =0;
         private int j =0;
+        private Timer timer;
         
         //create the physics world
         //TODO:Do I need to pass this anything else?
@@ -75,6 +82,9 @@ public class Canvas extends JPanel {
           private Rectangle2D lemShape = new Rectangle2D.Float(-(LEM_WIDTH/2),-(LEM_HEIGHT/2),LEM_WIDTH, LEM_HEIGHT);
         private int k;
 
+        private LinkedList<Vec2> vertices; 
+        private Path2D lunarSurface; 
+
         //TODO: change the status thing to just be a field of gs
         //Jpanel for display of info from model displayed in canvas
         public Canvas(GameState gs, TelemetryPanel tp) {
@@ -90,6 +100,24 @@ public class Canvas extends JPanel {
              
              ///TODO : make variable or something
              surface.lineTo(CANVAS_WIDTH-10, CANVAS_WIDTH-10);
+             this.lm = new LunarModel();
+
+             vertices  = lm.getSurfaceVertices();
+              lunarSurface = new Path2D.Float();
+             
+             //TODO:I can move the getting out of this method....
+             lunarSurface.moveTo(vertices.get(0).x, vertices.get(0).y);
+             for (int i = 1; i < vertices.size(); i++) {
+                 //System.out.println(vertices.size());              
+                 lunarSurface.lineTo(vertices.get(i).x, vertices.get(i).y);
+                 //lunarSurface.moveTo(vertices.get(i+1).x, vertices.get(i+1).y);
+                 //
+                             }
+             //close the curve
+             lunarSurface.lineTo(CANVAS_WIDTH, CANVAS_HEIGHT);
+             lunarSurface.lineTo(0, CANVAS_HEIGHT);
+
+             
             
              try {
                 LemSprite = ImageIO.read(new File("Files/LEM.png")).getScaledInstance(LEM_WIDTH, LEM_HEIGHT, Image.SCALE_SMOOTH);
@@ -109,7 +137,7 @@ public class Canvas extends JPanel {
             // register an ActionListener with this timer, whose actionPerformed() method is called each
             // time the timer triggers. We define a helper method called tick() that actually does
             // everything that should be done in a single timestep.
-            Timer timer = new Timer(INTERVAL, new ActionListener() {
+            timer = new Timer(INTERVAL, new ActionListener() {
                 public void actionPerformed(ActionEvent e) {
                     tick();
                 }
@@ -129,8 +157,7 @@ public class Canvas extends JPanel {
             j = 0;
             k = 0;
             playing = true;
-            this.lm = new LunarModel();
-            this.gs.reset();
+            //this.gs.reset();
             this.requestFocusInWindow();
 
             addKeyListener(new KeyAdapter() {
@@ -145,7 +172,7 @@ public class Canvas extends JPanel {
                          //j=0;
                          i+=THROTTLE_JUMP;
                          temp = lm.getThrottle();
-                         lm.throttle(i);
+                         lm.throttle(i, gs.getHasFuel());
 
                      }
                      if (e.getKeyCode() == KeyEvent.VK_DOWN) {
@@ -154,13 +181,20 @@ public class Canvas extends JPanel {
                          i-=THROTTLE_JUMP;
                          temp = lm.getThrottle();
                          //TODO:change behavior for when F is held and then down is pressed and F is released
-                         lm.throttle(i);
+                         lm.throttle(i, gs.getHasFuel());
                          
 
                      }
+                     
+                     ///TODO:For readme, the reason gs is so abstracted from lm--ie why not just use lm.getVx becuase I thought i might need ot have
+                     //the abstaction, but as it turned out anyone that needed acesss to gs had access to lem so it just got confugisojns
                      if (e.getKeyCode() == KeyEvent.VK_N) {
                          
                          lm.nullAngularForces();
+                         if (gs.getVw() !=0) {
+                             gs.setFuel(Math.max(gs.getFuel()-NULL_FORCES_PENALTY,0));
+
+                         }
 
                       }
 
@@ -172,7 +206,7 @@ public class Canvas extends JPanel {
                              temp = lm.getThrottle();
                              first = false;
                          }
-                         lm.throttle(LunarModel.MAX_THROTTLE);
+                         lm.throttle(LunarModel.MAX_THROTTLE, gs.getHasFuel());
 
                      }
                      
@@ -180,7 +214,7 @@ public class Canvas extends JPanel {
                      if (e.getKeyCode() == KeyEvent.VK_K) {
                          
                          //store current throttle
-                         lm.throttle(LunarModel.MIN_THROTTLE);
+                         lm.throttle(LunarModel.MIN_THROTTLE, gs.getHasFuel());
                          temp = 0;
                          i = 0;
 
@@ -191,15 +225,15 @@ public class Canvas extends JPanel {
 
                          //System.out.println(e.getKeyChar());
 
-                         lm.thrustL();
-                         gs.setFuel(gs.getFuel()-FUEL_INCREMENT_THRUSTER);
+                         lm.thrustL(gs.getHasFuel());
+                         gs.setFuel(Math.max(gs.getFuel()-FUEL_INCREMENT_THRUSTER,0));
 
                      }
                      if (e.getKeyCode() == KeyEvent.VK_RIGHT) {
 
                          
-                         lm.thrustR();
-                         gs.setFuel(gs.getFuel()-FUEL_INCREMENT_THRUSTER);
+                         lm.thrustR(gs.getHasFuel());
+                         gs.setFuel(Math.max(gs.getFuel()-FUEL_INCREMENT_THRUSTER,0));
 
 
                      }
@@ -208,8 +242,8 @@ public class Canvas extends JPanel {
                      if (e.getKeyCode() == KeyEvent.VK_G) {
 
                          //System.out.println(e.getKeyChar());
-                         lm.jumpR();
-                         gs.setFuel(gs.getFuel()-FUEL_INCREMENT_THRUSTER*FUEL_INCREMENT_THRUSTER_JUMP_SCALE);
+                         lm.jumpR(gs.getHasFuel());
+                         gs.setFuel(Math.max(gs.getFuel()-FUEL_INCREMENT_THRUSTER*FUEL_INCREMENT_THRUSTER_JUMP_SCALE,0));
 
 
                      }
@@ -217,8 +251,8 @@ public class Canvas extends JPanel {
                      if (e.getKeyCode() == KeyEvent.VK_D) {
 
                          
-                         lm.jumpL();
-                         gs.setFuel(gs.getFuel()-FUEL_INCREMENT_THRUSTER*FUEL_INCREMENT_THRUSTER_JUMP_SCALE);
+                         lm.jumpL(gs.getHasFuel());
+                         gs.setFuel(Math.max(gs.getFuel()-FUEL_INCREMENT_THRUSTER*FUEL_INCREMENT_THRUSTER_JUMP_SCALE,0));
 
 
                      }
@@ -231,7 +265,7 @@ public class Canvas extends JPanel {
 
                     if (e.getKeyCode() == KeyEvent.VK_F) {
                         
-                        lm.throttle(temp);
+                        lm.throttle(temp,gs.getHasFuel());
                         first = true;
 
                     }
@@ -255,6 +289,9 @@ public class Canvas extends JPanel {
             //OR just make a new one each time...this looks cleaner to me
             lm = new LunarModel();
             gs.reset();
+            //CANNOT DO THIS BC GS IS BEING PASSED IN! 1 per game bc everything is linked through game stategs = new GameState();
+            timer.start();
+
             
             i =0;
             j =0;
@@ -289,6 +326,8 @@ public class Canvas extends JPanel {
                 //Need to actually fix logic of getting error from queue.
                 repaint();//Need to paint before checking if crashed....
 //
+                telemetryPanel.updateTelemetryPanel();
+
 //                if(isCrashed(surface, lemShape)) {
 //                    System.out.println("CRASHED");
 //                }
@@ -308,6 +347,7 @@ public class Canvas extends JPanel {
                 }
                 
                 
+                //TODO: actually, thats the way to screw up the telemetry--just set gs.vx but not lm.vx
                 
                 //update the game state velocities
                 
@@ -322,14 +362,13 @@ public class Canvas extends JPanel {
                 gs.setContactLight(lm.getContactLight());
                 //TODO:Turn fuel back on
                 ///TODO: add thruster fuel gaugue too.
-                gs.setFuel(gs.getFuel() - (FUEL_INCREMENT*lm.getThrottle()));
+                gs.setFuel(Math.max(gs.getFuel() - (FUEL_INCREMENT*lm.getThrottle()),0));
 
                 
                 
                 lm.setBounds(this.getWidth(), this.getHeight());
 
                 //Set the linked panel labels
-                telemetryPanel.updateTelemetryPanel();
                 
                 
                 
@@ -352,19 +391,33 @@ public class Canvas extends JPanel {
                 if (lm.isCrashed()) {
                     
                     //TODO:DO something more exciting, i.e. "you lose" (Have seperate class for "Game State"
-                    reset();
+
+                    JOptionPane.showMessageDialog(null, "Oh no! You crashed an expensive lander!");
+                    timer.stop();
                 }
                 //Fuel left can never be measured exactly! 
-                else if (gs.getFuel() < -5) {
-                    reset(); //TODO:Lose.
+                System.out.println(gs.getFuel());
+                if (gs.getFuel() < 1) {
+                    //System.out.println("fuelllop");
+                    lm.throttle(0,true);
+                    gs.setHasFuel(false);
+                    
+                    
                 }
                 //k = time to win
                 //TODO:gs.add contact light
-                if (lm.isLanded() && k > 100) {
+                if (lm.isLanded()) {
+                    k++;
+                }
+                else {
+                    k = 0;
+                }
+                if (lm.isLanded() && k > LANDED_DURATION ) {
                     
-                    JOptionPane.showMessageDialog(null, "Engine Shutdown!");
-                    //TODO:Add logic for velocity of colossion with collision, can unit test that
-                    //TODO:DO something more exciting, i.e. "you lose" (Have seperate class for "Game State"
+                    JOptionPane.showMessageDialog(null, "You landed!");
+                    timer.stop();
+                    
+
                 }
 
             }
@@ -400,7 +453,8 @@ public class Canvas extends JPanel {
             //Draw the LunarLander:
 //TODO:Get basic idea of coordinates working, then fine tune images.
             //GET better image
-            this.setBackground(Color.WHITE);
+            Color Navy = new Color(25,25,112);
+            this.setBackground(Navy);
             //
             g.setColor(Color.RED);
             g.drawRect(lm.getPx()+(LEM_WIDTH/2), lm.getPy()+(LEM_HEIGHT/2), 2, 2);
@@ -422,15 +476,32 @@ public class Canvas extends JPanel {
                     (LunarModel.MAX_THROTTLE-LunarModel.MIN_THROTTLE))
                     + flameSizeMin
                     );
-            //THis will be off, get the location first.
-            //TODO:Fix this, messing things up.
+            
+            //draw the flame
             g2d.translate(PxToDrawCenter, PyToDrawCenter);
             //TODO:Double check sign consistency with lem model
+            
             g2d.rotate(-angleToDraw);
             g2d.drawImage(LemSprite, -(LEM_WIDTH/2), -(LEM_HEIGHT/2), null);
+
             if (flameSize > 1 ) {
                 g2d.drawImage(FlameSprite.getScaledInstance(FlameSprite.getWidth(null), flameSize, Image.SCALE_SMOOTH), -(LEM_WIDTH/2), LemSprite.getHeight(null)-(LEM_HEIGHT/2), null);
             }
+
+            g2d.rotate(angleToDraw);
+            g2d.translate(-PxToDrawCenter, -PyToDrawCenter);
+
+
+            
+            //draw the lem
+            //THis will be off, get the location first.
+//            //TODO:Fix this, messing things up.
+//            g2d.translate(PxToDrawCenter, PyToDrawCenter);
+//            //TODO:Double check sign consistency with lem model
+//            g2d.rotate(-angleToDraw);
+//            g2d.rotate(angleToDraw);
+//            g2d.translate(-PxToDrawCenter, -PyToDrawCenter);
+
             //TODO:this wont fully work, but idea is chaning value of LemShape with each image draw and get that 
             //coordinate system........wont work really. lets just try it.
             
@@ -439,14 +510,22 @@ public class Canvas extends JPanel {
             //THe collisions logic will be done entirely in Swing, since we just need to compare
             //2 boxes. 
             
-            g2d.rotate(angleToDraw);
-            g2d.translate(-PxToDrawCenter, -PyToDrawCenter);
             
             //draw the lunar surface (get these numbers form same place as lunar model to ensure consistency
             //maybe at to game state?
             
-            //TODO:I can move the getting out of this method....
-            LinkedList<Vec2> vertices = lm.getSurfaceVertices();
+            //TODO: fix the ordering of what gets drawn
+
+            
+            //draw the surface
+            Color Silver = new Color(220,220,220);
+            g2d.setColor(Silver);            
+            g2d.draw(lunarSurface);
+            g2d.fill(lunarSurface);
+            g2d.setColor(Color.BLACK);
+
+            
+
             
             
 //            g2d.drawLine((int)vertices.get(0).x, (int)vertices.get(0).y, (int)vertices.get(1).x, (int)vertices.get(1).y);
@@ -454,15 +533,14 @@ public class Canvas extends JPanel {
 //            g2d.drawLine((int)vertices.get(2).x, (int)vertices.get(2).y, (int)vertices.get(3).x, (int)vertices.get(3).y);
 //            g2d.drawLine((int)vertices.get(3).x, (int)vertices.get(3).y, (int)vertices.get(4).x, (int)vertices.get(4).y);
 
-//TODO: actually draw this and finish with altitude
-            for (int i = 0; i < vertices.size()-1; i++) {
-//System.out.println(vertices.size());              
-g2d.drawLine((int)Math.round(vertices.get(i).x), (int)Math.round(vertices.get(i).y), 
-       (int)Math.round(vertices.get(i+1).x), (int)Math.round(vertices.get(i+1).y));
-//
-            }
-            
-            
+
+//          for (int i = 0; i < vertices.size()-1; i++) {
+////System.out.println(vertices.size());              
+//g2d.drawLine((int)Math.round(vertices.get(i).x), (int)Math.round(vertices.get(i).y), 
+//     (int)Math.round(vertices.get(i+1).x), (int)Math.round(vertices.get(i+1).y));
+////
+//          }
+
             
 //            //            
 //            while (verticesIterator.hasNext()) {

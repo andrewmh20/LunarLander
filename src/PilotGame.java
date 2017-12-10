@@ -30,7 +30,7 @@ public class PilotGame implements Runnable {
         // Top-level frame in which game components live
         // Be sure to change "TOP LEVEL FRAME" to the name of your game
         final JFrame frame = new JFrame("LunarLander");
-        frame.setLocation(300, 300);
+        frame.setLocation(50, 100);
 
         //Panel for Lander information that is linked to the canvas (i.e. the lander)
                 //TODO:Panel or component?
