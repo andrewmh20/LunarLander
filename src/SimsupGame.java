@@ -18,7 +18,8 @@ public class SimsupGame implements Runnable {
 
 public void run() {
 
-    GameState gameState = new GameState();
+    //isEasy not relevant, but I'm just reusing the same gamestate class
+    GameState gameState = new GameState(false);
     
     //TODO:In readme specify which port this game uses.
     

@@ -233,7 +233,29 @@ public class LunarModel {
              surfaceBody.createFixture(surfaceFixtureDef);
              //surface.createFixture(surfaceS, DENSITY_OF_SHAPES);
          }
+         
+         //create "closing fixtures" and a seperate body to prevent looping back around to the moons surface
+         
+         
+         BodyDef encloserBodyDef = new BodyDef();
+         Body encloserBody = world.createBody(encloserBodyDef);
+         EdgeShape encloser1 = new EdgeShape();
+         EdgeShape encloser2 = new EdgeShape();
+         EdgeShape encloser3 = new EdgeShape();
+         encloser1.set(vertices.getLast(), (new Vec2(Canvas.CANVAS_WIDTH,Canvas.CANVAS_HEIGHT)));
+         encloser2.set(new Vec2(Canvas.CANVAS_WIDTH,Canvas.CANVAS_HEIGHT), new Vec2(0,Canvas.CANVAS_HEIGHT));
+        encloser3.set(new Vec2(0,Canvas.CANVAS_HEIGHT), vertices.get(0));
+         encloserBody.createFixture(encloser1, DENSITY_OF_SHAPES);
+         encloserBody.createFixture(encloser2, DENSITY_OF_SHAPES);
+         encloserBody.createFixture(encloser3, DENSITY_OF_SHAPES);
 
+//         //create sideWalls
+//         EdgeShape lWall = new EdgeShape();
+//         EdgeShape rWall = new EdgeShape();
+//         lWall.set(new Vec2(0,0), new Vec2(0,Canvas.CANVAS_HEIGHT));
+//         rWall.set(new Vec2(Canvas.CANVAS_WIDTH,0), new Vec2(Canvas.CANVAS_HEIGHT,Canvas.CANVAS_HEIGHT));
+//         encloserBody.createFixture(lWall,DENSITY_OF_SHAPES);
+//         encloserBody.createFixture(rWall, DENSITY_OF_SHAPES);
          
          //create a new distance setup between any two fixtures
         distance = new Distance();

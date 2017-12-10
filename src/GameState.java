@@ -10,7 +10,7 @@ import java.util.concurrent.TimeUnit;
 
 public class GameState {
     
-    private static final float FUEL_INITIAL = 10000;
+    private static final float FUEL_INITIAL = 100000000;
 
     private boolean contactLight = false;
     
@@ -52,10 +52,13 @@ public class GameState {
     private int ComputerErrorCode;
 
     private boolean hasFuel = true;
+
+    private boolean isEasy;
     
-    GameState(){
+    GameState(boolean isEasy){
+        //TODO: doesnt need to be blocking...does it? 
        errorQue =  new LinkedBlockingQueue<Error>(); 
-       
+       this.isEasy = isEasy;
     }
     public void reset(){
         Vx = 0;
@@ -205,6 +208,11 @@ this.hasFuel  = hasFuel;
     }
     public boolean getHasFuel() {
 return hasFuel;        
+    }
+
+    public boolean getIsEasy() {
+        // TODO Auto-generated method stub
+        return isEasy;
     }
 
 

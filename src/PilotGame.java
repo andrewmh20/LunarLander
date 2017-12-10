@@ -19,8 +19,28 @@ public class PilotGame implements Runnable {
     
     public void run() {
         
+        String[] options = new String[2];
+        Array.set(options, 0, "Easy");
+        Array.set(options, 1, "Realistic");
+        
+        int difficulty = JOptionPane.showOptionDialog(null, "Choose a difficulty", "LunarLander Launchpad", 0, 0, new ImageIcon("Files/MissionControl.jpg"), options, null);
+        //TODO:handle correctly clsoing the dialog
+        System.out.println(difficulty);
+        boolean isEasy;
+        if (difficulty == 0) {
+            isEasy = true;
+            
+        }
+        
+        else if (difficulty == 1) {
+            isEasy = false;
+            
+        }
+        else {
+            throw new RuntimeException("didn't initialize diffculty");
+        }
         //For each game you run, start a new server
-        final GameState gameState = new GameState();
+        final GameState gameState = new GameState(isEasy);
         final Server server = new Server(gameState);
         final Thread serverThread = new Thread(server);
         serverThread.start();
@@ -45,9 +65,21 @@ public class PilotGame implements Runnable {
         final Canvas court = new Canvas(gameState, telemetryPanel);
         frame.add(court, BorderLayout.CENTER);
 
-        // Reset button
+        // Reset buttons
         final JPanel control_panel = new JPanel();
         frame.add(control_panel, BorderLayout.NORTH);
+        
+        //Go back to difficulty screen
+        final JButton mainMenu = new JButton("Main Menu");
+        mainMenu.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                SwingUtilities.invokeLater(new PilotGame());
+                frame.dispose();
+            }
+        });
+        control_panel.add(mainMenu);
+
+
 
         // Note here that when we add an action listener to the reset button, we define it as an
         // anonymous inner class that is an instance of ActionListener with its actionPerformed()
