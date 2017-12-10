@@ -31,5 +31,5 @@ zip:	$(SUBMIT)
 	zip '$(ZIPNAME)' $(SUBMIT)
 
 clean:
-	rm -f src/*.class bin/* test/*.class
+	rm -rf src/*.class bin/* test/*.class
 	rm -rf *.zip

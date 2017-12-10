@@ -1,6 +1,7 @@
 package game;
 import java.io.IOException;
 import java.util.Map;
+import java.util.NoSuchElementException;
 import java.util.StringTokenizer;
 import java.util.TreeMap;
 
@@ -35,7 +36,6 @@ public class NetworkPacket {
             throw new IOException("Packet does not contain seperator!");
         }
         
-        //TODO:Remember to handle this somehwere....IE in server where it calls this.
         StringTokenizer packetT = new StringTokenizer(packet,"$");
         //these are the fields to send to gameState
         float Vx = 0;
@@ -47,7 +47,6 @@ public class NetworkPacket {
         float fuel = 0;
 
         try {
-            //TODO:Deal with when its malformed somehow, i.e. throw an exception
             Vx = Float.parseFloat(packetT.nextToken());
             Vy = Float.parseFloat(packetT.nextToken());
             Vw = Float.parseFloat(packetT.nextToken());
@@ -57,20 +56,20 @@ public class NetworkPacket {
             fuel = Float.parseFloat(packetT.nextToken());
 
         }
-        //TODO:make this better
-        catch(Exception e) {
-            System.out.println("not enough tokens");
+        catch(NoSuchElementException e) {
+            throw new IOException("Not enough tokens in network Packet");
             }
-        
-        //TODO: I have an issue with this parsing and null pointers, when error doesnt get set properly...
-            
-        //TODO:this scoping might be wrong, need to local versions
-        //WILL BE all zeros if parsing failed
-        return new NetworkPacket(Vx,Vy, Vw, angle, altitude, error, fuel);
+        catch(NumberFormatException e) {
+            throw new IOException("Bad data format in netwotk Packet");
+            }
+        catch(Exception e) {
+            throw new IOException("Issue with your network packet");
+            }
+
+           return new NetworkPacket(Vx,Vy, Vw, angle, altitude, error, fuel);
         
            }
     
-    //TODO:this needs to be really updated
     
     public String getPacket(){
         int errorCode;
@@ -101,12 +100,9 @@ public class NetworkPacket {
         return Vw;
     }
     
-    //TODO:Okay to return the actual error here?
     public Error getError() {
+
         int errorCode;
-        //Encapsulate the error object
-        //TODO:just change this whole logic to make it a constructor that takes an int..less
-        //convoluted but now just work on what I need to
         if (error == null) {
             errorCode = 0;
         }
@@ -117,17 +113,13 @@ public class NetworkPacket {
         return Error.getError(errorCode);
     }
     
-    //TODO:make this more informative and getPacket exactly how I want it sent
     public float getAltitude() {
-        // TODO Auto-generated method stub
         return altitude;
     }
     public float getFuel() {
-        // TODO Auto-generated method stub
         return fuel;
     }
     public float getAngle() {
-        // TODO Auto-generated method stub
         return angle;
     }
     

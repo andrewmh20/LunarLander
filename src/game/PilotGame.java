@@ -75,17 +75,7 @@ public class PilotGame implements Runnable {
         final JPanel control_panel = new JPanel();
         frame.add(control_panel, BorderLayout.NORTH);
         
-        //Causes bug because cant update netowrk that I am now new game
-//        //Go back to difficulty screen
-//        final JButton mainMenu = new JButton("Main Menu");
-//        mainMenu.addActionListener(new ActionListener() {
-//            public void actionPerformed(ActionEvent e) {
-//                SwingUtilities.invokeLater(new PilotGame());
-//                frame.dispose();
-//            }
-//        });
-//        control_panel.add(mainMenu);
-//
+
 
 
         // Note here that when we add an action listener to the reset button, we define it as an

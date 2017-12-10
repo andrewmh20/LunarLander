@@ -1,4 +1,5 @@
 package game;
+
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.BufferedReader;
@@ -13,47 +14,50 @@ import java.io.Writer;
 import java.net.ServerSocket;
 import java.net.Socket;
 
+import javax.swing.JOptionPane;
 import javax.swing.Timer;
 
 public class Server extends NetworkHandler implements Runnable {
 
     private GameState gs;
 
-    Server(GameState gs){
-        
+    Server(GameState gs) {
+
         super();
         this.gs = gs;
-        
-        
 
-        
-        
     }
-    
-    //TODO: a main loop to read and write from the game_state every # of secs
-    //TODO: client logic to handle that reading as well
 
-    
-    
     @Override
     public void run() {
 //    try {
         
+        Socket connectedSocket = null;
     try {
+
         ss = new ServerSocket(8080);
-    
+        
+    }
+    catch (IOException e) {
+        e.printStackTrace(System.err);
+    }
+            try {
+                
+
     //Blocks waiting for a connection
-    Socket connectedSocket = ss.accept();
+    connectedSocket = ss.accept();
     InputStream nis = connectedSocket.getInputStream();
     OutputStream nos = connectedSocket.getOutputStream();
     in = new BufferedReader(new InputStreamReader(nis));
     pw = new PrintWriter(new BufferedWriter(new OutputStreamWriter(nos)));
-    
+            }
     //TODO:Do stuff, can use network handler....
            
     //THIS is just testing the dynamic dispatch, not the netwroking. 
     //TODO: reall do network parsing/start to use packets.
-    }
+    
+
+    //TODO:catch exception of trying to run 2 games at the same time (bind failed)
     catch (IOException e) {
         // TODO Auto-generated catch block
         e.printStackTrace();
@@ -66,10 +70,13 @@ public class Server extends NetworkHandler implements Runnable {
     sw.start();
     Thread sr = new Thread((new ServerReader(gs, in)));
     sr.start();
+    
+    //go bcack to waiting for conncetion
+    
 
     
+
     }
-    
 //    while(true) {
 //        //TODO:change to using blocking ques
 //        if (ready()) {

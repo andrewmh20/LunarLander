@@ -1,5 +1,6 @@
 package game;
 import java.lang.reflect.InvocationTargetException;
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.Map;
 import java.util.Set;
@@ -68,6 +69,10 @@ public class GameState {
         //TODO: doesnt need to be blocking...does it? 
        errorQue =  new LinkedBlockingQueue<Error>(); 
        this.isEasy = isEasy;
+       
+       indicesToRemove = new TreeSet<Integer>();
+       errorFreqSent = new TreeMap<Error, Integer>();
+      errors = new LinkedList<Error>();
     }
     public void reset(){
         Vx = 0;
@@ -165,16 +170,16 @@ public class GameState {
     
     public void setErrorToSend(Error error) {
         System.out.println(error);
-//        if(error == null) {
-//            
-//        }
-//        else if (errorFreqSent.get(error)==null) {
-//            errorFreqSent.put(error, 1);
-//
-//        }
-//        else {
-//            errorFreqSent.put(error, errorFreqSent.get(error)+1);
-//        }
+        if(error == null) {
+            
+        }
+        else if (errorFreqSent.get(error)==null) {
+            errorFreqSent.put(error, 1);
+
+        }
+        else {
+            errorFreqSent.put(error, errorFreqSent.get(error)+1);
+        }
         try {
           errorQue.put(error);
       } catch (InterruptedException e) {

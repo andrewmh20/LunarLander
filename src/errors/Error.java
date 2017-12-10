@@ -72,12 +72,28 @@ public abstract class Error implements Comparable<Error>{
         
     }
     
+    
+    
     @Override
-    public int compareTo(Error e) {
-//        if(e==null ) {
-//            return -1;
-//        }
+    public boolean equals(Object obj) {
         // TODO Auto-generated method stub
+        
+        
+        if (obj == null) {
+            return false;
+        }
+        else {
+            return (getErrorCode() == ((Error) obj).getErrorCode());
+
+        }
+    }
+
+    @Override
+    //Throws null pointer exception if null
+    public int compareTo(Error e) {
+        // TODO Auto-generated method stub
+
+        
         if(getErrorCode() < e.getErrorCode()) {
             return -1;
         }

@@ -68,60 +68,6 @@ public class Client extends NetworkHandler implements Runnable {
     cr.start();
     }
     
-//while (true) {
-//        try {
-            
-            //this blocks until there is an error avliable....
-//            Error err = gs.getErrorAttempt();
-//            System.out.println("Error:"+err);
-//            if (err != null) {
-//                
-//
-//            //TODO:more meaningful v's
-//            //nos.write(new NetworkPacket(1,1,1,err).getPacket().getBytes());
-//            pw.print(new NetworkPacket(1,1,1,err).getPacket());
-//            pw.flush();
-//            //System.out.println((new NetworkPacket(1,1,1,err)).getPacket().toString());
-//            gs.setError(null);
-//        
-//        }
-//        }
-//
-//        
-//        catch (Exception e) {
-//            e.printStackTrace(System.err);
-//        }
-        //get packets
-//        if (ready()) {
-//            try {
-//              //This will hang if it's not receiving packets
-//            if (in.ready()){
-//                NetworkPacket packetIn = NetworkPacket.parse(in.readLine());
-//                System.out.println(packetIn);
-//            System.out.println("READY");
-//
-//            gs.setVx(packetIn.getVx());
-//            gs.setVy(packetIn.getVy());
-//            gs.setVw(packetIn.getVw());
-//            
-////
-//            
-//            //TODO:^^^use read pcaket, not reimpliment in.readLine parsing
-//            }
-//        }
-//            catch (Exception e){
-//e.printStackTrace(System.err);
-//            }
-//            
-//        }
-//}   
-
-            
-
-
-
-//    }
-
     
     catch (Exception e) {
        e.printStackTrace(System.err);

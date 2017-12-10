@@ -25,8 +25,15 @@ public class ClientReader extends NetworkHandler implements Runnable {
         
         while(true) {
           try {
+              
+              String lineIn = in.readLine();
+              if (lineIn == null) {
+                  throw new IOException("Client disconnected");
+                  }
+
+
             //this blocks until ready
-            NetworkPacket packetIn = NetworkPacket.parse(in.readLine());
+            NetworkPacket packetIn = NetworkPacket.parse(lineIn);
             
             //Reason I do all this setting and getting is so that I could use the data later in other 
             //ways if I wanted. Only issue is it leaves room for things to get messed up within the GameState
@@ -36,17 +43,14 @@ public class ClientReader extends NetworkHandler implements Runnable {
             gs.setAltitude(packetIn.getAltitude());
             gs.setFuel(packetIn.getFuel());
             gs.setAngle(packetIn.getAngle());
-            //TODO:this might take work
-            //"TO SEND" should really be named, client.
-            //Ignore this, dont set any errors
-            //gs.setTo(packetIn.getError());
 
             telemetryPanel.updateTelemetryPanel();
           
           } catch (IOException e) {
-              JOptionPane.showMessageDialog(null, "You encountered a network error! See the console for more details.");
+              JOptionPane.showMessageDialog(null, e.getMessage() + " Simulation is now closing");
               e.printStackTrace();
-        }
+
+              System.exit(0);            }
 
 
             

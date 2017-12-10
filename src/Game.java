@@ -1,13 +1,10 @@
 
 
 // imports necessary libraries for Java swing
-import java.awt.*;
-import java.awt.event.*;
 import java.io.IOException;
 import java.lang.reflect.Array;
 
 import javax.swing.*;
-import javax.swing.plaf.metal.MetalIconFactory;
 
 import game.PilotGame;
 import game.SimsupGame;

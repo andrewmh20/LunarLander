@@ -418,6 +418,7 @@ public class Canvas extends JPanel {
                 //to wait but here it doesnt. Rethink.
                 
                 gs.doErrors(this, lm, gs);
+                
                 telemetryPanel.updateTelemetryPanel();
                 //TODO: actually, thats the way to screw up the telemetry--just set gs.vx but not lm.vx
                 
@@ -479,7 +480,7 @@ public class Canvas extends JPanel {
                     timer.stop();
                 }
                 //Fuel left can never be measured exactly! 
-                System.out.println(gs.getFuel());
+                //System.out.println(gs.getFuel());
                 if (gs.getFuel() < 1) {
                     //System.out.println("fuelllop");
                     lm.throttle(0,true);

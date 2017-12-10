@@ -19,7 +19,6 @@ public class ServerWriter extends NetworkHandler implements Runnable {
     public void run() {
         
         while(true) {
-            //TODO:when I deal with errors, set this to actually send the errorCode of what's happening
             pw.print(new NetworkPacket(gs.getVx(),gs.getVy(),gs.getVw(),
                     gs.getAngle(), gs.getAltitude(), null, gs.getFuel()).getPacket());
             pw.flush();
@@ -27,10 +26,11 @@ public class ServerWriter extends NetworkHandler implements Runnable {
                 //Don't continuously send for performance reasons.
                 Thread.sleep(100);
             } catch (InterruptedException e) {
-                JOptionPane.showMessageDialog(null, "You encountered a network error! See the console for more details.");
+                JOptionPane.showMessageDialog(null, e.getMessage() + " Simulation is now closing");
                 e.printStackTrace();
-            }
-        }
+                System.exit(0);            }
+                }
+        
         
     }
 

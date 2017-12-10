@@ -15,6 +15,7 @@ import java.io.PrintWriter;
 import java.net.*;
 import java.util.concurrent.BlockingQueue;
 
+//TODO: unecessary
 public abstract class NetworkHandler {
 
     

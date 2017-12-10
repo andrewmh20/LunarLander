@@ -1,6 +1,7 @@
 package game;
 import java.io.BufferedReader;
 import java.io.IOException;
+import java.net.Socket;
 
 import javax.swing.JOptionPane;
 
@@ -18,20 +19,27 @@ public class ServerReader extends NetworkHandler implements Runnable {
     
     @Override
     public void run() {
-        // TODO Auto-generated method stub
         
         while(true) {
             //Bock until read avaliable
             try {
-                NetworkPacket packetIn = NetworkPacket.parse(in.readLine());
-                //ok to not sync because of way I am writing and reading data.....
-                gs.setErrorReceived(packetIn.getError());
-                //OKAY to conflate the network and graphics here?
+                String lineIn = in.readLine();
+                if (lineIn == null) {
+                    throw new IOException("Client disconnected");
+                }
+                else {
+                    NetworkPacket packetIn = NetworkPacket.parse(lineIn);
+                    gs.setErrorReceived(packetIn.getError());
+
+                }
 
             } catch (IOException e) {
-                JOptionPane.showMessageDialog(null, "You encountered a network error! See the console for more details.");
-
+                JOptionPane.showMessageDialog(null, e.getMessage() + " Simulation is now closing");
                 e.printStackTrace();
+                System.exit(0);            }
+            //TODO: prevent the incessacnt dialogs!
+            finally{
+               // return;
             }
 
         }
