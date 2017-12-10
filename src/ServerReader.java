@@ -26,12 +26,10 @@ public class ServerReader extends NetworkHandler implements Runnable {
                 //ok to not sync because of way I am writing and reading data.....
                 gs.setErrorReceived(packetIn.getError());
                 //OKAY to conflate the network and graphics here?
-                if ( packetIn.getError().isComputerError() ){
-                    JOptionPane.showMessageDialog(null, "COMPUTER ERROR: " + packetIn.getError().getErrorCode());
-                }
 
             } catch (IOException e) {
-                // TODO Auto-generated catch block
+                JOptionPane.showMessageDialog(null, "You encountered a network error! See the console for more details.");
+
                 e.printStackTrace();
             }
 

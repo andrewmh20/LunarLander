@@ -25,16 +25,12 @@ public void run() {
     
     //dialog for the Server to connect to
     final JFrame dialog = new JFrame("LunarLander LaunchPad");
-    //TODO: Is this bad hostname is not encapsulated?
     
-    //TODO:Panel or component?
     final TelemetryPanel TelemetryPanel = new TelemetryPanel(gameState, true);
 
     
     
     Client client = null;
-    //TODO:add a cancel option to these dialogs/close~!!!!
-    //TODO:add a time out?
     //Lined the telemetry panel to the networking thread, so that I can repaint it, like before
     //it was linked to the canvas.
     while (client == null) {
@@ -42,24 +38,35 @@ public void run() {
             final String hostname = 
                     JOptionPane.showInputDialog(dialog, 
                             "Enter the hostname or IP Address of your Pilot "
-                            + "Make sure he starts the simulation first!");
+                            + "Make sure he starts the simulation first and has port 8080 opened!");
+            
+            if (hostname == null) {
+                dialog.dispose();
+                System.exit(0);
+            }
+
             client = new Client(gameState, hostname, TelemetryPanel);
        }
        catch (UnknownHostException e) {
            e.printStackTrace(System.err);
-           JOptionPane.showMessageDialog(dialog, "Hostname could not be resolved! "
+           JOptionPane.showMessageDialog(dialog, "Hostname could not be resolved!\n"
+                   + "Check your spelling. "
                    + "See console for deatils or try again.",
                    "LunarLander LaunchPad", JOptionPane.ERROR_MESSAGE);
+           
+           
        }
        catch (IOException e) {
            e.printStackTrace(System.err);
-           JOptionPane.showMessageDialog(dialog, "There was a problem! "
+           JOptionPane.showMessageDialog(dialog, "There was a problem!\n"
+                   + "Check that the pilot has started the game and has the correct ports opened.\n"
                    + "See console for deatils or try again.",
                    "LunarLander LaunchPad", JOptionPane.ERROR_MESSAGE);
-
+           
        }
     }
-
+    
+    
     Thread clientThread = new Thread(client);
     clientThread.start();
 
@@ -75,17 +82,6 @@ public void run() {
     final ErrorButtonPanel buttons = new ErrorButtonPanel(gameState);
     frame.add(buttons, BorderLayout.CENTER);
 
-    //Create the main timer to update the telemetry panel--not linekd to any type of canvas like in server
-//    Timer timer = new Timer(1000, new ActionListener() {
-//        public void actionPerformed(ActionEvent e) {
-//            //TODO:if this gets more complicaked make a method
-//            //TODO: this is probably too fast! see my CPU usage.....
-//            //TelemetryPanel.repaint();
-//        }
-//    });
-    
-    // MAKE SURE TO START THE TIMER!
-//    timer.start();
     
     // Put the frame on the screen
     frame.pack();

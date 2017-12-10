@@ -1,3 +1,4 @@
+import java.lang.reflect.InvocationTargetException;
 import java.util.LinkedList;
 import java.util.Map;
 import java.util.Set;
@@ -7,10 +8,8 @@ import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.TimeUnit;
 
-//TODO:Is this the right way to structure it?
-//And put everything togethre in the Game class
-//TODO: Or create a seperate class for each actual panel
-
+import javax.swing.JOptionPane;
+import javax.swing.SwingUtilities;
 
 public class GameState {
     
@@ -101,7 +100,6 @@ public class GameState {
     }
     public  float getAngle() {
         
-        //TODO:THis works, but need to make decisions exactly how I want to display angles
         
         double angle = (this.angle%(2*Math.PI));
         
@@ -187,6 +185,7 @@ public class GameState {
    try {
        return errorQue.take();
    } catch (InterruptedException e) {
+       //wont happen
        // TODO Auto-generated catch block
        e.printStackTrace();
        return null;
@@ -211,7 +210,7 @@ public class GameState {
           
           Error errorInList = errors.get(i);
           if (errorInList == null) {
-              return;
+              continue;
           }
 
 //          if (errorInList instanceof ResetGameError) {
@@ -237,15 +236,28 @@ public class GameState {
 //          }
 //          
 //          else {
+          
+          if ( errorInList.isComputerError()){
+              SwingUtilities.invokeLater(new Runnable() {
+
+                @Override
+                public void run() {
+                    JOptionPane.showMessageDialog(null, "COMPUTER ERROR: " + errorInList.getErrorCode());
+                    System.out.println("New display thread!");
+                }
+                  
+              });
+              indicesToRemove.add(i);
+
+          }
+
               errorInList.causeFailure(lm, gs);
 //          }
       }
-//      if (errors.size() > 0 ){
-//          for (int i : indicesToRemove) {
-//              errors.remove(i);
-//          }
-//
-//      }
+          for (int i : indicesToRemove) {
+              errors.set(i, null);
+      }
+          indicesToRemove.clear();
       
   }
   

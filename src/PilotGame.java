@@ -43,9 +43,7 @@ public class PilotGame implements Runnable {
         dialog.dispose();
         System.exit(0);
         }
-        else {
-            throw new RuntimeException("didn't initialize diffculty");
-        }
+                
         //For each game you run, start a new server
         final GameState gameState = new GameState(isEasy);
         final Server server = new Server(gameState);

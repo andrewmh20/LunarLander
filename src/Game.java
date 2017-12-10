@@ -25,39 +25,6 @@ public class Game implements Runnable {
         //TODO:make this close correctly when closed
         final JFrame dialog = new JFrame("LunarLander LaunchPad");
         
-        //dialog.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        
-        //final JButton[] modeOptions = new JButton[2];
-        
-//        final JButton SimSup =  new JButton("SimSup");
-//        SimSup.addActionListener(new ActionListener() {
-//            
-//            @Override
-//            public void actionPerformed(ActionEvent e) {
-//                SwingUtilities.invokeLater(new SimsupGame());
-//                //dialog.setVisible(false);
-//                dialog.dispose();
-//               // nextFrameOpened = true;
-//                }
-//        });
-//        
-//        Array.set(modeOptions, 0, SimSup);
-//        
-//        
-//        final JButton Pilot = new JButton("Pilot");
-//        Pilot.addActionListener(new ActionListener() {
-//            
-//            @Override
-//            public void actionPerformed(ActionEvent e) {
-//                SwingUtilities.invokeLater(new PilotGame());
-//                //dialog.setVisible(false);
-//                dialog.dispose();
-//               
-//            }
-//        });
-//        
-//        Array.set(modeOptions, 1, Pilot);
-//
         String[] modeOptions = new String[2];
         Array.set(modeOptions, 0, "SimSup");
         Array.set(modeOptions, 1, "Pilot");
@@ -78,8 +45,6 @@ public class Game implements Runnable {
             System.exit(0);
         }
 
-        System.out.println(result);
-        //dialog.dispose();
     }
     
     

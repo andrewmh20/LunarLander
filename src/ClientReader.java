@@ -3,6 +3,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.concurrent.TimeUnit;
 
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 public class ClientReader extends NetworkHandler implements Runnable {
@@ -42,8 +43,8 @@ public class ClientReader extends NetworkHandler implements Runnable {
             telemetryPanel.updateTelemetryPanel();
           
           } catch (IOException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
+              JOptionPane.showMessageDialog(null, "You encountered a network error! See the console for more details.");
+              e.printStackTrace();
         }
 
 

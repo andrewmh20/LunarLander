@@ -1,5 +1,7 @@
 import java.io.PrintWriter;
 
+import javax.swing.JOptionPane;
+
 public class ServerWriter extends NetworkHandler implements Runnable {
 
     
@@ -21,10 +23,10 @@ public class ServerWriter extends NetworkHandler implements Runnable {
                     gs.getAngle(), gs.getAltitude(), null, gs.getFuel()).getPacket());
             pw.flush();
             try {
-                //Don't continuously send
+                //Don't continuously send for performance reasons.
                 Thread.sleep(100);
             } catch (InterruptedException e) {
-                // TODO Auto-generated catch block
+                JOptionPane.showMessageDialog(null, "You encountered a network error! See the console for more details.");
                 e.printStackTrace();
             }
         }

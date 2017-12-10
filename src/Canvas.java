@@ -418,7 +418,6 @@ public class Canvas extends JPanel {
                 
                 gs.doErrors(this, lm, gs);
                 telemetryPanel.updateTelemetryPanel();
-
                 //TODO: actually, thats the way to screw up the telemetry--just set gs.vx but not lm.vx
                 
                 //update the game state velocities
