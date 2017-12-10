@@ -37,7 +37,7 @@ public class ErrorButtonPanel extends JPanel{
 
             @Override
             public void actionPerformed(ActionEvent e) {
-                gs.setError(new StuckLeftThrusterError());
+                gs.setError(new LeftThrusterError());
                 // TODO Auto-generated method stub
                 
             }
@@ -51,7 +51,7 @@ public class ErrorButtonPanel extends JPanel{
 
             @Override
             public void actionPerformed(ActionEvent e) {
-                gs.setError(new StuckRightThrusterError());
+                gs.setError(new RightThrusterError());
                 // TODO Auto-generated method stub
                 
             }
@@ -67,7 +67,7 @@ public class ErrorButtonPanel extends JPanel{
 
             @Override
             public void actionPerformed(ActionEvent e) {
-                gs.setError(new ResetErrors());
+                gs.setError(new ResetGameError());
                 // TODO Auto-generated method stub
                 
             }
@@ -81,7 +81,7 @@ public class ErrorButtonPanel extends JPanel{
 
             @Override
             public void actionPerformed(ActionEvent e) {
-                gs.setError(new ComputerOverloadedError());
+                gs.setError(new ComputerOverloadedError1201());
                 // TODO Auto-generated method stub
                 
             }

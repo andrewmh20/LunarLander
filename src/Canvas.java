@@ -187,8 +187,16 @@ public class Canvas extends JPanel {
                      //TODO:holding down key doesnt work?
                      if (e.getKeyCode() == KeyEvent.VK_LEFT) {
 
+                         
+                         if (gs.getVw() !=0) {
+                             gs.setFuel(Math.max(gs.getFuel()-NULL_FORCES_PENALTY,0));
+
+                         }
+                         lm.nullAngularForces(gs.getHasFuel());
+                         
+                         
                          //System.out.println(e.getKeyChar());
-                         lm.jumpR(gs.getHasFuel());
+                         lm.jumpL(gs.getHasFuel());
                          gs.setFuel(Math.max(gs.getFuel()-FUEL_INCREMENT_THRUSTER*FUEL_INCREMENT_THRUSTER_JUMP_SCALE,0));
 
 
@@ -196,8 +204,13 @@ public class Canvas extends JPanel {
 
                      if (e.getKeyCode() == KeyEvent.VK_RIGHT) {
 
-                         
-                         lm.jumpL(gs.getHasFuel());
+                         if (gs.getVw() !=0) {
+                             gs.setFuel(Math.max(gs.getFuel()-NULL_FORCES_PENALTY,0));
+
+                         }
+                         lm.nullAngularForces(gs.getHasFuel());
+
+                         lm.jumpR(gs.getHasFuel());
                          gs.setFuel(Math.max(gs.getFuel()-FUEL_INCREMENT_THRUSTER*FUEL_INCREMENT_THRUSTER_JUMP_SCALE,0));
 
 
@@ -248,12 +261,12 @@ public class Canvas extends JPanel {
                   ///TODO:For readme, the reason gs is so abstracted from lm--ie why not just use lm.getVx becuase I thought i might need ot have
                   //the abstaction, but as it turned out anyone that needed acesss to gs had access to lem so it just got confugisojns
                   if (e.getKeyCode() == KeyEvent.VK_N) {
-                      
-                      lm.nullAngularForces();
                       if (gs.getVw() !=0) {
                           gs.setFuel(Math.max(gs.getFuel()-NULL_FORCES_PENALTY,0));
 
                       }
+                      lm.nullAngularForces(gs.getHasFuel());
+
 
                    }
 

@@ -386,8 +386,12 @@ public void throttle(int throt, boolean hasFuel) {
     }
     //Would not really be that immidiate, but reasonable.
     //TODO:if I really fix teh jump I can store a list of torque forces and use this to undo them.
-    public void nullAngularForces() {
-        lemBody.setAngularVelocity(0);
+    public void nullAngularForces(boolean hasFuel) {
+        
+        if (hasFuel) {
+            lemBody.setAngularVelocity(0);
+
+        }
 
         
     }

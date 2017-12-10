@@ -1,16 +1,19 @@
 
-public class DummyError extends Error {
+public class AttInstrumentError extends Error {
+
+    private static final double ANGLE_SCALE = 1000;
 
     @Override
     public void causeFailure(LunarModel lm, GameState gs) {
         // TODO Auto-generated method stub
+        gs.setAngle((float)(Math.random()*ANGLE_SCALE));
 
     }
 
     @Override
     public int getErrorCode() {
         // TODO Auto-generated method stub
-        return 0;
+        return 107;
     }
 
     @Override

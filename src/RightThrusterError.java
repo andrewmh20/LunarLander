@@ -1,16 +1,18 @@
 
-public class DummyError extends Error {
+public class RightThrusterError extends Error {
 
     @Override
     public void causeFailure(LunarModel lm, GameState gs) {
         // TODO Auto-generated method stub
+        lm.thrustR(gs.getHasFuel());
+
 
     }
 
     @Override
     public int getErrorCode() {
         // TODO Auto-generated method stub
-        return 0;
+        return 102;
     }
 
     @Override
@@ -22,7 +24,7 @@ public class DummyError extends Error {
     @Override
     public void undoError(LunarModel lm, GameState gs) {
         // TODO Auto-generated method stub
-        
+        //just stop doing it 
     }
 
 }

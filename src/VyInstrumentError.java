@@ -1,16 +1,19 @@
 
-public class DummyError extends Error {
+public class VyInstrumentError extends Error {
+
+    private static final double VELOCITY_SCALE = 1000;
 
     @Override
     public void causeFailure(LunarModel lm, GameState gs) {
         // TODO Auto-generated method stub
+        gs.setVx((float)(Math.random()*VELOCITY_SCALE));
 
     }
 
     @Override
     public int getErrorCode() {
         // TODO Auto-generated method stub
-        return 0;
+        return 105;
     }
 
     @Override

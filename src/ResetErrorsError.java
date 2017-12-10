@@ -1,16 +1,17 @@
 
-public class DummyError extends Error {
+public class ResetErrorsError extends Error {
 
     @Override
     public void causeFailure(LunarModel lm, GameState gs) {
         // TODO Auto-generated method stub
-
+        //Dummy class to signigfy reset the errors.
+        
     }
 
     @Override
     public int getErrorCode() {
         // TODO Auto-generated method stub
-        return 0;
+        return 2;
     }
 
     @Override

@@ -7,12 +7,16 @@ public abstract class Error {
     
     Error(){
     }
+
     //TODO: Hope this is good use of it, must have some other reason
     //TODO: Or make input more general somehow; depends on types of failures I have
     //TODO: Refactor, ecause really may need to take in  teh "game state" for fuel failures etc....
     //Unless I incoporate that into canvaS? Weird. but so far I think setup is good.
-    public abstract void causeFailure(LunarModel lm, GameState gs);
+    public  void causeFailure(LunarModel lm, GameState gs) {
+
+    };
     
+    public abstract void undoError(LunarModel lm, GameState gs);
     
     public abstract int getErrorCode();
     
@@ -26,16 +30,36 @@ public abstract class Error {
             case 100:
                 return new FullThrottleError();
             case 101:
-                return new StuckLeftThrusterError();
+                return new LeftThrusterError();
             case 102:
-                return new StuckRightThrusterError();
+                return new RightThrusterError();
 
                 //TODO:eh
                 //TODO:fix this from octal
-            case 0001:
-                return new ResetErrors();
+            case 1:
+                return new ResetGameError();
+            case 2:
+                return new ResetErrorsError();
             case 1201:
-                return new ComputerOverloadedError();
+                return new ComputerOverloadedError1201();
+            case 1202:
+                return new ComputerOverloadedError1202();
+            case 103:
+                return new FuelLeakError();
+            case 104: 
+                return new VxInstrumentError();
+            case 105: 
+                return new VyInstrumentError();
+            case 106: 
+                return new VwInstrumentError();
+            case 107: 
+                return new AttInstrumentError();
+            case 108: 
+                return new AltInstrumentError();
+
+
+
+
             default: return new DummyError();
         }
         
