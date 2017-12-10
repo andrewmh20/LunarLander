@@ -85,6 +85,8 @@ public class Canvas extends JPanel {
         private LinkedList<Vec2> vertices; 
         private Path2D lunarSurface; 
 
+        private boolean  firstExit = true;
+
         //TODO: change the status thing to just be a field of gs
         //Jpanel for display of info from model displayed in canvas
         public Canvas(GameState gs, TelemetryPanel tp) {
@@ -116,7 +118,7 @@ public class Canvas extends JPanel {
              //close the curve
              lunarSurface.lineTo(CANVAS_WIDTH, CANVAS_HEIGHT);
              lunarSurface.lineTo(0, CANVAS_HEIGHT);
-
+             lunarSurface.lineTo(vertices.get(0).x, vertices.get(0).y);
              
             
              try {
@@ -160,46 +162,18 @@ public class Canvas extends JPanel {
             //this.gs.reset();
             this.requestFocusInWindow();
 
-            addKeyListener(new KeyAdapter() {
+            KeyAdapter easyKeyAdapter = new KeyAdapter() {
                 int temp;
                 //TODO: Change j and i to +/- constants so that can change rate of throttle increase
                 final public static int FUEL_INCREMENT_THRUSTER_JUMP_SCALE = 3;//use 3 times as much fuel 
                 boolean first = true;
 
                 public void keyPressed(KeyEvent e) {
-                     if (e.getKeyCode() == KeyEvent.VK_UP) {
-                         
-                         //j=0;
-                         i+=THROTTLE_JUMP;
-                         temp = lm.getThrottle();
-                         lm.throttle(i, gs.getHasFuel());
-
-                     }
-                     if (e.getKeyCode() == KeyEvent.VK_DOWN) {
-                         
-                        // i=0;
-                         i-=THROTTLE_JUMP;
-                         temp = lm.getThrottle();
-                         //TODO:change behavior for when F is held and then down is pressed and F is released
-                         lm.throttle(i, gs.getHasFuel());
-                         
-
-                     }
                      
-                     ///TODO:For readme, the reason gs is so abstracted from lm--ie why not just use lm.getVx becuase I thought i might need ot have
-                     //the abstaction, but as it turned out anyone that needed acesss to gs had access to lem so it just got confugisojns
-                     if (e.getKeyCode() == KeyEvent.VK_N) {
-                         
-                         lm.nullAngularForces();
-                         if (gs.getVw() !=0) {
-                             gs.setFuel(Math.max(gs.getFuel()-NULL_FORCES_PENALTY,0));
-
-                         }
-
-                      }
+                     
 
                      //Full throttle momentarily
-                     if (e.getKeyCode() == KeyEvent.VK_F) {
+                     if (e.getKeyCode() == KeyEvent.VK_UP) {
                          
                          //store current throttle
                          if (first) {
@@ -209,37 +183,9 @@ public class Canvas extends JPanel {
                          lm.throttle(LunarModel.MAX_THROTTLE, gs.getHasFuel());
 
                      }
-                     
-                   //kill Engine
-                     if (e.getKeyCode() == KeyEvent.VK_K) {
-                         
-                         //store current throttle
-                         lm.throttle(LunarModel.MIN_THROTTLE, gs.getHasFuel());
-                         temp = 0;
-                         i = 0;
-
-                     }
-                     
-                     //TODO: Add "Abort" key that sets full throttle until you manually bring it down/ shut it off
-                     if (e.getKeyCode() == KeyEvent.VK_LEFT) {
-
-                         //System.out.println(e.getKeyChar());
-
-                         lm.thrustL(gs.getHasFuel());
-                         gs.setFuel(Math.max(gs.getFuel()-FUEL_INCREMENT_THRUSTER,0));
-
-                     }
-                     if (e.getKeyCode() == KeyEvent.VK_RIGHT) {
-
-                         
-                         lm.thrustR(gs.getHasFuel());
-                         gs.setFuel(Math.max(gs.getFuel()-FUEL_INCREMENT_THRUSTER,0));
-
-
-                     }
-                     
+                                          
                      //TODO:holding down key doesnt work?
-                     if (e.getKeyCode() == KeyEvent.VK_G) {
+                     if (e.getKeyCode() == KeyEvent.VK_LEFT) {
 
                          //System.out.println(e.getKeyChar());
                          lm.jumpR(gs.getHasFuel());
@@ -248,7 +194,7 @@ public class Canvas extends JPanel {
 
                      }
 
-                     if (e.getKeyCode() == KeyEvent.VK_D) {
+                     if (e.getKeyCode() == KeyEvent.VK_RIGHT) {
 
                          
                          lm.jumpL(gs.getHasFuel());
@@ -263,7 +209,7 @@ public class Canvas extends JPanel {
 
                 public void keyReleased(KeyEvent e) {
 
-                    if (e.getKeyCode() == KeyEvent.VK_F) {
+                    if (e.getKeyCode() == KeyEvent.VK_UP) {
                         
                         lm.throttle(temp,gs.getHasFuel());
                         first = true;
@@ -271,7 +217,128 @@ public class Canvas extends JPanel {
                     }
 
                 }
-            });
+            };
+
+         KeyAdapter hardKeyAdapter = new KeyAdapter() {
+             int temp;
+             //TODO: Change j and i to +/- constants so that can change rate of throttle increase
+             final public static int FUEL_INCREMENT_THRUSTER_JUMP_SCALE = 3;//use 3 times as much fuel 
+             boolean first = true;
+
+             public void keyPressed(KeyEvent e) {
+                  if (e.getKeyCode() == KeyEvent.VK_UP) {
+                      
+                      //j=0;
+                      i+=THROTTLE_JUMP;
+                      temp = lm.getThrottle();
+                      lm.throttle(i, gs.getHasFuel());
+
+                  }
+                  if (e.getKeyCode() == KeyEvent.VK_DOWN) {
+                      
+                     // i=0;
+                      i-=THROTTLE_JUMP;
+                      temp = lm.getThrottle();
+                      //TODO:change behavior for when F is held and then down is pressed and F is released
+                      lm.throttle(i, gs.getHasFuel());
+                      
+
+                  }
+                  
+                  ///TODO:For readme, the reason gs is so abstracted from lm--ie why not just use lm.getVx becuase I thought i might need ot have
+                  //the abstaction, but as it turned out anyone that needed acesss to gs had access to lem so it just got confugisojns
+                  if (e.getKeyCode() == KeyEvent.VK_N) {
+                      
+                      lm.nullAngularForces();
+                      if (gs.getVw() !=0) {
+                          gs.setFuel(Math.max(gs.getFuel()-NULL_FORCES_PENALTY,0));
+
+                      }
+
+                   }
+
+                  //Full throttle momentarily
+                  if (e.getKeyCode() == KeyEvent.VK_F) {
+                      
+                      //store current throttle
+                      if (first) {
+                          temp = lm.getThrottle();
+                          first = false;
+                      }
+                      lm.throttle(LunarModel.MAX_THROTTLE, gs.getHasFuel());
+
+                  }
+                  
+                //kill Engine
+                  if (e.getKeyCode() == KeyEvent.VK_K) {
+                      
+                      //store current throttle
+                      lm.throttle(LunarModel.MIN_THROTTLE, gs.getHasFuel());
+                      temp = 0;
+                      i = 0;
+
+                  }
+                  
+                  //TODO: Add "Abort" key that sets full throttle until you manually bring it down/ shut it off
+                  if (e.getKeyCode() == KeyEvent.VK_LEFT) {
+
+                      //System.out.println(e.getKeyChar());
+
+                      lm.thrustL(gs.getHasFuel());
+                      gs.setFuel(Math.max(gs.getFuel()-FUEL_INCREMENT_THRUSTER,0));
+
+                  }
+                  if (e.getKeyCode() == KeyEvent.VK_RIGHT) {
+
+                      
+                      lm.thrustR(gs.getHasFuel());
+                      gs.setFuel(Math.max(gs.getFuel()-FUEL_INCREMENT_THRUSTER,0));
+
+
+                  }
+                  
+                  //TODO:holding down key doesnt work?
+                  if (e.getKeyCode() == KeyEvent.VK_G) {
+
+                      //System.out.println(e.getKeyChar());
+                      lm.jumpR(gs.getHasFuel());
+                      gs.setFuel(Math.max(gs.getFuel()-FUEL_INCREMENT_THRUSTER*FUEL_INCREMENT_THRUSTER_JUMP_SCALE,0));
+
+
+                  }
+
+                  if (e.getKeyCode() == KeyEvent.VK_D) {
+
+                      
+                      lm.jumpL(gs.getHasFuel());
+                      gs.setFuel(Math.max(gs.getFuel()-FUEL_INCREMENT_THRUSTER*FUEL_INCREMENT_THRUSTER_JUMP_SCALE,0));
+
+
+                  }
+
+                  
+          
+             }
+
+             public void keyReleased(KeyEvent e) {
+
+                 if (e.getKeyCode() == KeyEvent.VK_F) {
+                     
+                     lm.throttle(temp,gs.getHasFuel());
+                     first = true;
+
+                 }
+
+             }
+
+         };
+            if(gs.getIsEasy()) {
+                addKeyListener(easyKeyAdapter);
+
+            }
+            else {
+                addKeyListener(hardKeyAdapter);
+            }
             
 
         }
@@ -297,6 +364,7 @@ public class Canvas extends JPanel {
             j =0;
             k = 0;
             playing = true;
+            firstExit = true;
 
             // Make sure that this component has the keyboard focus
             requestFocusInWindow();
@@ -368,6 +436,17 @@ public class Canvas extends JPanel {
                 
                 lm.setBounds(this.getWidth(), this.getHeight());
 
+                //Yes I know this is only tthe top left. There are bigger priorities
+                //System.out.println(firstExit);
+                if ((lm.getPx() < 0 || lm.getPx() > CANVAS_WIDTH || lm.getPy() < 0) && firstExit) {
+                    
+                    JOptionPane.showMessageDialog(null, "You're leaving the target landing area! Be careful!");
+                    firstExit = false;
+                }
+                if(lm.getPy() > 0 && lm.getPx() > 0 && lm.getPx() < CANVAS_WIDTH) {
+                    firstExit = true;
+                }
+                
                 //Set the linked panel labels
                 
                 
@@ -465,6 +544,8 @@ public class Canvas extends JPanel {
             //Drawing based on origin point of rectangle, consider center of mass to be basd on unifrom
             //density squares, so in center of square.
             
+            //USING lm. here is not ideal, but its not going to be set anywhere outside of canvas, so ok. anythign that gets sent in telemetry needs
+            //to be done with gs.
             int PxToDrawCenter = lm.getPx()+(LEM_WIDTH/2);
             int PyToDrawCenter = lm.getPy()+(LEM_HEIGHT/2);
             float angleToDraw = lm.getAngle();
