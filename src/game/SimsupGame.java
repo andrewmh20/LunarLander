@@ -53,6 +53,22 @@ public class SimsupGame implements Runnable {
 
             }
         }
+        
+        JFrame instructions = new JFrame();            
+            
+        JOptionPane.showMessageDialog(instructions, "Welcome Simulation Supervisor!\n"
+                + "Your job is to train the pilot by sending various errors and combinations\n"
+                + "of errors to his lunar lander.\n"
+                + "Your control panel contains buttons to send the errors and a selected\n"
+                + "set of telemetry from the lander itself.\n"
+                + "Additionally, the error buttons show how many times you have challenged the pilot\n"
+                + "with each error in this simulation session."
+                + "\n\n"
+                + "See the Readme for a more detailed description of the various errors you can send."
+                + "\n\n"
+                + "Good luck!");
+
+
 
         final Thread clientThread = new Thread(client);
         clientThread.start();

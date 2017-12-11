@@ -30,9 +30,9 @@ public class LunarModel {
      */
 
     // Initial velocity settings
-    private static final Vec2 INITIAL_V = new Vec2(10, 30);
+    private static final Vec2 INITIAL_V = new Vec2(0, 0);
     private static final float INITIAL_Vw = 0;
-    private static final Vec2 INITIAL_POSITION = new Vec2(30, 30);
+    private static final Vec2 INITIAL_POSITION = new Vec2(20, 20);
     // Gravity Vector
     // 6f
     private static final Vec2 gravity = new Vec2(0, 6f);
@@ -42,21 +42,21 @@ public class LunarModel {
     private static final float DENSITY_OF_SHAPES = 1;
     // Between 0 and 1
     private static final float SURFACE_FRICTION = 1;
-    private static final float LEM_FRICTION = 1;
+    private static final float LEM_FRICTION = 1f;
 
     public static final float THROT_SCALE = 250f;
     public static final int MAX_THROTTLE = 100;
     public static final int MIN_THROTTLE = 0;
     // thruster TORQUE settings
-    private static final int TORQUE = 10000000;
+    private static final int TORQUE = 1000000;
 
     // Vertices of lunar surface
 
     private static final Vec2 V1 = new Vec2(0, Canvas.CANVAS_HEIGHT - 10);
     private static final Vec2 V2 = new Vec2(35, Canvas.CANVAS_HEIGHT - 10);
-    private static final Vec2 V3 = new Vec2(60, (Canvas.CANVAS_HEIGHT - 145) + 30);
-    private static final Vec2 V4 = new Vec2(107, (Canvas.CANVAS_HEIGHT - 114) + 30);
-    private static final Vec2 V5 = new Vec2(134, (Canvas.CANVAS_HEIGHT - 114) + 30);
+    private static final Vec2 V3 = new Vec2(60, (Canvas.CANVAS_HEIGHT - 145 + 30));
+    private static final Vec2 V4 = new Vec2(107, (Canvas.CANVAS_HEIGHT - 114 + 30));
+    private static final Vec2 V5 = new Vec2(134, (Canvas.CANVAS_HEIGHT - 114 + 30));
     private static final Vec2 V6 = new Vec2(150, (Canvas.CANVAS_HEIGHT - 58) + 30);
     private static final Vec2 V7 = new Vec2(210, (Canvas.CANVAS_HEIGHT - 58) + 30);
     private static final Vec2 V8 = new Vec2(253, (Canvas.CANVAS_HEIGHT - 86) + 30);
@@ -76,7 +76,7 @@ public class LunarModel {
     // Crash settings
     private static final float CRASH_VELOCITY_Y = 10000;
     private static final float CRASH_VELOCITY_X = 10000;
-    private static final float CRASH_ANGLE = (float) (Math.PI / 6) * 1000;
+    private static final float CRASH_ANGLE = (float) (Math.PI / 6) / 2*1000;
     public static float JUMP_ANGLE = (float) Math.PI / 24;
 
     // initial setttings
@@ -148,7 +148,6 @@ public class LunarModel {
     };
 
     public LunarModel() {
-
         // Create world
         world = new World(gravity);
         // Listen for contacts
@@ -162,15 +161,20 @@ public class LunarModel {
         lemBodyDef.setType(BodyType.DYNAMIC);
 
         surfaceBodyDef = new BodyDef();
-
+        
         // Create the bodies
         lemBody = world.createBody(lemBodyDef);
         // bit of a hack, but it works
         // TODO: maybe I do not need this?
         lemBody.m_invI = 1;
+        
+        
 
         surfaceBody = world.createBody(surfaceBodyDef);
 
+        //System.out.println(surfaceBodyDef.getPosition());
+
+        
         // Create necessary vector from Lem body
         attitudeVec = new Vec2((float) Math.sin(lemBody.getAngle()),
                 (float) Math.cos(lemBody.getAngle()));
@@ -189,7 +193,7 @@ public class LunarModel {
         lemBody.createFixture(lemFixtureDef);
         // lemBody.getFixtureList().setRestitution(0);
         // lemBody.createFixture(lemShape, DENSITY_OF_SHAPES);
-
+       
         // Create all the shapes for the lunar surface, using the vertices "linked" to the display
 
         // Add the vertices
@@ -226,7 +230,8 @@ public class LunarModel {
         // Add each shape to the body as a seperate fixture
         for (final EdgeShape surfaceS : surfaceShapeList) {
             final FixtureDef surfaceFixtureDef = new FixtureDef();
-            surfaceFixtureDef.setDensity(DENSITY_OF_SHAPES);
+            //surfaceFixtureDef.setDensity(DENSITY_OF_SHAPES);
+            surfaceFixtureDef.setDensity(0);
             surfaceFixtureDef.setShape(surfaceS);
             // Never bounce
             surfaceFixtureDef.setRestitution(0);
@@ -237,18 +242,18 @@ public class LunarModel {
         // create "closing fixtures" and a seperate body to prevent looping back around to the moons
         // surface
 
-        final BodyDef encloserBodyDef = new BodyDef();
-        final Body encloserBody = world.createBody(encloserBodyDef);
-        final EdgeShape encloser1 = new EdgeShape();
-        final EdgeShape encloser2 = new EdgeShape();
-        final EdgeShape encloser3 = new EdgeShape();
-        encloser1.set(vertices.getLast(), (new Vec2(Canvas.CANVAS_WIDTH, Canvas.CANVAS_HEIGHT)));
-        encloser2.set(new Vec2(Canvas.CANVAS_WIDTH, Canvas.CANVAS_HEIGHT),
-                new Vec2(0, Canvas.CANVAS_HEIGHT));
-        encloser3.set(new Vec2(0, Canvas.CANVAS_HEIGHT), vertices.get(0));
-        encloserBody.createFixture(encloser1, DENSITY_OF_SHAPES);
-        encloserBody.createFixture(encloser2, DENSITY_OF_SHAPES);
-        encloserBody.createFixture(encloser3, DENSITY_OF_SHAPES);
+//        final BodyDef encloserBodyDef = new BodyDef();
+//        final Body encloserBody = world.createBody(encloserBodyDef);
+//        final EdgeShape encloser1 = new EdgeShape();
+//        final EdgeShape encloser2 = new EdgeShape();
+//        final EdgeShape encloser3 = new EdgeShape();
+//        encloser1.set(vertices.getLast(), (new Vec2(Canvas.CANVAS_WIDTH, Canvas.CANVAS_HEIGHT)));
+//        encloser2.set(new Vec2(Canvas.CANVAS_WIDTH, Canvas.CANVAS_HEIGHT),
+//                new Vec2(0, Canvas.CANVAS_HEIGHT));
+//        encloser3.set(new Vec2(0, Canvas.CANVAS_HEIGHT), vertices.get(0));
+//        encloserBody.createFixture(encloser1, DENSITY_OF_SHAPES);
+//        encloserBody.createFixture(encloser2, DENSITY_OF_SHAPES);
+//        encloserBody.createFixture(encloser3, DENSITY_OF_SHAPES);
 
         // create a new distance setup between any two fixtures
         distance = new Distance();
@@ -281,33 +286,30 @@ public class LunarModel {
         return contactLight;
     }
 
-    public int getPx() {
-        return Math.round(SCALE * lemBody.getPosition().x);
+    public float getPx() {
+        return SCALE * lemBody.getPosition().x;
 
     }
 
-    public int getPy() {
-        return Math.round(SCALE * lemBody.getPosition().y);
+    public float getPy() {
+        return SCALE * lemBody.getPosition().y;
 
     }
 
-    // TODO:Check TORQUE signs
-    // TODO:Make hard and easy modes for each control ,adn a kill swith to recenter everything.
-    // TODO: DO unit tests, but really need to get display setup better to test myself and fine tune
-    // settings.
 
     public LinkedList<Vec2> getSurfaceVertices() {
 
         final LinkedList<Vec2> verticesScaled = new LinkedList<Vec2>();
         for (final Vec2 v : vertices) {
-            verticesScaled.add(v.mul(SCALE));
+            //TODO:go back to scaled
+           verticesScaled.add(v.mul(SCALE));
+            verticesScaled.add(v);
         }
         return verticesScaled;
     }
 
     public int getThrottle() {
         // Return it unscaled
-        // TODO:Should just get original throttle and have 2 fields
         return Math.round(throttle / THROT_SCALE);
     }
 
@@ -321,7 +323,7 @@ public class LunarModel {
         return SCALE * lemBody.getLinearVelocity().x;
     }
 
-    // For TEsting
+    // For Testing
     public float getVy() {
         return SCALE * lemBody.getLinearVelocity().y;
     }
@@ -413,7 +415,7 @@ public class LunarModel {
         DI.proxyB = surfaceDistanceProxy;
         DI.transformA = lemBody.getTransform();
         DI.transformB = surfaceBody.getTransform();
-
+        
         distance.distance(DO, SC, DI);
 
         // TODO: 20 off always...

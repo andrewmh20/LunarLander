@@ -1,6 +1,7 @@
 package game;
 
 import java.awt.BorderLayout;
+import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.lang.reflect.Array;
@@ -8,6 +9,7 @@ import java.lang.reflect.Array;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
@@ -39,6 +41,49 @@ public class PilotGame implements Runnable {
             System.exit(0);
         }
 
+        JFrame instructions = new JFrame();
+        if(!isEasy) {
+            
+            
+        JOptionPane.showMessageDialog(instructions, "Welcome LEM pilot!\n"
+                + "This is a simulation where your job is to land the LEM safely on the lunar surface \n"
+                + "without exceeding 10 m/s velocity either horizontally or veritcally, \n"
+                + "and without being at too steep and angle.\n\n"
+                + "To fly, use the up and down arrow keys for main engine thrust \n"
+                + "and use the left and right arrow keys for thrusters to rotate.\n"
+                + "The N key will null all rotational movement, but be careful: each use "
+                + "is very fuel heavy.\n"
+                + "Once you run out of fuel from thruster and engine use you will "
+                + "be unable to change \n"
+                + "your movement, and will likely crash, killing you and your commander."
+                + "\n"
+                + "\n"
+                + "If you choose to play with a second player"
+                + "\n he can connect to your computer over the internet "
+                + "and act as Simulation Supervisor (SimSup),"
+                + "\n sending various actual and instrumentation errors that you"
+                + "will have to handle to succeed.\n\n"
+                + "Good luck!");
+        }
+        else {
+        JOptionPane.showMessageDialog(instructions , "Welcome LEM pilot!\n"
+                + "This is a simulation where your job is to land the LEM safely on the lunar surface \n"
+                + "without exceeding 10 m/s velocity either horizontally or veritcally, \n"
+                + "and without being at too steep and angle.\n\n"
+                + "To fly, use the up and down arrow keys for main engine thrust \n"
+                + "and use the left and right arrow keys for thrusters to rotate.\n"
+                + "Once you run out of fuel from thruster and engine use you will "
+                + "be unable to change \n"
+                + "your movement, and will likely crash, killing you and your commander."
+                + "\n"
+                + "\n"
+                + "If you choose to play with a second player"
+                + "\n he can connect to your computer over the internet "
+                + "and act as Simulation Supervisor (SimSup),"
+                + "\n sending various actual and instrumentation errors that you"
+                + "will have to handle to succeed.\n\n"
+                + "Good luck!");
+        }
         // For each game you run, start a new server
         final GameState gameState = new GameState(isEasy);
         final Server server = new Server(gameState);

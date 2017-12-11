@@ -32,7 +32,9 @@ public class ServerReader extends NetworkHandler implements Runnable {
 
             } catch (final IOException e) {
                 JOptionPane.showMessageDialog(null, e.getMessage() + " Simulation is now closing");
-                e.printStackTrace(System.err);
+                if (!e.getMessage().equals("Client disconnected")){
+                    e.printStackTrace(System.err);
+                }
                 System.exit(0);
             }
             // TODO: prevent the incessacnt dialogs!

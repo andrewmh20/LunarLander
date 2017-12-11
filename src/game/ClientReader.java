@@ -45,9 +45,12 @@ public class ClientReader extends NetworkHandler implements Runnable {
                 telemetryPanel.updateTelemetryPanel();
 
             } catch (final IOException e) {
+                
                 JOptionPane.showMessageDialog(null, e.getMessage() + " Simulation is now closing");
-                e.printStackTrace(System.err);
-
+                if (!e.getMessage().equals("Client disconnected")){
+                    e.printStackTrace(System.err);
+                }
+                
                 System.exit(0);
             }
 

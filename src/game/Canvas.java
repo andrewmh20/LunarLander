@@ -56,7 +56,7 @@ public class Canvas extends JPanel {
 
     private static final int LANDED_DURATION = 90;
 
-    protected static final float NULL_FORCES_PENALTY = 20;
+    protected static final float NULL_FORCES_PENALTY = 50;
 
     private static Image LemSprite;
 
@@ -75,10 +75,7 @@ public class Canvas extends JPanel {
     private final GameState gs;
     private final TelemetryPanel telemetryPanel;
 
-    // private field for the shape that is the surface, so I can use it AND draw it
-    // Leave the ability to change the path depending on the game---but do that later. would set in
-    // reset area.
-    private final Path2D surface;
+
     private int k;
 
     private final LinkedList<Vec2> vertices;
@@ -86,20 +83,9 @@ public class Canvas extends JPanel {
 
     private boolean firstExit = true;
 
-    // TODO: change the status thing to just be a field of gs
-    // Jpanel for display of info from model displayed in canvas
+
     public Canvas(GameState gs, TelemetryPanel tp) {
-        // Copied from reset.
 
-        // Make sure that this component has the keyboard focus
-
-        // TODO:this means I cna remove all fixture logic from the model--just use the body.
-        surface = new Path2D.Float();
-        // TOtally wrong, just to see
-        surface.moveTo(0, CANVAS_HEIGHT - 10);
-
-        /// TODO : make variable or something
-        surface.lineTo(CANVAS_WIDTH - 10, CANVAS_WIDTH - 10);
         this.lm = new LunarModel();
 
         vertices = lm.getSurfaceVertices();
@@ -108,6 +94,7 @@ public class Canvas extends JPanel {
         lunarSurface.moveTo(vertices.get(0).x, vertices.get(0).y);
         for (int i = 1; i < vertices.size(); i++) {
             lunarSurface.lineTo(vertices.get(i).x, vertices.get(i).y);
+
         }
         // close the curve
         lunarSurface.lineTo(CANVAS_WIDTH, CANVAS_HEIGHT);
@@ -120,8 +107,7 @@ public class Canvas extends JPanel {
             FlameSprite = ImageIO.read(new File("Files/Flame.png")).getScaledInstance(20, 20,
                     Image.SCALE_SMOOTH);
         } catch (final IOException e1) {
-            // TODO Auto-generated catch block
-            e1.printStackTrace();
+            e1.printStackTrace(System.err);
         }
 
         this.gs = gs;
@@ -224,10 +210,7 @@ public class Canvas extends JPanel {
 
         final KeyAdapter hardKeyAdapter = new KeyAdapter() {
             // TODO: Change j and i to +/- constants so that can change rate of throttle increase
-            final public static int FUEL_INCREMENT_THRUSTER_JUMP_SCALE = 3;// use 3 times as much
                                                                            // fuel
-            int temp;
-            boolean first = true;
 
             @Override
             public void keyPressed(KeyEvent e) {
@@ -235,7 +218,6 @@ public class Canvas extends JPanel {
 
                     // j=0;
                     i += THROTTLE_JUMP;
-                    temp = lm.getThrottle();
                     lm.throttle(i, gs.getHasFuel());
 
                 }
@@ -243,7 +225,6 @@ public class Canvas extends JPanel {
 
                     // i=0;
                     i -= THROTTLE_JUMP;
-                    temp = lm.getThrottle();
                     // TODO:change behavior for when F is held and then down is pressed and F is
                     // released
                     lm.throttle(i, gs.getHasFuel());
@@ -263,24 +244,12 @@ public class Canvas extends JPanel {
 
                 }
 
-                // Full throttle momentarily
-                if (e.getKeyCode() == KeyEvent.VK_F) {
-
-                    // store current throttle
-                    if (first) {
-                        temp = lm.getThrottle();
-                        first = false;
-                    }
-                    lm.throttle(LunarModel.MAX_THROTTLE, gs.getHasFuel());
-
-                }
-
+                
                 // kill Engine
                 if (e.getKeyCode() == KeyEvent.VK_K) {
 
                     // store current throttle
                     lm.throttle(LunarModel.MIN_THROTTLE, gs.getHasFuel());
-                    temp = 0;
                     i = 0;
 
                 }
@@ -298,36 +267,11 @@ public class Canvas extends JPanel {
 
                 }
 
-                if (e.getKeyCode() == KeyEvent.VK_G) {
-
-                    lm.jumpR(gs.getHasFuel());
-                    gs.setFuel(Math.max(gs.getFuel()
-                            - (FUEL_INCREMENT_THRUSTER * FUEL_INCREMENT_THRUSTER_JUMP_SCALE), 0));
-
-                }
-
-                if (e.getKeyCode() == KeyEvent.VK_D) {
-
-                    lm.jumpL(gs.getHasFuel());
-                    gs.setFuel(Math.max(gs.getFuel()
-                            - (FUEL_INCREMENT_THRUSTER * FUEL_INCREMENT_THRUSTER_JUMP_SCALE), 0));
-
-                }
+                
 
             }
 
-            @Override
-            public void keyReleased(KeyEvent e) {
-
-                if (e.getKeyCode() == KeyEvent.VK_F) {
-
-                    lm.throttle(temp, gs.getHasFuel());
-                    first = true;
-
-                }
-
-            }
-
+            
         };
         if (gs.getIsEasy()) {
             addKeyListener(easyKeyAdapter);
@@ -351,12 +295,12 @@ public class Canvas extends JPanel {
         final Color Navy = new Color(25, 25, 112);
         this.setBackground(Navy);
 
-        g.setColor(Color.RED);
-        g.drawRect(lm.getPx() + (LEM_WIDTH / 2), lm.getPy() + (LEM_HEIGHT / 2), 2, 2);
-        g.setColor(Color.BLACK);
+//        g.setColor(Color.RED);
+//        g.drawRect(lm.getPx() + (LEM_WIDTH / 2), lm.getPy() + (LEM_HEIGHT / 2), 2, 2);
+//        g.setColor(Color.BLACK);
 
-        final int PxToDrawCenter = lm.getPx() + (LEM_WIDTH / 2);
-        final int PyToDrawCenter = lm.getPy() + (LEM_HEIGHT / 2);
+        final float PxToDrawCenter = lm.getPx() + (LEM_WIDTH / 2);
+        final float PyToDrawCenter = lm.getPy() + (LEM_HEIGHT / 2);
         final float angleToDraw = lm.getAngle();
         // * max in flame scale
         final float flameSizeMin = 1f;
@@ -366,27 +310,35 @@ public class Canvas extends JPanel {
                         / (LunarModel.MAX_THROTTLE - LunarModel.MIN_THROTTLE)) + flameSizeMin);
 
         // draw the flame
-        g2d.translate(PxToDrawCenter, PyToDrawCenter);
+       Graphics2D g2dTranslated = (Graphics2D) g2d.create();
+     g2dTranslated.translate(PxToDrawCenter, PyToDrawCenter);
 
-        g2d.rotate(-angleToDraw);
-        g2d.drawImage(LemSprite, -(LEM_WIDTH / 2), -(LEM_HEIGHT / 2), null);
+     g2dTranslated.rotate(-angleToDraw);
+
+//        g2d.translate(PxToDrawCenter, PyToDrawCenter);
+//
+//        g2d.rotate(-angleToDraw);
+        g2dTranslated.drawImage(LemSprite, -(LEM_WIDTH / 2), -(LEM_HEIGHT / 2), null);
 
         if (flameSize > 1) {
-            g2d.drawImage(
+            g2dTranslated.drawImage(
                     FlameSprite.getScaledInstance(FlameSprite.getWidth(null), flameSize,
                             Image.SCALE_SMOOTH),
                     -(LEM_WIDTH / 2), LemSprite.getHeight(null) - (LEM_HEIGHT / 2), null);
         }
 
-        g2d.rotate(angleToDraw);
-        g2d.translate(-PxToDrawCenter, -PyToDrawCenter);
+//        g2d.rotate(angleToDraw);
+//        g2d.translate(-PxToDrawCenter, -PyToDrawCenter);
 
         // draw the surface
         final Color Silver = new Color(220, 220, 220);
         g2d.setColor(Silver);
+       // g2d.translate(20, 0);
         g2d.draw(lunarSurface);
         g2d.fill(lunarSurface);
         g2d.setColor(Color.BLACK);
+        //g2d.translate(-20, 0);
+
 
     }
 
@@ -396,12 +348,6 @@ public class Canvas extends JPanel {
     public void reset() {
 
         // TODO:Reset
-        /*
-         * square = new Square(CANVAS_WIDTH, CANVAS_HEIGHT, Color.BLACK); poison = new
-         * Poison(CANVAS_WIDTH, CANVAS_HEIGHT); snitch = new Circle(CANVAS_WIDTH, CANVAS_HEIGHT,
-         * Color.YELLOW);
-         */
-
         // OR just make a new one each time...this looks cleaner to me
         lm = new LunarModel();
         gs.reset();
@@ -425,9 +371,10 @@ public class Canvas extends JPanel {
     private void tick() {
         if (playing) {
 
-            repaint();// Need to paint before checking if crashed....
-            //
-
+            // Need to paint before checking if crashed....
+            lm.move();
+            repaint();
+            
             gs.doErrors(this, lm, gs);
 
             telemetryPanel.updateTelemetryPanel();
@@ -451,7 +398,6 @@ public class Canvas extends JPanel {
                 firstExit = true;
             }
 
-            lm.move();
             if (lm.isCrashed()) {
 
                 JOptionPane.showMessageDialog(null, "Oh no! You crashed an expensive lander!");
@@ -474,6 +420,9 @@ public class Canvas extends JPanel {
                 timer.stop();
 
             }
+         
+
+
 
         }
     }

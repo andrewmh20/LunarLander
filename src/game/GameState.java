@@ -15,7 +15,7 @@ import errors.Error;
 
 public class GameState {
 
-    private static final float FUEL_INITIAL = 100000000;
+    private static final float FUEL_INITIAL = 1000000;
 
     private boolean contactLight = false;
 
