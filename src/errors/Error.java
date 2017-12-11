@@ -6,7 +6,7 @@ public abstract class Error implements Comparable<Error> {
 
     public static Error getError(int errorCode) {
         switch (errorCode) {
-        // can't put null in....
+        // can't put null in some places...Dummy error for that.
         case 0:
             return new DummyError();
         case 100:
@@ -16,12 +16,6 @@ public abstract class Error implements Comparable<Error> {
         case 102:
             return new RightThrusterError();
 
-        case 1:
-            return new ResetGameError();
-        case 2:
-            return new ResetErrorsError();
-        case 3:
-            return new ResetLastError();
 
         case 1201:
             return new ComputerOverloadedError1201();
