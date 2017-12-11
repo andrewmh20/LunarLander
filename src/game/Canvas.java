@@ -137,9 +137,9 @@ public class Canvas extends JPanel {
         lunarSurface.lineTo(vertices.get(0).x, vertices.get(0).y);
 
         try {
-            LemSprite = ImageIO.read(new File("Files/LEM.png")).getScaledInstance(LEM_WIDTH,
+            LemSprite = ImageIO.read(new File("files/LEM.png")).getScaledInstance(LEM_WIDTH,
                     LEM_HEIGHT, Image.SCALE_SMOOTH);
-            FlameSprite = ImageIO.read(new File("Files/Flame.png")).getScaledInstance(20, 20,
+            FlameSprite = ImageIO.read(new File("files/Flame.png")).getScaledInstance(20, 20,
                     Image.SCALE_SMOOTH);
         } catch (final IOException e1) {
             e1.printStackTrace(System.err);

@@ -29,7 +29,7 @@ public class PilotGame implements Runnable {
         Array.set(options, 1, "Realistic");
 
         final int difficulty = JOptionPane.showOptionDialog(dialog, "Choose a difficulty",
-                "LunarLander Launchpad", 0, 0, new ImageIcon("Files/MissionControl.jpg"), options,
+                "LunarLander Launchpad", 0, 0, new ImageIcon("files/MissionControl.jpg"), options,
                 null);
         boolean isEasy = false;
         if (difficulty == 0) {

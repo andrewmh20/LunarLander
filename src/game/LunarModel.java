@@ -23,7 +23,6 @@ import org.jbox2d.dynamics.contacts.Contact;
 
 public class LunarModel {
 
-    // TODO:Used iforce2d.com
     /**
      * Class to hold the physics state of the Lunar Lander and provide methods for getting the
      * objects position, which will be used in the Swing Drawing classes AS WELL AS OTHER OBJECTS IN
@@ -340,11 +339,6 @@ public class LunarModel {
         }
 
         return crashed;
-        // Looked at tutorial
-        // https://www.programcreek.com/java-api-examples/index.php?api=org.jbox2d.callbacks.ContactListener
-
-        // TODO:What to do when the lander goes off screen, and then doesnt have surface to collide
-        // into
 
     }
 
@@ -358,24 +352,15 @@ public class LunarModel {
         }
 
         return landed;
-        // Looked at tutorial
-        // https://www.programcreek.com/java-api-examples/index.php?api=org.jbox2d.callbacks.ContactListener
-
-        // TODO:What to do when the lander goes off screen, and then doesnt have surface to collide
-        // into
 
     }
 
-    // TODO:These do not work in combo with torque movements.
     public void jumpL(boolean hasFuel) {
 
         if (hasFuel) {
             lemBody.setTransform(lemBody.getPosition(), lemBody.getAngle() + JUMP_ANGLE);
 
         }
-        // lem.applyTorque((TORQUE));
-        // thrusted++;
-        // lem.applyAngularImpulse((-TORQUE));
 
     }
 
