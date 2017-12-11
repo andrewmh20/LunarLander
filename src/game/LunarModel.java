@@ -30,7 +30,7 @@ public class LunarModel {
      */
 
     // Initial velocity settings
-    private static final Vec2 INITIAL_V = new Vec2(0, 0);
+    private static final Vec2 INITIAL_V = new Vec2(30, 20);
     private static final float INITIAL_Vw = 0;
     private static final Vec2 INITIAL_POSITION = new Vec2(20, 20);
     // Gravity Vector
@@ -48,7 +48,7 @@ public class LunarModel {
     public static final int MAX_THROTTLE = 100;
     public static final int MIN_THROTTLE = 0;
     // thruster TORQUE settings
-    private static final int TORQUE = 1000000;
+    private static final int TORQUE = 700000;
 
     // Vertices of lunar surface
 
@@ -74,9 +74,9 @@ public class LunarModel {
     private static final Vec2 V20 = new Vec2(1000, (Canvas.CANVAS_HEIGHT - 83) + 30);
 
     // Crash settings
-    private static final float CRASH_VELOCITY_Y = 10000;
-    private static final float CRASH_VELOCITY_X = 10000;
-    private static final float CRASH_ANGLE = (float) (Math.PI / 6) / 2*1000;
+    private static final float CRASH_VELOCITY_Y = 10;
+    private static final float CRASH_VELOCITY_X = 10;
+    private static final float CRASH_ANGLE = (float) (Math.PI / 6) / 2;
     public static float JUMP_ANGLE = (float) Math.PI / 24;
 
     // initial setttings

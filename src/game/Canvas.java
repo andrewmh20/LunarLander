@@ -199,7 +199,6 @@ public class Canvas extends JPanel {
 
                 }
 
-                // TODO:holding down key doesnt work?
                 if (e.getKeyCode() == KeyEvent.VK_LEFT) {
 
                     if (gs.getVw() != 0) {
@@ -252,7 +251,10 @@ public class Canvas extends JPanel {
                 if (e.getKeyCode() == KeyEvent.VK_UP) {
 
                     // j=0;
-                    i += THROTTLE_JUMP;
+                    if (i < LunarModel.MAX_THROTTLE) {
+                        i += THROTTLE_JUMP;
+
+                    }
                     lm.throttle(i, gs.getHasFuel());
 
                 }
@@ -260,8 +262,7 @@ public class Canvas extends JPanel {
 
                     // i=0;
                     i -= THROTTLE_JUMP;
-                    // TODO:change behavior for when F is held and then down is pressed and F is
-                    // released
+
                     lm.throttle(i, gs.getHasFuel());
 
                 }

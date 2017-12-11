@@ -217,6 +217,9 @@ extra fuel.
 
 	  I'm overall happy with the current organization, but perhaps I would condense some of
 	  the networking classes I have.
+	  
+	  I would also change some of the various reset() functions to be better than just code
+	  copied from the constructor, and change Game to not require a call to reset() to start.
 
 
 ========================
