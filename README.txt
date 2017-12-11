@@ -51,6 +51,10 @@ Only one pilot game can be open at once on a given computer and support networki
 if you try to open a second instance as a pilot, you will simply be able to play without
 networking support.
 
+If the highscores file gets corrupted, simply delete it and a new one will be created (this
+will delete all high scores).
+
+
 
 ====================================
 =: Detailed Gameplay Instructions :=
@@ -239,8 +243,9 @@ extra fuel. The high scores are not seperated between realistic mode and easy mo
   		With modifications
   	Flame Sprite: http://images.hellokids.com/_uploads/_tiny_galerie/20120416/d7g_how-to-draw-fire-for-kids-step-3.jpg
   		With modifications
+    Mission Control Icon: https://d1marr3m5x4iac.cloudfront.net/images/block/movies/171294/171294_bc.jpg
 
-  	Physics Engine: http://www.jbox2d.org/
+  	Physics Engine Library: http://www.jbox2d.org/
   					https://github.com/jbox2d/jbox2d
   		Along with its documentation, and helpful pages from http://www.iforce2d.net/b2dtut/
   		and https://www.programcreek.com/java-api-examples/index.php?api=org.jbox2d.callbacks.ContactListener

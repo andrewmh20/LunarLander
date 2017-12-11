@@ -107,8 +107,10 @@ public class Canvas extends JPanel {
         }
         
         try {
-            scoreHandler.readFile();
-            highScoresOn = true;
+            if (scoreHandler != null) {
+                scoreHandler.readFile();
+                highScoresOn = true;
+            }
 
         }
         catch (IOException e) {
