@@ -301,7 +301,6 @@ public class LunarModel {
 
         final LinkedList<Vec2> verticesScaled = new LinkedList<Vec2>();
         for (final Vec2 v : vertices) {
-            //TODO:go back to scaled
            verticesScaled.add(v.mul(SCALE));
             verticesScaled.add(v);
         }

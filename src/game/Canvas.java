@@ -409,7 +409,6 @@ public class Canvas extends JPanel {
     // TODO:I made this private.....
     private void tick() {
         if (playing) {
-            System.out.println(highScoresOn);
 
             // Need to paint before checking if crashed....
             lm.move();
