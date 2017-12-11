@@ -16,10 +16,17 @@ public class Server extends NetworkHandler implements Runnable {
 
     private final GameState gs;
 
-    Server(GameState gs) {
+    Socket connectedSocket = null;
+
+    
+    Server(GameState gs) throws IOException {
 
         super();
         this.gs = gs;
+        
+
+            ss = new ServerSocket(8080);
+
 
     }
 
@@ -27,14 +34,8 @@ public class Server extends NetworkHandler implements Runnable {
     public void run() {
         // try {
 
-        Socket connectedSocket = null;
-        try {
 
-            ss = new ServerSocket(8080);
-
-        } catch (final IOException e) {
-            e.printStackTrace(System.err);
-        }
+        
         try {
 
             // Blocks waiting for a connection
@@ -49,9 +50,7 @@ public class Server extends NetworkHandler implements Runnable {
         // THIS is just testing the dynamic dispatch, not the netwroking.
         // TODO: reall do network parsing/start to use packets.
 
-        // TODO:catch exception of trying to run 2 games at the same time (bind failed)
         catch (final IOException e) {
-            // TODO Auto-generated catch block
             e.printStackTrace(System.err);
         }
         while (!ready()) {

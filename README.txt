@@ -47,6 +47,10 @@ address/host is accesible to the simsup's computer.
 To run both the pilot game and the simsup game on the same computer simply enter 
 localhost for the hostname. 
 
+Only one pilot game can be open at once on a given computer and support networking--
+if you try to open a second instance as a pilot, you will simply be able to play without
+networking support.
+
 
 ====================================
 =: Detailed Gameplay Instructions :=
@@ -68,7 +72,7 @@ Sometimes the best course of action is to fly back up to the Command Module (not
 in a controlled fasion and reset, essentially aborting.
 
 You can be added to the high score list at the end of the game if you land with enough 
-extra fuel.
+extra fuel. The high scores are not seperated between realistic mode and easy mode.
 
 
 ===================
@@ -174,6 +178,7 @@ extra fuel.
 	  - GameState is state of the game, that holds all the state updated based on the LunarModel,
 	   network events or button presses. Each display also uses information from GameState.
 	   In each game (pilot or simsup) every thread shares one GameState.
+	   I use GameState as the intermidiary between each component of the game.
 
 	  - Canvas is what holds the game display area for the pilot, and is linked to a
 	  	LunarModel and GameState
@@ -214,6 +219,7 @@ extra fuel.
 	  Similarly, the netwok components take in the relevant GameState instance, and the
 	  panels they will update as arguments, rather than being inherently linked to the main
 	  game and Swing components.
+
 
 	  I'm overall happy with the current organization, but perhaps I would condense some of
 	  the networking classes I have.

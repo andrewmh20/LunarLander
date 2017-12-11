@@ -158,25 +158,17 @@ public class Canvas extends JPanel {
                 tick();
             }
         });
-        // MAKE SURE TO START THE TIMER!
         timer.start();
 
-        // Enable keyboard focus on the court area.
-        // When this component has the keyboard focus, key events are handled by its key listener.
-        setFocusable(true);
 
-        // This key listener allows the square to move as long as an arrow key is pressed, by
-        // changing the square's velocity accordingly. (The tick method below actually moves the
-        // square.)
+        setFocusable(true);
 
         i = 0;
         k = 0;
         playing = true;
-        // this.gs.reset();
         this.requestFocusInWindow();
 
         final KeyAdapter easyKeyAdapter = new KeyAdapter() {
-            // TODO: Change j and i to +/- constants so that can change rate of throttle increase
             final public static int FUEL_INCREMENT_THRUSTER_JUMP_SCALE = 3;// use 3 times as much
                                                                            // fuel
             int temp;
@@ -473,7 +465,10 @@ public class Canvas extends JPanel {
                     if (scoreHandler.getOrderedPlayers().size() < 6) {
                         JOptionPane.showMessageDialog(null, "You made a high score!");
                         String name = JOptionPane.showInputDialog("Enter your name:");
-                        scoreHandler.writeScore(new HighScore(name, gs.getFuel()));
+                        if (name != null) {
+                            scoreHandler.writeScore(new HighScore(name, gs.getFuel()));
+
+                        }
 
                     }
                     else {
@@ -484,8 +479,11 @@ public class Canvas extends JPanel {
                               if (gs.getFuel() > hs.getScore() ) {
                                 JOptionPane.showMessageDialog(null, "You made a high score!");
                                 String name = JOptionPane.showInputDialog("Enter your name:");
-                                scoreHandler.writeScore(new HighScore(name,gs.getFuel()));
-                                break;
+                                if (name != null) {
+                                    scoreHandler.writeScore(new HighScore(name,gs.getFuel()));
+                                    break;
+
+                                }
                             }
 
                         }

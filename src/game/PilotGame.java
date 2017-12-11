@@ -6,6 +6,7 @@ import java.awt.Dimension;
 import java.awt.LayoutManager;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
 import java.lang.reflect.Array;
 
 import javax.swing.ImageIcon;
@@ -90,9 +91,21 @@ public class PilotGame implements Runnable {
         }
         // For each game you run, start a new server
         final GameState gameState = new GameState(isEasy);
-        final Server server = new Server(gameState);
-        final Thread serverThread = new Thread(server);
-        serverThread.start();
+        Server server = null;
+        try {
+             server = new Server(gameState);
+             final Thread serverThread = new Thread(server);
+             serverThread.start();
+
+
+        }
+        catch (IOException e) {
+            //e.printStackTrace(System.err);
+            JOptionPane.showMessageDialog(null, "You have another instance of Lunar Lander running. "
+                    + "This instance will be started without networking.",
+                    "LunarLander LaunchPad", JOptionPane.ERROR_MESSAGE);
+        }
+        
 
         // Top-level frame in which game components live
         // Be sure to change "TOP LEVEL FRAME" to the name of your game

@@ -416,6 +416,7 @@ public class LunarModel {
         // Apply forces that have not yet been applied (i.e. not thrusters)
         lemBody.applyForceToCenter(attitudeVec.mul(throttle).negate());
 
+
         // Step and clear forces
         world.step(1 / 60f, 1, 1);
         world.clearForces();
