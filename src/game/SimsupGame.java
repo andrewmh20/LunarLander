@@ -16,7 +16,6 @@ public class SimsupGame implements Runnable {
         // isEasy not relevant, but I'm just reusing the same gamestate class
         final GameState gameState = new GameState(false);
 
-        // TODO:In readme specify which port this game uses.
 
         // dialog for the Server to connect to
         final JFrame dialog = new JFrame("LunarLander LaunchPad");
