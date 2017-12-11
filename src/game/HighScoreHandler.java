@@ -25,7 +25,6 @@ public class HighScoreHandler {
     
     private PrintWriter out;
     private BufferedReader in;
-    //Not Map because I need ordering methods from TreeMap implementation
     private List<HighScore> highScores;
     
     HighScoreHandler(String filename) throws FileNotFoundException, IOException{
@@ -81,7 +80,6 @@ public class HighScoreHandler {
                 highScores.add(new HighScore(player, Float.parseFloat(score)));
             }
             catch (NumberFormatException e) {
-                System.out.println(score);
                 throw new IOException("Corrupted File--bad score format");
             }
             lineIn = in.readLine();
