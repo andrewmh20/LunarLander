@@ -8,9 +8,6 @@ import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
 
-import game.PilotGame;
-import game.SimsupGame;
-
 /**
  * Game Main class that specifies the frame and widgets of the GUI
  */
