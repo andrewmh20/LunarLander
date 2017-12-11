@@ -427,6 +427,8 @@ public class Canvas extends JPanel {
             gs.setContactLight(lm.getContactLight());
             gs.setFuel(Math.max(gs.getFuel() - (FUEL_INCREMENT * lm.getThrottle()), 0));
 
+            
+            
             if (((lm.getPx() < 0) || (lm.getPx() > CANVAS_WIDTH) || (lm.getPy() < 0))
                     && firstExit) {
 
@@ -443,6 +445,13 @@ public class Canvas extends JPanel {
                 JOptionPane.showMessageDialog(null, "Oh no! You crashed an expensive lander!");
                 timer.stop();
             }
+            
+            if (!gs.getHasFuel() && ((lm.getPx() < 0) || (lm.getPx() > CANVAS_WIDTH) || (lm.getPy() < 0))) {
+                JOptionPane.showMessageDialog(null, "You've left the target landing area with no fuel! Crash "
+                        + "inevitable. Try again.");
+                timer.stop();
+            }
+            
             if (gs.getFuel() < 1) {
                 lm.throttle(0, true);
                 gs.setHasFuel(false);
