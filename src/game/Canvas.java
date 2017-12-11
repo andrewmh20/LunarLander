@@ -107,6 +107,7 @@ public class Canvas extends JPanel {
         }
         
         try {
+            //Think I maybe don't need this nullcheck.
             if (scoreHandler != null) {
                 scoreHandler.readFile();
                 highScoresOn = true;
