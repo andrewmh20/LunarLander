@@ -2,6 +2,7 @@ package game;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
+import java.awt.LayoutManager;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.lang.reflect.Array;
@@ -14,6 +15,8 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 public class PilotGame implements Runnable {
+
+    public static final String HIGH_SCORE_FILE = "files/highscores.txt";
 
     @Override
     public void run() {
@@ -124,6 +127,9 @@ public class PilotGame implements Runnable {
         });
         control_panel.add(reset);
 
+
+        
+        
         // Put the frame on the screen
         frame.pack();
         frame.setResizable(false);

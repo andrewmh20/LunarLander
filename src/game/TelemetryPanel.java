@@ -45,7 +45,6 @@ public class TelemetryPanel extends JPanel {
             add(new JLabel(" "));
 
         } else {
-            // TODO:make more visually pleasing
             setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
             add(fuelLabel);
             add(new JLabel(" "));

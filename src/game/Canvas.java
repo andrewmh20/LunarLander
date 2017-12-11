@@ -5,6 +5,7 @@ package game;
  * @version 2.1, Apr 2017
  */
 
+import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
@@ -16,11 +17,15 @@ import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.geom.Path2D;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.LinkedList;
 
 import javax.imageio.ImageIO;
 import javax.swing.BorderFactory;
+import javax.swing.BoxLayout;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.Timer;
@@ -83,8 +88,42 @@ public class Canvas extends JPanel {
 
     private boolean firstExit = true;
 
+    private HighScoreHandler scoreHandler;
+
+    private boolean highScoresOn = false;
+
 
     public Canvas(GameState gs, TelemetryPanel tp) {
+        
+        //Setup high scores
+        try {
+            scoreHandler = new HighScoreHandler(PilotGame.HIGH_SCORE_FILE);
+        }
+        //THIS WILL NOT HAPPEN because handler will write file first.
+        catch (FileNotFoundException e){
+            final JFrame dialog = new JFrame();
+            JOptionPane.showMessageDialog(dialog, "File was not found! No High scores for this game. See console for details");
+            e.printStackTrace(System.err);
+
+        }
+        catch (IOException e){
+            final JFrame dialog = new JFrame();
+            JOptionPane.showMessageDialog(dialog, "IOException! No High scores for this game. See console for details");
+            e.printStackTrace(System.err);
+        }
+        
+        try {
+            scoreHandler.readFile();
+            highScoresOn = true;
+
+        }
+        catch (IOException e) {
+            final JFrame dialog = new JFrame();
+            JOptionPane.showMessageDialog(dialog, e.getMessage() + ". No High scores for this game. See console for details");
+            e.printStackTrace(System.err);
+            
+        }
+        
 
         this.lm = new LunarModel();
 
@@ -351,6 +390,7 @@ public class Canvas extends JPanel {
         // OR just make a new one each time...this looks cleaner to me
         lm = new LunarModel();
         gs.reset();
+
         // CANNOT DO THIS BC GS IS BEING PASSED IN! 1 per game bc everything is linked through game
         // stategs = new GameState();
         timer.start();
@@ -359,6 +399,9 @@ public class Canvas extends JPanel {
         k = 0;
         playing = true;
         firstExit = true;
+        //Keep same high score state throughout game, also this breaks it sicne I call reset to start
+        //highScoresOn = false;
+
 
         // Make sure that this component has the keyboard focus
         requestFocusInWindow();
@@ -370,6 +413,7 @@ public class Canvas extends JPanel {
     // TODO:I made this private.....
     private void tick() {
         if (playing) {
+            System.out.println(highScoresOn);
 
             // Need to paint before checking if crashed....
             lm.move();
@@ -418,6 +462,69 @@ public class Canvas extends JPanel {
 
                 JOptionPane.showMessageDialog(null, "You landed!");
                 timer.stop();
+                if (highScoresOn) {
+                
+                  try {
+                        
+
+                    if (scoreHandler.getOrderedPlayers().size() < 6) {
+                        JOptionPane.showMessageDialog(null, "You made a high score!");
+                        String name = JOptionPane.showInputDialog("Enter your name:");
+                        scoreHandler.writeScore(new HighScore(name, gs.getFuel()));
+
+                    }
+                    else {
+                        //Normal for loop so I can use break
+                        for (int i = 0; i < 6; i++) {
+                                HighScore hs = scoreHandler.getOrderedPlayers().get(i);
+
+                              if (gs.getFuel() > hs.getScore() ) {
+                                JOptionPane.showMessageDialog(null, "You made a high score!");
+                                String name = JOptionPane.showInputDialog("Enter your name:");
+                                scoreHandler.writeScore(new HighScore(name,gs.getFuel()));
+                                break;
+                            }
+
+                        }
+                    
+                    }
+                  }
+                    catch (IllegalArgumentException e) {
+                        JOptionPane.showMessageDialog(null, "; is an illegal character. Please"
+                                + "try again");
+                        e.printStackTrace(System.err);
+
+                        //TODO: let him try again
+
+                    }
+                    
+                  try {
+                      JFrame highFrame = new JFrame("High Scores");
+                      final HighScorePanel highScores  = new HighScorePanel(scoreHandler);
+                      highFrame.add(highScores, BorderLayout.CENTER);
+                      highFrame.setLocation(500, 300);
+                      highFrame.pack();
+                      highFrame.setVisible(true);
+
+//                      scoreHandler.readFile();   
+//                      JLabel[] labels = new JLabel[6];
+//                      for (int i = 0; i < 6; i++) {
+//                          HighScore hs = scoreHandler.getOrderedPlayers().get(i);
+//                          JLabel score = new JLabel(hs.getPlayer()+ ": " + hs.getScore());
+//                          labels[i] = score;
+//                      }
+                      
+
+                      
+                      
+                  }
+                  catch (IOException e) {
+                      JOptionPane.showMessageDialog(null, "ReadError");
+                      e.printStackTrace(System.err);
+                  }
+
+                }
+                
 
             }
          

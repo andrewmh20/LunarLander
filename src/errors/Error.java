@@ -3,12 +3,8 @@ package errors;
 import game.GameState;
 import game.LunarModel;
 
-//TODO: NEXT really decide on what state game with have, and implement that for serverseide comms
-//THen write the client code/add it to the windows
-//TODO:set borders, set colors
 
 public abstract class Error implements Comparable<Error> {
-    /// TODO:OR MAKE INTERFACE
 
     public static Error getError(int errorCode) {
         switch (errorCode) {
@@ -22,8 +18,6 @@ public abstract class Error implements Comparable<Error> {
         case 102:
             return new RightThrusterError();
 
-        // TODO:eh
-        // TODO:fix this from octal
         case 1:
             return new ResetGameError();
         case 2:
@@ -55,6 +49,7 @@ public abstract class Error implements Comparable<Error> {
     }
 
     Error() {
+        
     };
 
     // TODO: Hope this is good use of it, must have some other reason
