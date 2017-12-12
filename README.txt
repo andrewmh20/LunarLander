@@ -75,6 +75,8 @@ that will affect your ability to complete the landing, and you will need to hand
 Sometimes the best course of action is to fly back up to the Command Module (not shown) 
 in a controlled fasion and reset, essentially aborting.
 
+Just as in the real Apollo 11, the ground radar is not always reliable--so be careful!
+
 You can be added to the high score list at the end of the game if you land with enough 
 extra fuel. The high scores are not seperated between realistic mode and easy mode.
 
