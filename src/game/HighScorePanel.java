@@ -1,6 +1,5 @@
 package game;
 
-
 import java.awt.Dimension;
 import java.awt.GridBagLayout;
 import java.awt.LayoutManager;
@@ -15,37 +14,32 @@ import javax.swing.JPanel;
 
 @SuppressWarnings("serial")
 public class HighScorePanel extends JPanel {
-    
-    HighScoreHandler scoreHandler; 
+
+    HighScoreHandler scoreHandler;
 
     public HighScorePanel(HighScoreHandler scoreHandler) throws IOException {
-        
+
         setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
-        
-        
-        JLabel title = new JLabel ("High Scores--Maximum fuel left");
+
+        JLabel title = new JLabel("High Scores--Maximum fuel left");
         add(new JLabel(""));
-        
+
         scoreHandler.readFile();
-        //System.out.println("here");
-        for (int i = 0; i < Math.min(6, scoreHandler.getOrderedPlayers().size()); i++) {
+        // System.out.println("here");
+        for (int i = 0;
+                i < Math.min(6, scoreHandler.getOrderedPlayers().size()); i++) {
             HighScore hs = scoreHandler.getOrderedPlayers().get(i);
-            JLabel score = new JLabel(hs.getPlayer()+ ": " + hs.getScore());
+            JLabel score = new JLabel(hs.getPlayer() + ": " + hs.getScore());
             add(score);
 
         }
 
-
-
-    
     }
 
     @Override
     public Dimension getPreferredSize() {
         // TODO Auto-generated method stub
-        return new Dimension(300,300);
+        return new Dimension(300, 300);
     }
-    
-    
 
 }

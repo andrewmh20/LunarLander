@@ -1,4 +1,5 @@
 package errors;
+
 import game.GameState;
 import game.LunarModel;
 

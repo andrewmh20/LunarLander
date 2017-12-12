@@ -1,6 +1,5 @@
 package game;
 
-
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
@@ -43,7 +42,8 @@ public class Client extends NetworkHandler implements Runnable {
             // Assume ready--unlike in server
             final Thread cw = new Thread((new ClientWriter(gs, pw)));
             cw.start();
-            final Thread cr = new Thread((new ClientReader(gs, in, telemetryPanel)));
+            final Thread cr =
+                    new Thread((new ClientReader(gs, in, telemetryPanel)));
             cr.start();
         }
 

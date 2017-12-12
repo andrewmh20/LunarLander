@@ -1,6 +1,5 @@
 package game;
 
-
 import java.io.PrintWriter;
 
 import errors.Error;

@@ -1,6 +1,5 @@
 package game;
 
-
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
@@ -74,7 +73,6 @@ public class Canvas extends JPanel {
     private final GameState gs;
     private final TelemetryPanel telemetryPanel;
 
-
     private int k;
 
     private final LinkedList<Vec2> vertices;
@@ -86,41 +84,40 @@ public class Canvas extends JPanel {
 
     private boolean highScoresOn = false;
 
-
     public Canvas(GameState gs, TelemetryPanel tp) {
-        
-        //Setup high scores
+
+        // Setup high scores
         try {
             scoreHandler = new HighScoreHandler(PilotGame.HIGH_SCORE_FILE);
         }
-        //THIS WILL NOT HAPPEN because handler will write file first.
-        catch (FileNotFoundException e){
+        // THIS WILL NOT HAPPEN because handler will write file first.
+        catch (FileNotFoundException e) {
             final JFrame dialog = new JFrame();
-            JOptionPane.showMessageDialog(dialog, "File was not found! No High scores for this game. See console for details");
+            JOptionPane.showMessageDialog(dialog,
+                    "File was not found! No High scores for this game. See console for details");
             e.printStackTrace(System.err);
 
-        }
-        catch (IOException e){
+        } catch (IOException e) {
             final JFrame dialog = new JFrame();
-            JOptionPane.showMessageDialog(dialog, "IOException! No High scores for this game. See console for details");
+            JOptionPane.showMessageDialog(dialog,
+                    "IOException! No High scores for this game. See console for details");
             e.printStackTrace(System.err);
         }
-        
+
         try {
-            //Think I maybe don't need this nullcheck.
+            // Think I maybe don't need this nullcheck.
             if (scoreHandler != null) {
                 scoreHandler.readFile();
                 highScoresOn = true;
             }
 
-        }
-        catch (IOException e) {
+        } catch (IOException e) {
             final JFrame dialog = new JFrame();
-            JOptionPane.showMessageDialog(dialog, e.getMessage() + ". No High scores for this game. See console for details");
+            JOptionPane.showMessageDialog(dialog, e.getMessage()
+                    + ". No High scores for this game. See console for details");
             e.printStackTrace(System.err);
-            
+
         }
-        
 
         this.lm = new LunarModel();
 
@@ -138,10 +135,11 @@ public class Canvas extends JPanel {
         lunarSurface.lineTo(vertices.get(0).x, vertices.get(0).y);
 
         try {
-            LemSprite = ImageIO.read(new File("files/LEM.png")).getScaledInstance(LEM_WIDTH,
-                    LEM_HEIGHT, Image.SCALE_SMOOTH);
-            FlameSprite = ImageIO.read(new File("files/Flame.png")).getScaledInstance(20, 20,
-                    Image.SCALE_SMOOTH);
+            LemSprite =
+                    ImageIO.read(new File("files/LEM.png")).getScaledInstance(
+                            LEM_WIDTH, LEM_HEIGHT, Image.SCALE_SMOOTH);
+            FlameSprite = ImageIO.read(new File("files/Flame.png"))
+                    .getScaledInstance(20, 20, Image.SCALE_SMOOTH);
         } catch (final IOException e1) {
             e1.printStackTrace(System.err);
         }
@@ -162,7 +160,6 @@ public class Canvas extends JPanel {
             }
         });
         timer.start();
-
 
         setFocusable(true);
 
@@ -195,28 +192,30 @@ public class Canvas extends JPanel {
                 if (e.getKeyCode() == KeyEvent.VK_LEFT) {
 
                     if (gs.getVw() != 0) {
-                        gs.setFuel(Math.max(gs.getFuel() - NULL_FORCES_PENALTY, 0));
+                        gs.setFuel(Math.max(gs.getFuel() - NULL_FORCES_PENALTY,
+                                0));
 
                     }
                     lm.nullAngularForces(gs.getHasFuel());
 
                     lm.jumpL(gs.getHasFuel());
-                    gs.setFuel(Math.max(gs.getFuel()
-                            - (FUEL_INCREMENT_THRUSTER * FUEL_INCREMENT_THRUSTER_JUMP_SCALE), 0));
+                    gs.setFuel(Math.max(gs.getFuel() - (FUEL_INCREMENT_THRUSTER
+                            * FUEL_INCREMENT_THRUSTER_JUMP_SCALE), 0));
 
                 }
 
                 if (e.getKeyCode() == KeyEvent.VK_RIGHT) {
 
                     if (gs.getVw() != 0) {
-                        gs.setFuel(Math.max(gs.getFuel() - NULL_FORCES_PENALTY, 0));
+                        gs.setFuel(Math.max(gs.getFuel() - NULL_FORCES_PENALTY,
+                                0));
 
                     }
                     lm.nullAngularForces(gs.getHasFuel());
 
                     lm.jumpR(gs.getHasFuel());
-                    gs.setFuel(Math.max(gs.getFuel()
-                            - (FUEL_INCREMENT_THRUSTER * FUEL_INCREMENT_THRUSTER_JUMP_SCALE), 0));
+                    gs.setFuel(Math.max(gs.getFuel() - (FUEL_INCREMENT_THRUSTER
+                            * FUEL_INCREMENT_THRUSTER_JUMP_SCALE), 0));
 
                 }
 
@@ -237,7 +236,7 @@ public class Canvas extends JPanel {
 
         final KeyAdapter hardKeyAdapter = new KeyAdapter() {
             // TODO: Change j and i to +/- constants so that can change rate of throttle increase
-                                                                           // fuel
+            // fuel
 
             @Override
             public void keyPressed(KeyEvent e) {
@@ -266,14 +265,14 @@ public class Canvas extends JPanel {
                 /// to lem so it just got confugisojns
                 if (e.getKeyCode() == KeyEvent.VK_N) {
                     if (gs.getVw() != 0) {
-                        gs.setFuel(Math.max(gs.getFuel() - NULL_FORCES_PENALTY, 0));
+                        gs.setFuel(Math.max(gs.getFuel() - NULL_FORCES_PENALTY,
+                                0));
 
                     }
                     lm.nullAngularForces(gs.getHasFuel());
 
                 }
 
-                
                 // kill Engine
                 if (e.getKeyCode() == KeyEvent.VK_K) {
 
@@ -286,21 +285,20 @@ public class Canvas extends JPanel {
                 if (e.getKeyCode() == KeyEvent.VK_LEFT) {
 
                     lm.thrustL(gs.getHasFuel());
-                    gs.setFuel(Math.max(gs.getFuel() - FUEL_INCREMENT_THRUSTER, 0));
+                    gs.setFuel(Math.max(gs.getFuel() - FUEL_INCREMENT_THRUSTER,
+                            0));
 
                 }
                 if (e.getKeyCode() == KeyEvent.VK_RIGHT) {
 
                     lm.thrustR(gs.getHasFuel());
-                    gs.setFuel(Math.max(gs.getFuel() - FUEL_INCREMENT_THRUSTER, 0));
+                    gs.setFuel(Math.max(gs.getFuel() - FUEL_INCREMENT_THRUSTER,
+                            0));
 
                 }
 
-                
-
             }
 
-            
         };
         if (gs.getIsEasy()) {
             addKeyListener(easyKeyAdapter);
@@ -324,9 +322,9 @@ public class Canvas extends JPanel {
         final Color Navy = new Color(25, 25, 112);
         this.setBackground(Navy);
 
-//        g.setColor(Color.RED);
-//        g.drawRect(lm.getPx() + (LEM_WIDTH / 2), lm.getPy() + (LEM_HEIGHT / 2), 2, 2);
-//        g.setColor(Color.BLACK);
+        // g.setColor(Color.RED);
+        // g.drawRect(lm.getPx() + (LEM_WIDTH / 2), lm.getPy() + (LEM_HEIGHT / 2), 2, 2);
+        // g.setColor(Color.BLACK);
 
         final float PxToDrawCenter = lm.getPx() + (LEM_WIDTH / 2);
         final float PyToDrawCenter = lm.getPy() + (LEM_HEIGHT / 2);
@@ -334,40 +332,42 @@ public class Canvas extends JPanel {
         // * max in flame scale
         final float flameSizeMin = 1f;
         final float flameSizeMax = 20f;
-        final int flameSize = Math.round(
-                (((flameSizeMax - flameSizeMin) * (lm.getThrottle() - LunarModel.MIN_THROTTLE))
-                        / (LunarModel.MAX_THROTTLE - LunarModel.MIN_THROTTLE)) + flameSizeMin);
+        final int flameSize = Math.round((((flameSizeMax - flameSizeMin)
+                * (lm.getThrottle() - LunarModel.MIN_THROTTLE))
+                / (LunarModel.MAX_THROTTLE - LunarModel.MIN_THROTTLE))
+                + flameSizeMin);
 
         // draw the flame
-       Graphics2D g2dTranslated = (Graphics2D) g2d.create();
-     g2dTranslated.translate(PxToDrawCenter, PyToDrawCenter);
+        Graphics2D g2dTranslated = (Graphics2D) g2d.create();
+        g2dTranslated.translate(PxToDrawCenter, PyToDrawCenter);
 
-     g2dTranslated.rotate(-angleToDraw);
+        g2dTranslated.rotate(-angleToDraw);
 
-//        g2d.translate(PxToDrawCenter, PyToDrawCenter);
-//
-//        g2d.rotate(-angleToDraw);
-        g2dTranslated.drawImage(LemSprite, -(LEM_WIDTH / 2), -(LEM_HEIGHT / 2), null);
+        // g2d.translate(PxToDrawCenter, PyToDrawCenter);
+        //
+        // g2d.rotate(-angleToDraw);
+        g2dTranslated.drawImage(LemSprite, -(LEM_WIDTH / 2), -(LEM_HEIGHT / 2),
+                null);
 
         if (flameSize > 1) {
             g2dTranslated.drawImage(
-                    FlameSprite.getScaledInstance(FlameSprite.getWidth(null), flameSize,
-                            Image.SCALE_SMOOTH),
-                    -(LEM_WIDTH / 2), LemSprite.getHeight(null) - (LEM_HEIGHT / 2), null);
+                    FlameSprite.getScaledInstance(FlameSprite.getWidth(null),
+                            flameSize, Image.SCALE_SMOOTH),
+                    -(LEM_WIDTH / 2),
+                    LemSprite.getHeight(null) - (LEM_HEIGHT / 2), null);
         }
 
-//        g2d.rotate(angleToDraw);
-//        g2d.translate(-PxToDrawCenter, -PyToDrawCenter);
+        // g2d.rotate(angleToDraw);
+        // g2d.translate(-PxToDrawCenter, -PyToDrawCenter);
 
         // draw the surface
         final Color Silver = new Color(220, 220, 220);
         g2d.setColor(Silver);
-       // g2d.translate(20, 0);
+        // g2d.translate(20, 0);
         g2d.draw(lunarSurface);
         g2d.fill(lunarSurface);
         g2d.setColor(Color.BLACK);
-        //g2d.translate(-20, 0);
-
+        // g2d.translate(-20, 0);
 
     }
 
@@ -389,9 +389,8 @@ public class Canvas extends JPanel {
         k = 0;
         playing = true;
         firstExit = true;
-        //Keep same high score state throughout game, also this breaks it sicne I call reset to start
-        //highScoresOn = false;
-
+        // Keep same high score state throughout game, also this breaks it sicne I call reset to start
+        // highScoresOn = false;
 
         // Make sure that this component has the keyboard focus
         requestFocusInWindow();
@@ -405,15 +404,13 @@ public class Canvas extends JPanel {
         if (playing) {
 
             // Need to paint before checking if crashed....
-            
 
-            //Keep these together
+            // Keep these together
             gs.doErrors(this, lm, gs);
             telemetryPanel.updateTelemetryPanel();
 
             lm.move();
             repaint();
-            
 
             gs.setVx(lm.getVx());
             gs.setVy(lm.getVy());
@@ -421,35 +418,36 @@ public class Canvas extends JPanel {
             gs.setAngle(lm.getAngle());
             gs.setAltitude(lm.getAltitude());
             gs.setContactLight(lm.getContactLight());
-            gs.setFuel(Math.max(gs.getFuel() - (FUEL_INCREMENT * lm.getThrottle()), 0));
-            
+            gs.setFuel(Math.max(
+                    gs.getFuel() - (FUEL_INCREMENT * lm.getThrottle()), 0));
 
-
-            
-            
-            if (((lm.getPx() < 0) || (lm.getPx() > CANVAS_WIDTH) || (lm.getPy() < 0))
-                    && firstExit) {
+            if (((lm.getPx() < 0) || (lm.getPx() > CANVAS_WIDTH)
+                    || (lm.getPy() < 0)) && firstExit) {
 
                 JOptionPane.showMessageDialog(null,
                         "You're leaving the target landing area! Be careful!");
                 firstExit = false;
             }
-            if ((lm.getPy() > 0) && (lm.getPx() > 0) && (lm.getPx() < CANVAS_WIDTH)) {
+            if ((lm.getPy() > 0) && (lm.getPx() > 0)
+                    && (lm.getPx() < CANVAS_WIDTH)) {
                 firstExit = true;
             }
 
             if (lm.isCrashed()) {
 
-                JOptionPane.showMessageDialog(null, "Oh no! You crashed an expensive lander!");
+                JOptionPane.showMessageDialog(null,
+                        "Oh no! You crashed an expensive lander!");
                 timer.stop();
             }
-            
-            if (!gs.getHasFuel() && ((lm.getPx() < 0) || (lm.getPx() > CANVAS_WIDTH) || (lm.getPy() < 0))) {
-                JOptionPane.showMessageDialog(null, "You've left the target landing area with no fuel! Crash "
-                        + "inevitable. Try again.");
+
+            if (!gs.getHasFuel() && ((lm.getPx() < 0)
+                    || (lm.getPx() > CANVAS_WIDTH) || (lm.getPy() < 0))) {
+                JOptionPane.showMessageDialog(null,
+                        "You've left the target landing area with no fuel! Crash "
+                                + "inevitable. Try again.");
                 timer.stop();
             }
-            
+
             if (gs.getFuel() < 1) {
                 lm.throttle(0, true);
                 gs.setHasFuel(false);
@@ -466,78 +464,76 @@ public class Canvas extends JPanel {
                 JOptionPane.showMessageDialog(null, "You landed!");
                 timer.stop();
                 if (highScoresOn) {
-                
-                  try {
-                        
 
-                    if (scoreHandler.getOrderedPlayers().size() < 6) {
-                        JOptionPane.showMessageDialog(null, "You made a high score!");
-                        String name = JOptionPane.showInputDialog("Enter your name:");
-                        if (name != null) {
-                            scoreHandler.writeScore(new HighScore(name, gs.getFuel()));
+                    try {
 
-                        }
+                        if (scoreHandler.getOrderedPlayers().size() < 6) {
+                            JOptionPane.showMessageDialog(null,
+                                    "You made a high score!");
+                            String name = JOptionPane
+                                    .showInputDialog("Enter your name:");
+                            if (name != null) {
+                                scoreHandler.writeScore(
+                                        new HighScore(name, gs.getFuel()));
 
-                    }
-                    else {
-                        //Normal for loop so I can use break
-                        for (int i = 0; i < 6; i++) {
-                                HighScore hs = scoreHandler.getOrderedPlayers().get(i);
-                                //System.out.println(hs.toString());
-                              if (gs.getFuel() > hs.getScore() ) {
-                                JOptionPane.showMessageDialog(null, "You made a high score!");
-                                String name = JOptionPane.showInputDialog("Enter your name:");
-                                if (name != null) {
-                                    scoreHandler.writeScore(new HighScore(name,gs.getFuel()));
-                                    break;
-
-                                }
                             }
 
+                        } else {
+                            // Normal for loop so I can use break
+                            for (int i = 0; i < 6; i++) {
+                                HighScore hs =
+                                        scoreHandler.getOrderedPlayers().get(i);
+                                // System.out.println(hs.toString());
+                                if (gs.getFuel() > hs.getScore()) {
+                                    JOptionPane.showMessageDialog(null,
+                                            "You made a high score!");
+                                    String name = JOptionPane.showInputDialog(
+                                            "Enter your name:");
+                                    if (name != null) {
+                                        scoreHandler.writeScore(new HighScore(
+                                                name, gs.getFuel()));
+                                        break;
+
+                                    }
+                                }
+
+                            }
                         }
-                    }
-                  }
-                    catch (IllegalArgumentException e) {
-                        JOptionPane.showMessageDialog(null, "; is an illegal character. Please"
-                                + "try again");
+                    } catch (IllegalArgumentException e) {
+                        JOptionPane.showMessageDialog(null,
+                                "; is an illegal character. Please"
+                                        + "try again");
                         e.printStackTrace(System.err);
 
-                        //TODO: let him try again
+                        // TODO: let him try again
 
                     }
-                    
-                  try {
-                      JFrame highFrame = new JFrame("High Scores");
-                      final HighScorePanel highScores  = new HighScorePanel(scoreHandler);
-                      highFrame.add(highScores, BorderLayout.CENTER);
-                      highFrame.setLocation(500, 300);
-                      highFrame.pack();
-                      highFrame.setVisible(true);
 
-//                      scoreHandler.readFile();   
-//                      JLabel[] labels = new JLabel[6];
-//                      for (int i = 0; i < 6; i++) {
-//                          HighScore hs = scoreHandler.getOrderedPlayers().get(i);
-//                          JLabel score = new JLabel(hs.getPlayer()+ ": " + hs.getScore());
-//                          labels[i] = score;
-//                      }
-                      
+                    try {
+                        JFrame highFrame = new JFrame("High Scores");
+                        final HighScorePanel highScores =
+                                new HighScorePanel(scoreHandler);
+                        highFrame.add(highScores, BorderLayout.CENTER);
+                        highFrame.setLocation(500, 300);
+                        highFrame.pack();
+                        highFrame.setVisible(true);
 
-                      
-                      
-                  }
-                  catch (IOException e) {
-                      JOptionPane.showMessageDialog(null, "ReadError");
-                      e.printStackTrace(System.err);
-                  }
+                        // scoreHandler.readFile();
+                        // JLabel[] labels = new JLabel[6];
+                        // for (int i = 0; i < 6; i++) {
+                        // HighScore hs = scoreHandler.getOrderedPlayers().get(i);
+                        // JLabel score = new JLabel(hs.getPlayer()+ ": " + hs.getScore());
+                        // labels[i] = score;
+                        // }
+
+                    } catch (IOException e) {
+                        JOptionPane.showMessageDialog(null, "ReadError");
+                        e.printStackTrace(System.err);
+                    }
 
                 }
-                
 
             }
-         
-
-
 
         }
     }

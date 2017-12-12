@@ -1,6 +1,5 @@
 package game;
 
-
 import java.io.BufferedReader;
 import java.io.IOException;
 
@@ -32,8 +31,9 @@ public class ServerReader extends NetworkHandler implements Runnable {
                 }
 
             } catch (final IOException e) {
-                JOptionPane.showMessageDialog(null, e.getMessage() + " Simulation is now closing");
-                if (!e.getMessage().equals("Client disconnected")){
+                JOptionPane.showMessageDialog(null,
+                        e.getMessage() + " Simulation is now closing");
+                if (!e.getMessage().equals("Client disconnected")) {
                     e.printStackTrace(System.err);
                 }
                 System.exit(0);

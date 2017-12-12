@@ -1,6 +1,5 @@
 package game;
 
-
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.IOException;
@@ -18,15 +17,12 @@ public class Server extends NetworkHandler implements Runnable {
 
     Socket connectedSocket = null;
 
-    
     Server(GameState gs) throws IOException {
 
         super();
         this.gs = gs;
-        
 
-            ss = new ServerSocket(8080);
-
+        ss = new ServerSocket(8080);
 
     }
 
@@ -34,8 +30,6 @@ public class Server extends NetworkHandler implements Runnable {
     public void run() {
         // try {
 
-
-        
         try {
 
             // Blocks waiting for a connection
@@ -43,7 +37,8 @@ public class Server extends NetworkHandler implements Runnable {
             final InputStream nis = connectedSocket.getInputStream();
             final OutputStream nos = connectedSocket.getOutputStream();
             in = new BufferedReader(new InputStreamReader(nis));
-            pw = new PrintWriter(new BufferedWriter(new OutputStreamWriter(nos)));
+            pw = new PrintWriter(
+                    new BufferedWriter(new OutputStreamWriter(nos)));
         }
         // TODO:Do stuff, can use network handler....
 

@@ -1,6 +1,5 @@
 package game;
 
-
 import java.io.BufferedReader;
 import java.io.IOException;
 
@@ -12,7 +11,8 @@ public class ClientReader extends NetworkHandler implements Runnable {
     private final BufferedReader in;
     private final TelemetryPanel telemetryPanel;
 
-    ClientReader(GameState gs, BufferedReader in, TelemetryPanel telemetryPanel) {
+    ClientReader(GameState gs, BufferedReader in,
+            TelemetryPanel telemetryPanel) {
         this.gs = gs;
         this.in = in;
         this.telemetryPanel = telemetryPanel;
@@ -46,12 +46,13 @@ public class ClientReader extends NetworkHandler implements Runnable {
                 telemetryPanel.updateTelemetryPanel();
 
             } catch (final IOException e) {
-                
-                JOptionPane.showMessageDialog(null, e.getMessage() + " Simulation is now closing");
-                if (!e.getMessage().equals("Client disconnected")){
+
+                JOptionPane.showMessageDialog(null,
+                        e.getMessage() + " Simulation is now closing");
+                if (!e.getMessage().equals("Client disconnected")) {
                     e.printStackTrace(System.err);
                 }
-                
+
                 System.exit(0);
             }
 

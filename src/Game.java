@@ -1,5 +1,4 @@
 
-
 // imports necessary libraries for Java swing
 import java.io.IOException;
 import java.lang.reflect.Array;
@@ -33,7 +32,6 @@ public class Game implements Runnable {
     @Override
     public void run() {
 
-        
         // The first dialog box for mode selection
         // TODO:make this close correctly when closed
         final JFrame dialog = new JFrame("LunarLander LaunchPad");
@@ -42,9 +40,10 @@ public class Game implements Runnable {
         Array.set(modeOptions, 0, "SimSup");
         Array.set(modeOptions, 1, "Pilot");
 
-        final int result = JOptionPane.showOptionDialog(dialog, "Are you the pilot or the SimSup?",
-                "LunarLander Launchpad", 0, 0, new ImageIcon("files/MissionControl.jpg"),
-                modeOptions, null);
+        final int result = JOptionPane.showOptionDialog(dialog,
+                "Are you the pilot or the SimSup?", "LunarLander Launchpad", 0,
+                0, new ImageIcon("files/MissionControl.jpg"), modeOptions,
+                null);
         if (result == 0) {
             SwingUtilities.invokeLater(new SimsupGame());
             dialog.dispose();

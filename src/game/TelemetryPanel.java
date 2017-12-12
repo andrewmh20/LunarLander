@@ -1,6 +1,5 @@
 package game;
 
-
 import java.awt.Dimension;
 
 import javax.swing.BoxLayout;
@@ -86,13 +85,19 @@ public class TelemetryPanel extends JPanel {
 
     public void updateTelemetryPanel() {
 
-        fuelLabel.setText("Fuel Remaining: " + String.format("%1$.2f", gs.getFuel()));
+        fuelLabel.setText(
+                "Fuel Remaining: " + String.format("%1$.2f", gs.getFuel()));
 
-        VxLabel.setText("Horizontal Velocity: " + String.format("%1$.2f", gs.getVx()));
-        VyLabel.setText("Vertical Velocity: " + String.format("%1$.2f", gs.getVy()));
-        VwLabel.setText("Angular Velocity: " + String.format("%1$.2f", gs.getVw()));
-        altLabel.setText("Altitude: " + String.format("%1$.2f", gs.getAltitude()));
-        attLabel.setText("Attitude (Angle): " + String.format("%1$.2f", gs.getAngle()));
+        VxLabel.setText(
+                "Horizontal Velocity: " + String.format("%1$.2f", gs.getVx()));
+        VyLabel.setText(
+                "Vertical Velocity: " + String.format("%1$.2f", gs.getVy()));
+        VwLabel.setText(
+                "Angular Velocity: " + String.format("%1$.2f", gs.getVw()));
+        altLabel.setText(
+                "Altitude: " + String.format("%1$.2f", gs.getAltitude()));
+        attLabel.setText(
+                "Attitude (Angle): " + String.format("%1$.2f", gs.getAngle()));
 
         errorLabel.setText("Computer Error Code: " + gs.getComputerErrorCode());
         if (gs.getContactLight()) {

@@ -1,6 +1,5 @@
 package game;
 
-
 /**Class for handling the "server" side, i.e. lunarLander game networking
 
  * @author Tzvi

@@ -1,6 +1,5 @@
 package game;
 
-
 import java.io.IOException;
 import java.util.NoSuchElementException;
 import java.util.StringTokenizer;
@@ -55,8 +54,8 @@ public class NetworkPacket {
 
     private final float fuel;
 
-    NetworkPacket(float Vx, float Vy, float Vw, float angle, float altitude, Error error,
-            float fuel) {
+    NetworkPacket(float Vx, float Vy, float Vw, float angle, float altitude,
+            Error error, float fuel) {
         this.Vx = Vx;
         this.Vy = Vy;
         this.Vw = Vw;
@@ -99,8 +98,8 @@ public class NetworkPacket {
             errorCode = error.getErrorCode();
         }
 
-        final String packet = "$" + Vx + "$" + Vy + "$" + Vw + "$" + angle + "$" + altitude + "$"
-                + errorCode + "$" + fuel + "\n";
+        final String packet = "$" + Vx + "$" + Vy + "$" + Vw + "$" + angle + "$"
+                + altitude + "$" + errorCode + "$" + fuel + "\n";
 
         return packet;
 

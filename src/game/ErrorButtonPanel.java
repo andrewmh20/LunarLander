@@ -1,6 +1,5 @@
 package game;
 
-
 import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
@@ -53,43 +52,45 @@ public class ErrorButtonPanel extends JPanel {
         setLayout(new GridLayout(6, 2));
 
         FullThrottle = new JButton();
-        FullThrottle.setText("Full Throttle: " + gs.getErrorFreq(new FullThrottleError()));
+        FullThrottle.setText(
+                "Full Throttle: " + gs.getErrorFreq(new FullThrottleError()));
         FullThrottle.addActionListener(new ActionListener() {
 
             @Override
             public void actionPerformed(ActionEvent e) {
                 gs.setErrorToSend(new FullThrottleError());
-                FullThrottle.setText("Full Throttle: " + gs.getErrorFreq(new FullThrottleError()));
+                FullThrottle.setText("Full Throttle: "
+                        + gs.getErrorFreq(new FullThrottleError()));
 
             }
             //
         });
         this.add(FullThrottle);
         stuckLeftThruster = new JButton();
-        stuckLeftThruster
-                .setText("Stuck Left Thruster: " + gs.getErrorFreq(new LeftThrusterError()));
+        stuckLeftThruster.setText("Stuck Left Thruster: "
+                + gs.getErrorFreq(new LeftThrusterError()));
         stuckLeftThruster.addActionListener(new ActionListener() {
 
             @Override
             public void actionPerformed(ActionEvent e) {
                 gs.setErrorToSend(new LeftThrusterError());
-                stuckLeftThruster.setText(
-                        "Stuck Left Thruster: " + gs.getErrorFreq(new LeftThrusterError()));
+                stuckLeftThruster.setText("Stuck Left Thruster: "
+                        + gs.getErrorFreq(new LeftThrusterError()));
 
             }
 
         });
         this.add(stuckLeftThruster);
         stuckRightThruster = new JButton();
-        stuckRightThruster
-                .setText("Stuck Right Thruster: " + gs.getErrorFreq(new RightThrusterError()));
+        stuckRightThruster.setText("Stuck Right Thruster: "
+                + gs.getErrorFreq(new RightThrusterError()));
         stuckRightThruster.addActionListener(new ActionListener() {
 
             @Override
             public void actionPerformed(ActionEvent e) {
                 gs.setErrorToSend(new RightThrusterError());
-                stuckRightThruster.setText(
-                        "Stuck Right Thruster: " + gs.getErrorFreq(new RightThrusterError()));
+                stuckRightThruster.setText("Stuck Right Thruster: "
+                        + gs.getErrorFreq(new RightThrusterError()));
 
                 // TODO Auto-generated method stub
 
@@ -100,14 +101,15 @@ public class ErrorButtonPanel extends JPanel {
         // TODO:reset errors, not game
         this.add(stuckRightThruster);
         error1201 = new JButton();
-        error1201.setText("Error 1201: " + gs.getErrorFreq(new ComputerOverloadedError1201()));
+        error1201.setText("Error 1201: "
+                + gs.getErrorFreq(new ComputerOverloadedError1201()));
         error1201.addActionListener(new ActionListener() {
 
             @Override
             public void actionPerformed(ActionEvent e) {
                 gs.setErrorToSend(new ComputerOverloadedError1201());
-                error1201.setText(
-                        "Error 1201: " + gs.getErrorFreq(new ComputerOverloadedError1201()));
+                error1201.setText("Error 1201: "
+                        + gs.getErrorFreq(new ComputerOverloadedError1201()));
 
             }
 
@@ -115,14 +117,15 @@ public class ErrorButtonPanel extends JPanel {
         this.add(error1201);
 
         error1202 = new JButton();
-        error1202.setText("Error 1202: " + gs.getErrorFreq(new ComputerOverloadedError1202()));
+        error1202.setText("Error 1202: "
+                + gs.getErrorFreq(new ComputerOverloadedError1202()));
         error1202.addActionListener(new ActionListener() {
 
             @Override
             public void actionPerformed(ActionEvent e) {
                 gs.setErrorToSend(new ComputerOverloadedError1202());
-                error1202.setText(
-                        "Error 1202: " + gs.getErrorFreq(new ComputerOverloadedError1202()));
+                error1202.setText("Error 1202: "
+                        + gs.getErrorFreq(new ComputerOverloadedError1202()));
 
                 // TODO Auto-generated method stub
 
@@ -138,7 +141,8 @@ public class ErrorButtonPanel extends JPanel {
             @Override
             public void actionPerformed(ActionEvent e) {
                 gs.setErrorToSend(new FuelLeakError());
-                fuel.setText("Fuel Leak: " + gs.getErrorFreq(new FuelLeakError()));
+                fuel.setText(
+                        "Fuel Leak: " + gs.getErrorFreq(new FuelLeakError()));
 
                 // TODO Auto-generated method stub
 
@@ -148,14 +152,15 @@ public class ErrorButtonPanel extends JPanel {
         this.add(fuel);
 
         vxIns = new JButton();
-        vxIns.setText("Horizontal Velocity Failure: " + gs.getErrorFreq(new VxInstrumentError()));
+        vxIns.setText("Horizontal Velocity Failure: "
+                + gs.getErrorFreq(new VxInstrumentError()));
         vxIns.addActionListener(new ActionListener() {
 
             @Override
             public void actionPerformed(ActionEvent e) {
                 gs.setErrorToSend(new VxInstrumentError());
-                vxIns.setText(
-                        "Horizontal Velocity Failure: " + gs.getErrorFreq(new VxInstrumentError()));
+                vxIns.setText("Horizontal Velocity Failure: "
+                        + gs.getErrorFreq(new VxInstrumentError()));
 
                 // TODO Auto-generated method stub
 
@@ -165,14 +170,15 @@ public class ErrorButtonPanel extends JPanel {
         this.add(vxIns);
 
         vyIns = new JButton();
-        vyIns.setText("Vertical Velocity Failure: " + gs.getErrorFreq(new VyInstrumentError()));
+        vyIns.setText("Vertical Velocity Failure: "
+                + gs.getErrorFreq(new VyInstrumentError()));
         vyIns.addActionListener(new ActionListener() {
 
             @Override
             public void actionPerformed(ActionEvent e) {
                 gs.setErrorToSend(new VyInstrumentError());
-                vyIns.setText(
-                        "Vertical Velocity Failure: " + gs.getErrorFreq(new VyInstrumentError()));
+                vyIns.setText("Vertical Velocity Failure: "
+                        + gs.getErrorFreq(new VyInstrumentError()));
 
                 // TODO Auto-generated method stub
 
@@ -182,14 +188,15 @@ public class ErrorButtonPanel extends JPanel {
         this.add(vyIns);
 
         vwIns = new JButton();
-        vwIns.setText("Rotational Velocity Failure: " + gs.getErrorFreq(new VwInstrumentError()));
+        vwIns.setText("Rotational Velocity Failure: "
+                + gs.getErrorFreq(new VwInstrumentError()));
         vwIns.addActionListener(new ActionListener() {
 
             @Override
             public void actionPerformed(ActionEvent e) {
                 gs.setErrorToSend(new VwInstrumentError());
-                vwIns.setText(
-                        "Rotational Velocity Failure: " + gs.getErrorFreq(new VwInstrumentError()));
+                vwIns.setText("Rotational Velocity Failure: "
+                        + gs.getErrorFreq(new VwInstrumentError()));
 
                 // TODO Auto-generated method stub
 
@@ -199,14 +206,15 @@ public class ErrorButtonPanel extends JPanel {
         this.add(vwIns);
 
         attIns = new JButton();
-        attIns.setText("Attitude Indicator Failure: " + gs.getErrorFreq(new AttInstrumentError()));
+        attIns.setText("Attitude Indicator Failure: "
+                + gs.getErrorFreq(new AttInstrumentError()));
         attIns.addActionListener(new ActionListener() {
 
             @Override
             public void actionPerformed(ActionEvent e) {
                 gs.setErrorToSend(new AttInstrumentError());
-                attIns.setText(
-                        "Attitude Indicator Failure: " + gs.getErrorFreq(new AttInstrumentError()));
+                attIns.setText("Attitude Indicator Failure: "
+                        + gs.getErrorFreq(new AttInstrumentError()));
 
                 // TODO Auto-generated method stub
 
@@ -216,14 +224,15 @@ public class ErrorButtonPanel extends JPanel {
         this.add(attIns);
 
         altIns = new JButton();
-        altIns.setText("Altitude Indicator Failure: " + gs.getErrorFreq(new AltInstrumentError()));
+        altIns.setText("Altitude Indicator Failure: "
+                + gs.getErrorFreq(new AltInstrumentError()));
         altIns.addActionListener(new ActionListener() {
 
             @Override
             public void actionPerformed(ActionEvent e) {
                 gs.setErrorToSend(new AltInstrumentError());
-                altIns.setText(
-                        "Altitude Indicator Failure: " + gs.getErrorFreq(new AltInstrumentError()));
+                altIns.setText("Altitude Indicator Failure: "
+                        + gs.getErrorFreq(new AltInstrumentError()));
 
                 // TODO Auto-generated method stub
 

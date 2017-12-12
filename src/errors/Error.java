@@ -1,4 +1,5 @@
 package errors;
+
 import game.GameState;
 import game.LunarModel;
 
@@ -15,7 +16,6 @@ public abstract class Error implements Comparable<Error> {
             return new LeftThrusterError();
         case 102:
             return new RightThrusterError();
-
 
         case 1201:
             return new ComputerOverloadedError1201();
@@ -41,7 +41,7 @@ public abstract class Error implements Comparable<Error> {
     }
 
     Error() {
-        
+
     };
 
     // TODO: Hope this is good use of it, must have some other reason

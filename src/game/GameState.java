@@ -1,6 +1,5 @@
 package game;
 
-
 import java.util.LinkedList;
 import java.util.Map;
 import java.util.Set;
@@ -19,8 +18,6 @@ public class GameState {
     private static final float FUEL_INITIAL = 100000;
 
     private boolean contactLight = false;
-
-
 
     private Set<Integer> indicesToRemove;
 
@@ -70,7 +67,8 @@ public class GameState {
                         @Override
                         public void run() {
                             JOptionPane.showMessageDialog(null,
-                                    "COMPUTER ERROR: " + errorInList.getErrorCode());
+                                    "COMPUTER ERROR: "
+                                            + errorInList.getErrorCode());
                         }
 
                     });
