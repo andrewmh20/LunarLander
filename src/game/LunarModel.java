@@ -17,6 +17,7 @@ import org.jbox2d.common.Vec2;
 import org.jbox2d.dynamics.Body;
 import org.jbox2d.dynamics.BodyDef;
 import org.jbox2d.dynamics.BodyType;
+import org.jbox2d.dynamics.Fixture;
 import org.jbox2d.dynamics.FixtureDef;
 import org.jbox2d.dynamics.World;
 import org.jbox2d.dynamics.contacts.Contact;
@@ -237,6 +238,7 @@ public class LunarModel {
             surfaceFixtureDef.setRestitution(0);
             surfaceFixtureDef.setFriction(SURFACE_FRICTION);
             surfaceBody.createFixture(surfaceFixtureDef);
+
         }
 
         // create "closing fixtures" and a seperate body to prevent looping back around to the moons

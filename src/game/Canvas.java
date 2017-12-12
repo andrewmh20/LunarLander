@@ -405,12 +405,15 @@ public class Canvas extends JPanel {
         if (playing) {
 
             // Need to paint before checking if crashed....
+            
+
+            //Keep these together
+            gs.doErrors(this, lm, gs);
+            telemetryPanel.updateTelemetryPanel();
+
             lm.move();
             repaint();
             
-            gs.doErrors(this, lm, gs);
-
-            telemetryPanel.updateTelemetryPanel();
 
             gs.setVx(lm.getVx());
             gs.setVy(lm.getVy());
@@ -419,6 +422,8 @@ public class Canvas extends JPanel {
             gs.setAltitude(lm.getAltitude());
             gs.setContactLight(lm.getContactLight());
             gs.setFuel(Math.max(gs.getFuel() - (FUEL_INCREMENT * lm.getThrottle()), 0));
+            
+
 
             
             
@@ -478,7 +483,7 @@ public class Canvas extends JPanel {
                         //Normal for loop so I can use break
                         for (int i = 0; i < 6; i++) {
                                 HighScore hs = scoreHandler.getOrderedPlayers().get(i);
-
+                                //System.out.println(hs.toString());
                               if (gs.getFuel() > hs.getScore() ) {
                                 JOptionPane.showMessageDialog(null, "You made a high score!");
                                 String name = JOptionPane.showInputDialog("Enter your name:");
@@ -490,7 +495,6 @@ public class Canvas extends JPanel {
                             }
 
                         }
-                    
                     }
                   }
                     catch (IllegalArgumentException e) {

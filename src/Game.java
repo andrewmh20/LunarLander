@@ -33,6 +33,7 @@ public class Game implements Runnable {
     @Override
     public void run() {
 
+        
         // The first dialog box for mode selection
         // TODO:make this close correctly when closed
         final JFrame dialog = new JFrame("LunarLander LaunchPad");

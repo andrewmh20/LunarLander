@@ -28,7 +28,6 @@ public class HighScorePanel extends JPanel {
         
         scoreHandler.readFile();
         //System.out.println("here");
-        
         for (int i = 0; i < Math.min(6, scoreHandler.getOrderedPlayers().size()); i++) {
             HighScore hs = scoreHandler.getOrderedPlayers().get(i);
             JLabel score = new JLabel(hs.getPlayer()+ ": " + hs.getScore());
