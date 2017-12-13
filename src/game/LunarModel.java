@@ -24,8 +24,10 @@ import org.jbox2d.dynamics.contacts.Contact;
 public class LunarModel {
 
     /**
-     * Class to hold the physics state of the Lunar Lander and provide methods for getting the objects
-     * position, which will be used in the Swing Drawing classes AS WELL AS OTHER OBJECTS IN THE LUNAR
+     * Class to hold the physics state of the Lunar Lander and provide 
+     * methods for getting the objects
+     * position, which will be used in the Swing Drawing classes AS WEL
+     * L AS OTHER OBJECTS IN THE LUNAR
      * AREA
      */
 
@@ -132,7 +134,8 @@ public class LunarModel {
             new Distance.DistanceProxy();
     // Shape fields
     private final PolygonShape lemShape;
-    // Edge shapes are created later.....beccause at this point do not know how many there are
+    // Edge shapes are created later.....beccause at this point do not 
+    //know how many there are
     private final LinkedList<Vec2> vertices = new LinkedList<Vec2>();
 
     private final LinkedList<EdgeShape> surfaceShapeList =
@@ -212,7 +215,8 @@ public class LunarModel {
         // lemBody.getFixtureList().setRestitution(0);
         // lemBody.createFixture(lemShape, DENSITY_OF_SHAPES);
 
-        // Create all the shapes for the lunar surface, using the vertices "linked" to the display
+        // Create all the shapes for the lunar surface, using the vertice
+        //s "linked" to the display
 
         // Add the vertices
         vertices.add(V1);
@@ -260,19 +264,6 @@ public class LunarModel {
 
         // create "closing fixtures" and a seperate body to prevent looping back around to the moons
         // surface
-
-        // final BodyDef encloserBodyDef = new BodyDef();
-        // final Body encloserBody = world.createBody(encloserBodyDef);
-        // final EdgeShape encloser1 = new EdgeShape();
-        // final EdgeShape encloser2 = new EdgeShape();
-        // final EdgeShape encloser3 = new EdgeShape();
-        // encloser1.set(vertices.getLast(), (new Vec2(Canvas.CANVAS_WIDTH, Canvas.CANVAS_HEIGHT)));
-        // encloser2.set(new Vec2(Canvas.CANVAS_WIDTH, Canvas.CANVAS_HEIGHT),
-        // new Vec2(0, Canvas.CANVAS_HEIGHT));
-        // encloser3.set(new Vec2(0, Canvas.CANVAS_HEIGHT), vertices.get(0));
-        // encloserBody.createFixture(encloser1, DENSITY_OF_SHAPES);
-        // encloserBody.createFixture(encloser2, DENSITY_OF_SHAPES);
-        // encloserBody.createFixture(encloser3, DENSITY_OF_SHAPES);
 
         // create a new distance setup between any two fixtures
         distance = new Distance();
@@ -393,7 +384,6 @@ public class LunarModel {
 
     }
 
-    // TODO: Change this logic to maybe be a list, or soemthing to work nicely with returning all
     // the vertices
     // public Vec2 getSurfaceStart() {
     // surfaceS

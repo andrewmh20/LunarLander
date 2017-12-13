@@ -518,13 +518,7 @@ public class Canvas extends JPanel {
                         highFrame.pack();
                         highFrame.setVisible(true);
 
-                        // scoreHandler.readFile();
-                        // JLabel[] labels = new JLabel[6];
-                        // for (int i = 0; i < 6; i++) {
-                        // HighScore hs = scoreHandler.getOrderedPlayers().get(i);
-                        // JLabel score = new JLabel(hs.getPlayer()+ ": " + hs.getScore());
-                        // labels[i] = score;
-                        // }
+                 
 
                     } catch (IOException e) {
                         JOptionPane.showMessageDialog(null, "ReadError");
